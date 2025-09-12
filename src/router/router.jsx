@@ -22,12 +22,7 @@ const router = createBrowserRouter([
       // Public Routes
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
-
-      // Protected Routes
-      {
-        element: <ProtectedRoute />,
-        children: [
-          { path: "/", element: <Home/> },
+      { path: "/", element: <Home/> },
           { path: '/home', element: <Home/> }, 
           { path: "/testtheme", element: <TestTheme/> },
           {path: "/training", element: <Training/>},
@@ -35,7 +30,21 @@ const router = createBrowserRouter([
           {path: '/report', element: <ReportWaste/>},
           {path: '/rewards', element: <Rewards/>},
           {path: '/community', element: <Communities/>},
-          {path: '/guide', element: <Guide/>}
+          {path: '/guide', element: <Guide/>},
+
+      // Protected Routes
+      {
+        element: <ProtectedRoute />,
+        children: [
+          // { path: "/", element: <Home/> },
+          // { path: '/home', element: <Home/> }, 
+          // { path: "/testtheme", element: <TestTheme/> },
+          // {path: "/training", element: <Training/>},
+          // {path: '/upload', element: <UploadBins/>},
+          // {path: '/report', element: <ReportWaste/>},
+          // {path: '/rewards', element: <Rewards/>},
+          // {path: '/community', element: <Communities/>},
+          // {path: '/guide', element: <Guide/>}
         ],
       },
     ],
