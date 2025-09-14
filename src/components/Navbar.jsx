@@ -16,7 +16,8 @@ import {
   ChevronDown,
   ChevronUp,
   TrendingUp,
-  QrCode
+  QrCode,
+  HelpCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

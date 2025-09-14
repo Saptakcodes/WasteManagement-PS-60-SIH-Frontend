@@ -708,6 +708,7 @@ const Guide = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/register")}
                 className="px-8 py-4 bg-white text-green-700 font-semibold rounded-full shadow-lg hover:bg-emerald-50 transition-colors"
               >
                 Sign Up Now

@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import AIAssistant from "../components/AI-Assistant";
 
 export default function Layout() {
   const [userRole, setUserRole] = useState("citizen"); // Default role
@@ -15,6 +16,7 @@ export default function Layout() {
       <Outlet context={{ userRole, setUserRole }} />
 
       {/* Footer */}
+      <AIAssistant/>
       <Footer />
     </div>
   );
