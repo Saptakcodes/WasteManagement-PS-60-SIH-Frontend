@@ -14,6 +14,8 @@ import ReportWaste from "../pages/ReportWaste";
 import Rewards from "../pages/Rewards";
 import Communities from "../pages/Communities";
 import Guide from "../pages/Guide";
+import CitizenQRPage from "../pages/CitizenQRPage";
+import Training2 from "../pages/Training";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,11 +28,13 @@ const router = createBrowserRouter([
           { path: '/home', element: <Home/> }, 
           { path: "/testtheme", element: <TestTheme/> },
           {path: "/training", element: <Training/>},
+          {path: "/training2", element: <Training2/>},
           {path: '/upload', element: <UploadBins/>},
           {path: '/report', element: <ReportWaste/>},
           {path: '/rewards', element: <Rewards/>},
           {path: '/community', element: <Communities/>},
           {path: '/guide', element: <Guide/>},
+          {path: '/citizenqrpage', element: <CitizenQRPage/>},
 
       // Protected Routes
       {

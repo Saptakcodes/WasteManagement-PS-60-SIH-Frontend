@@ -35,7 +35,7 @@ const Rewards = () => {
   const [userData, setUserData] = useState({
     name: 'Rajesh Kumar',
     role: 'Green Champion',
-    points: 875,
+    points: 475,
     streak: 12,
     level: 3,
     nextLevelPoints: 125,

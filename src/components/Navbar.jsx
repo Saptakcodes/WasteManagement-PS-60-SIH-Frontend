@@ -15,7 +15,8 @@ import {
   Users,
   ChevronDown,
   ChevronUp,
-  TrendingUp
+  TrendingUp,
+  QrCode
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -66,6 +67,7 @@ const Navbar = ({ userRole }) => {
     { name: 'Impact', icon: TrendingUp, path: '/guide', role: 'citizen' },
     { name: 'Training', icon: GraduationCap, path: '/training', role: 'citizen' },
     { name: 'Upload Bins', icon: Upload, path: '/upload', role: 'citizen' },
+    { name: 'QR Tracking', icon:  QrCode, path: '/citizenqrpage', role: 'citizen' },
     { name: 'Report Waste', icon: AlertCircle, path: '/report', role: 'citizen' },
     { name: 'Rewards', icon: Gift, path: '/rewards', role: 'citizen' },
     { name: 'Community', icon: Users, path: '/community', role: 'citizen' },

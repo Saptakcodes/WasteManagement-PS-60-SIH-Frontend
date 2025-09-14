@@ -17,7 +17,7 @@ import {
   Users,
   Globe
 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, color } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
 const Training = () => {
@@ -172,24 +172,57 @@ const Training = () => {
       duration: "30 min",
       content: {
         en: {
-          description: "Test your knowledge across all modules to become a certified Green Champion.",
+          description: "Master the art of source segregation using the three-bin system for wet, dry, and hazardous waste.",
           resources: [
-            { type: 'text', title: 'Assessment Guidelines' },
-            { type: 'interactive', title: 'Practice Questions' }
+            { type: 'video', title: 'How to Segregate Properly', duration: '7:45' },
+            { type: 'text', title: 'Three-Bin System Guide' },
+            { type: 'infographic', title: 'Color Coding for Bins' },
+            { type: 'interactive', title: 'Segregation Practice' }
           ]
         },
         hi: {
-          description: "प्रमाणित ग्रीन चैंपियन बनने के लिए सभी मॉड्यूल में अपने ज्ञान का परीक्षण करें।",
+          description: "गीले, सूखे और खतरनाक कचरे के लिए तीन-बिन प्रणाली का उपयोग करके स्रोत पृथक्करण की कला में महारत हासिल करें।",
           resources: [
-            { type: 'text', title: 'मूल्यांकन दिशानिर्देश' },
-            { type: 'interactive', title: 'अभ्यास प्रश्न' }
+            { type: 'video', title: 'सही तरीके से कैसे अलग करें', duration: '7:45' },
+            { type: 'text', title: 'तीन-बिन प्रणाली गाइड' },
+            { type: 'infographic', title: 'बिन के लिए रंग कोडिंग' },
+            { type: 'interactive', title: 'पृथक्करण अभ्यास' }
           ]
         },
         ta: {
-          description: "சான்றளிக்கப்பட்ட கிரீன் சாம்பியன் ஆக எல்லா தொகுதிகளிலும் உங்கள் அறிவை சோதிக்கவும்.",
+          description: "ஈரமான, உலர் மற்றும் ஆபத்தான கழிவுகளுக்கான மூன்று-பெட்டி அமைப்பைப் பயன்படுத்தி மூலப் பிரித்தலின் கலைத்திறனில் தேர்ச்சி பெறவும்.",
           resources: [
-            { type: 'text', title: 'மதிப்பீட்டு வழிகாட்டிகள்' },
-            { type: 'interactive', title: 'பயிற்சி கேள்விகள்' }
+            { type: 'video', title: 'சரியாக எவ்வாறு பிரிக்க வேண்டும்', duration: '7:45' },
+            { type: 'text', title: 'மூன்று-பெட்டி அமைப்பு வழிகாட்டி' },
+            { type: 'infographic', title: 'பெட்டிகளுக்கான வண்ண குறியீடு' },
+            { type: 'interactive', title: 'பிரித்தல் பயிற்சி' }
+          ]
+        },
+        te: {
+          description: "తడి, పొడి మరియు ప్రమాదకర వేస్ట్ కోసం త్రీ-బిన్ సిస్టమ్ ఉపయోగించి సోర్స్ సెగ్రిగేషన్ కళను నేర్చుకోండి.",
+          resources: [
+            { type: 'video', title: 'సరిగ్గా ఎలా వేరు చేయాలి', duration: '7:45' },
+            { type: 'text', title: 'త్రీ-బిన్ సిస్టమ్ గైడ్' },
+            { type: 'infographic', title: 'బిన్ల కోసం రంగు కోడింగ్' },
+            { type: 'interactive', title: 'సెగ్రిగేషన్ ప్రాక్టీస్' }
+          ]
+        },
+        bn: {
+          description: "ভিজা, শুষ্ক এবং বিপজ্জনক বর্জ্যের জন্য তিন-বিন সিস্টেম ব্যবহার করে উৎস পৃথকীকরণের শিল্পে দক্ষতা অর্জন করুন।",
+          resources: [
+            { type: 'video', title: 'সঠিকভাবে কীভাবে আলাদা করবেন', duration: '7:45' },
+            { type: 'text', title: 'তিন-বিন সিস্টেম গাইড' },
+            { type: 'infographic', title: 'বিনের জন্য রঙের কোডিং' },
+            { type: 'interactive', title: 'পৃথকীকরণ অনুশীলন' }
+          ]
+        },
+        mr: {
+          description: "ओले, कोरडे आणि धोकादायक कचऱ्यासाठी तीन-बिन प्रणालीचा वापर करून स्त्रोत वेगळे करण्याची कला मास्टर करा.",
+          resources: [
+            { type: 'video', title: 'योग्य प्रकारे कसे वेगळे करावे', duration: '7:45' },
+            { type: 'text', title: 'तीन-बिन प्रणाली मार्गदर्शक' },
+            { type: 'infographic', title: 'बिन्ससाठी रंग कोडिंग' },
+            { type: 'interactive', title: 'वेगळे करण्याचा सराव' }
           ]
         }
       },
@@ -200,14 +233,14 @@ const Training = () => {
   ];
 
   // Languages supported
-  const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिन्दी' },
-    { code: 'ta', name: 'தமிழ்' },
-    { code: 'te', name: 'తెలుగు' },
-    { code: 'bn', name: 'বাংলা' },
-    { code: 'mr', name: 'मराठी' }
-  ];
+const languages = [
+  { code: 'en', name: 'English', color: 'blue' },
+  { code: 'hi', name: 'हिन्दी', color: 'blue' },
+  { code: 'ta', name: 'தமிழ்', color: 'blue' },
+  { code: 'te', name: 'తెలుగు', color: 'blue' },
+  { code: 'bn', name: 'বাংলা', color: 'blue' },
+  { code: 'mr', name: 'मराठी', color: 'blue' }
+];
 
   // Badges and achievements
   const badges = [
@@ -333,7 +366,7 @@ const Training = () => {
               <select 
                 value={language} 
                 onChange={(e) => setLanguage(e.target.value)}
-                className="bg-white/20 text-white border-none rounded-md px-3 py-2 focus:ring-2 focus:ring-white"
+                className="bg-blue-600 text-white border-none rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-400"
               >
                 {languages.map(lang => (
                   <option key={lang.code} value={lang.code}>{lang.name}</option>

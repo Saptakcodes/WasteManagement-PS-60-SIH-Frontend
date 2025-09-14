@@ -56,7 +56,7 @@ const Guide = () => {
       title: "5 Simple Ways to Reduce Your Household Waste",
       date: "2023-10-01",
       excerpt: "Practical tips for minimizing waste and living a more sustainable lifestyle.",
-      image: "https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+      image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
     },
     {
       id: 4,
@@ -146,10 +146,10 @@ const Guide = () => {
     {
       id: 3,
       icon: BookOpen,
-      title: "Interactive Learning Resources",
+      title: "Segregating Wastes and Recycling it for betterment",
       description: "Easy-to-follow guides and tutorials for waste segregation, composting, and recycling",
       features: ["Step-by-step guides", "Visual tutorials", "Best practices", "Troubleshooting tips"],
-      image: "https://images.unsplash.com/photo-1584697964358-3e14ca57658b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       cta: "Explore Resources"
     },
     {
@@ -176,7 +176,7 @@ const Guide = () => {
       title: "Verified Government-Backed Initiative",
       description: "Participate in a certified program that contributes to national sustainability goals",
       features: ["Government certification", "Official recognition", "Policy alignment", "National impact"],
-      image: "https://images.unsplash.com/photo-1596526131083-e8c633c3c6de?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
       cta: "Learn About Certification"
     }
   ];

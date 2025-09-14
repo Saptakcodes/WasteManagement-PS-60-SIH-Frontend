@@ -57,7 +57,7 @@ const Home = () => {
       title: "5 Simple Ways to Reduce Your Household Waste",
       date: "2023-10-01",
       excerpt: "Practical tips for minimizing waste and living a more sustainable lifestyle.",
-      image: "https://images.unsplash.com/photo-1587334274527-ba54f0b5a357?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+      image: "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
     },
     {
       id: 4,
