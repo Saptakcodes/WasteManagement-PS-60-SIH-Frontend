@@ -6,7 +6,6 @@ import Register from "../pages/Register";
 import ProtectedRoute from "../components/ProtectedRoute";
 import Training from "../pages/Training";
 import DummyPage from "../components/DummyPage";
-//import ProtectedRoute from "../components/ProtectedRoute";
 import Home from "../pages/Home";
 import TestTheme from "../pages/TestTheme";
 import UploadBins from "../pages/UploadBins";
@@ -16,6 +15,22 @@ import Communities from "../pages/Communities";
 import Guide from "../pages/Guide";
 import CitizenQRPage from "../pages/CitizenQRPage";
 import Training2 from "../pages/Training";
+import CommunityImpact from "../pages/CommunityImpact";
+
+
+// worker-portal
+import WorkerDashboard from "../pages/WorkerDashboard";
+import WorkerTraining from "../pages/WorkerTraining";
+import WorkerTasks from "../pages/WorkerTasks";
+import WorkerReportComplaint from "../pages/WorkerReportComplaint";
+import WorkerRewards from "../pages/WorkerRewards";
+import WorkerSafety from "../pages/WorkerSafety";
+import WorkerHelpdesk from "../pages/WorkerHelpdesk";
+
+// authorities-portal
+import AuthorityDashboard from "../pages/AuthorityDashboard";
+
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,30 +40,51 @@ const router = createBrowserRouter([
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/", element: <Home/> },
-          { path: '/home', element: <Home/> }, 
-          { path: "/testtheme", element: <TestTheme/> },
-          {path: "/training", element: <Training/>},
-          {path: "/training2", element: <Training2/>},
-          {path: '/upload', element: <UploadBins/>},
-          {path: '/report', element: <ReportWaste/>},
-          {path: '/rewards', element: <Rewards/>},
-          {path: '/community', element: <Communities/>},
-          {path: '/guide', element: <Guide/>},
-          {path: '/citizenqrpage', element: <CitizenQRPage/>},
+      { path: "/testtheme", element: <TestTheme/> },
+      
+      // Citizen Portal Routes
+      { path: "/citizen/home", element: <Home/> },
+      { path: "/citizen/impact", element: <Guide/> },
+      { path: "/citizen/training", element: <Training/> },
+      { path: "/citizen/upload", element: <UploadBins/> },
+      { path: "/citizen/qr-tracking", element: <CitizenQRPage/> },
+      { path: "/citizen/report", element: <ReportWaste/> },
+      { path: "/citizen/rewards", element: <Rewards/> },
+      { path: "/citizen/community", element: <Communities/> },
+      { path: "/citizen/community-impact", element: <CommunityImpact/> },
+      
+      // Worker Portal Routes
+      { path: "/worker/dashboard", element: <WorkerDashboard /> },
+      { path: "/worker/training", element: <WorkerTraining /> },
+      { path: "/worker/tasks", element: <WorkerTasks /> },
+      { path: "/worker/reportcomplaint", element: <WorkerReportComplaint/>},
+      { path: "/worker/rewards", element: <WorkerRewards/>},
+      { path: "/worker/safety", element: <WorkerSafety/>},
+      { path: "/worker/helpdesk", element: <WorkerHelpdesk/>},
+      
+
+      
+      // Authority Portal Routes
+      { path: "/authority/dashboard", element: <AuthorityDashboard /> },
+
+      
+      // Legacy routes (redirect to citizen portal for backward compatibility)
+      { path: '/home', element: <Home/> }, 
+      { path: "/training", element: <Training/> },
+      { path: "/training2", element: <Training2/> },
+      { path: '/upload', element: <UploadBins/> },
+      { path: '/report', element: <ReportWaste/> },
+      { path: '/rewards', element: <Rewards/> },
+      { path: '/community', element: <Communities/> },
+      { path: '/guide', element: <Guide/> },
+      { path: '/citizenqrpage', element: <CitizenQRPage/> },
+      { path: '/communityimpact', element: <CommunityImpact/> },
 
       // Protected Routes
       {
         element: <ProtectedRoute />,
         children: [
-          // { path: "/", element: <Home/> },
-          // { path: '/home', element: <Home/> }, 
-          // { path: "/testtheme", element: <TestTheme/> },
-          // {path: "/training", element: <Training/>},
-          // {path: '/upload', element: <UploadBins/>},
-          // {path: '/report', element: <ReportWaste/>},
-          // {path: '/rewards', element: <Rewards/>},
-          // {path: '/community', element: <Communities/>},
-          // {path: '/guide', element: <Guide/>}
+          // Add protected routes here if needed
         ],
       },
     ],

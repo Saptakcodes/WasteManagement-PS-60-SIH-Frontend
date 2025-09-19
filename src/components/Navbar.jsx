@@ -17,17 +17,32 @@ import {
   ChevronUp,
   TrendingUp,
   QrCode,
-  HelpCircle
+  HelpCircle,
+  ClipboardList,
+  Settings,
+  Shield,
+  HardHat,
+  
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = ({ userRole }) => {
+import { 
+  BookOpen,        // Training
+  FileWarning,     // Report Complaint
+
+  Headphones       // HelpDesk
+} from "lucide-react";
+
+const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [currentRole, setCurrentRole] = useState(localStorage.getItem('currentRole') || 'Citizen');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,25 +52,15 @@ const Navbar = ({ userRole }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    // Save the current role to localStorage to persist across page refreshes
+    localStorage.setItem('currentRole', currentRole);
+  }, [currentRole]);
+
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
     document.documentElement.classList.toggle('dark');
   };
-
-  const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") === "dark"
-  );
-
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);};
 
   const notifications = [
     { id: 1, text: 'Your compost kit is ready for pickup', time: '10 mins ago' },
@@ -63,17 +68,72 @@ const Navbar = ({ userRole }) => {
     { id: 3, text: 'Community clean-up drive this weekend', time: '2 days ago' },
   ];
 
-  const navItems = [
-    { name: 'Home', icon: Home, path: '/', role: 'all' },
+  // Define nav items for each role
+  const citizenNavItems = [
+    { name: 'Home', icon: Home, path: '/citizen/home', role: 'citizen' },
     { name: 'Impact', icon: TrendingUp, path: '/guide', role: 'citizen' },
     { name: 'Training', icon: GraduationCap, path: '/training', role: 'citizen' },
     { name: 'Upload Bins', icon: Upload, path: '/upload', role: 'citizen' },
-    { name: 'QR Tracking', icon:  QrCode, path: '/citizenqrpage', role: 'citizen' },
+    { name: 'QR Tracking', icon: QrCode, path: '/citizenqrpage', role: 'citizen' },
     { name: 'Report Waste', icon: AlertCircle, path: '/report', role: 'citizen' },
     { name: 'Rewards', icon: Gift, path: '/rewards', role: 'citizen' },
     { name: 'Community', icon: Users, path: '/community', role: 'citizen' },
-    
+    { name: 'Community Impact', icon: Users, path: '/communityimpact', role: 'citizen' },
   ];
+
+  const workerNavItems = [
+    { name: 'Dashboard', icon: Home, path: '/worker/dashboard', role: 'worker' },
+    { name: 'Training', icon: BookOpen, path: '/worker/training', role: 'worker' },
+    { name: 'Tasks', icon: ClipboardList, path: '/worker/tasks', role: 'worker' },
+    { name: 'Report Complain', icon: FileWarning, path: '/worker/reportcomplaint', role: 'worker' },
+    { name: 'Rewards', icon: Gift, path: '/worker/rewards', role: 'worker' },
+    { name: 'Safety', icon: HardHat, path: '/worker/safety', role: 'worker' },
+    { name: 'Helpdesk', icon: Headphones, path: '/worker/helpdesk', role: 'worker' },
+
+  ];
+
+  const authorityNavItems = [
+    { name: 'Dashboard', icon: Home, path: '/authority/dashboard', role: 'authority' },
+    { name: 'Manage Citizens', icon: Users, path: '/authority/citizens', role: 'authority' },
+    { name: 'Manage Workers', icon: Settings, path: '/authority/workers', role: 'authority' },
+    { name: 'Reports', icon: AlertCircle, path: '/authority/reports', role: 'authority' },
+  ];
+
+  // Get the appropriate nav items based on currentRole
+  const getNavItems = () => {
+    switch (currentRole) {
+      case 'Worker':
+        return workerNavItems;
+      case 'Authority':
+        return authorityNavItems;
+      case 'Citizen':
+      default:
+        return citizenNavItems;
+    }
+  };
+
+  const navItems = getNavItems();
+
+  const handlePortalChange = (portal) => {
+    setProfileOpen(false);
+    
+    switch (portal) {
+      case 'Citizen Portal':
+        setCurrentRole('Citizen');
+        navigate('/citizen/home');
+        break;
+      case 'Worker Portal':
+        setCurrentRole('Worker');
+        navigate('/worker/dashboard');
+        break;
+      case 'Authority Portal':
+        setCurrentRole('Authority');
+        navigate('/authority/dashboard');
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <header className={`sticky top-0 z-50 bg-emerald-50 dark:bg-green-900 shadow-md transition-all duration-300 ${scrolled ? 'py-0' : 'py-2'}`}>
@@ -127,16 +187,6 @@ const Navbar = ({ userRole }) => {
 
         {/* Right section - Actions */}
         <div className="flex items-center space-x-2 sm:space-x-4">
-          {/* Search button */}
-          <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => setSearchOpen(!searchOpen)}
-            className="p-2 rounded-full text-green-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-green-800"
-          >
-            <Search size={20} />
-          </motion.button>
-
           {/* Dark mode toggle */}
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -209,7 +259,7 @@ const Navbar = ({ userRole }) => {
                 <User size={16} className="text-white" />
               </div>
               <span className="text-sm font-medium text-green-800 dark:text-emerald-300 hidden lg:block">
-                {userRole || 'Guest'}
+                {currentRole}
               </span>
             </motion.button>
 
@@ -219,14 +269,52 @@ const Navbar = ({ userRole }) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
-                  className="absolute right-0 mt-2 w-48 bg-white dark:bg-green-800 rounded-md shadow-lg py-1 z-50 border border-green-200 dark:border-green-700"
+                  className="absolute right-0 mt-2 w-56 bg-white dark:bg-green-800 rounded-md shadow-lg py-1 z-50 border border-green-200 dark:border-green-700"
                 >
                   <div className="px-4 py-2 border-b border-green-200 dark:border-green-700">
                     <p className="text-sm text-green-600 dark:text-green-300">Signed in as</p>
                     <p className="text-sm font-medium text-green-800 dark:text-green-100">
-                      {userRole || 'Guest'}
+                      {currentRole}
                     </p>
                   </div>
+                  
+                  {/* Portal Selection */}
+                  <div className="py-1 border-b border-green-200 dark:border-green-700">
+                    <p className="px-4 py-2 text-xs font-semibold text-green-600 dark:text-green-300 uppercase tracking-wide">
+                      Switch Portal
+                    </p>
+                    <button
+                      onClick={() => handlePortalChange('Citizen Portal')}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-emerald-50 dark:hover:bg-green-700 ${
+                        currentRole === 'Citizen' 
+                          ? 'bg-emerald-100 dark:bg-green-700 text-green-900 dark:text-green-100 font-medium' 
+                          : 'text-green-700 dark:text-green-200'
+                      }`}
+                    >
+                      Citizen Portal
+                    </button>
+                    <button
+                      onClick={() => handlePortalChange('Worker Portal')}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-emerald-50 dark:hover:bg-green-700 ${
+                        currentRole === 'Worker' 
+                          ? 'bg-emerald-100 dark:bg-green-700 text-green-900 dark:text-green-100 font-medium' 
+                          : 'text-green-700 dark:text-green-200'
+                      }`}
+                    >
+                      Worker Portal
+                    </button>
+                    <button
+                      onClick={() => handlePortalChange('Authority Portal')}
+                      className={`block w-full text-left px-4 py-2 text-sm hover:bg-emerald-50 dark:hover:bg-green-700 ${
+                        currentRole === 'Authority' 
+                          ? 'bg-emerald-100 dark:bg-green-700 text-green-900 dark:text-green-100 font-medium' 
+                          : 'text-green-700 dark:text-green-200'
+                      }`}
+                    >
+                      Authority Portal
+                    </button>
+                  </div>
+
                   <div className="py-1">
                     <button
                       onClick={() => {/* Handle profile */}}
@@ -298,52 +386,52 @@ const Navbar = ({ userRole }) => {
       </AnimatePresence>
 
       {/* Mobile menu dropdown */}
-<AnimatePresence>
-  {mobileMenuOpen && (
-    <motion.div
-      initial={{ y: -100, opacity: 0 }} // start above viewport
-      animate={{ y: 0, opacity: 1 }}    // slide down into view
-      exit={{ y: -100, opacity: 0 }}    // slide up when closing
-      transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      className="md:hidden border-t border-green-200 dark:border-green-700 bg-emerald-50 dark:bg-green-900 overflow-hidden shadow-md"
-      style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 50 }}
-    >
-      <nav className="px-2 pt-2 pb-4 space-y-1">
-        {navItems.map((item, index) => (
-          <motion.a
-            key={item.name}
-            href={item.path}
-            initial={{ opacity: 0, x: -10 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.05 }}
-            className="flex items-center px-3 py-2 rounded-md text-base font-medium text-green-800 dark:text-green-100 hover:bg-emerald-100 dark:hover:bg-green-800"
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ y: -100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -100, opacity: 0 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            className="md:hidden border-t border-green-200 dark:border-green-700 bg-emerald-50 dark:bg-green-900 overflow-hidden shadow-md"
+            style={{ position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 50 }}
           >
-            <item.icon size={18} className="mr-3" />
-            {item.name}
-          </motion.a>
-        ))}
+            <nav className="px-2 pt-2 pb-4 space-y-1">
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.path}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  className="flex items-center px-3 py-2 rounded-md text-base font-medium text-green-800 dark:text-green-100 hover:bg-emerald-100 dark:hover:bg-green-800"
+                >
+                  <item.icon size={18} className="mr-3" />
+                  {item.name}
+                </motion.a>
+              ))}
 
-        {/* Dark mode toggle for mobile */}
-        <button
-          onClick={toggleDarkMode}
-          className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-green-800 dark:text-green-100 hover:bg-emerald-100 dark:hover:bg-green-800"
-        >
-          {darkMode ? (
-            <>
-              <Sun size={18} className="mr-3" />
-              Light Mode
-            </>
-          ) : (
-            <>
-              <Moon size={18} className="mr-3" />
-              Dark Mode
-            </>
-          )}
-        </button>
-      </nav>
-    </motion.div>
-  )}
-</AnimatePresence>
+              {/* Dark mode toggle for mobile */}
+              <button
+                onClick={toggleDarkMode}
+                className="flex items-center w-full px-3 py-2 rounded-md text-base font-medium text-green-800 dark:text-green-100 hover:bg-emerald-100 dark:hover:bg-green-800"
+              >
+                {darkMode ? (
+                  <>
+                    <Sun size={18} className="mr-3" />
+                    Light Mode
+                  </>
+                ) : (
+                  <>
+                    <Moon size={18} className="mr-3" />
+                    Dark Mode
+                  </>
+                )}
+              </button>
+            </nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 };
