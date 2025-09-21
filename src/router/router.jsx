@@ -29,7 +29,9 @@ import WorkerHelpdesk from "../pages/WorkerHelpdesk";
 
 // authorities-portal
 import AuthorityDashboard from "../pages/AuthorityDashboard";
-
+import AuthorityManageCitizen from "../pages/AuthorityManageCitizen";
+import AuthorityManageWorker from "../pages/AuthorityManageWorker";
+import SmartOpsCenter from "../pages/AuthoritySmartOpsCenter";
 
 const router = createBrowserRouter([
   {
@@ -66,6 +68,11 @@ const router = createBrowserRouter([
       
       // Authority Portal Routes
       { path: "/authority/dashboard", element: <AuthorityDashboard /> },
+      { path: "/authority/citizens", element: <AuthorityManageCitizen /> },
+      { path: "/authority/workers", element: <AuthorityManageWorker /> },
+      { path: "/authority/smartops", element: <SmartOpsCenter /> },
+
+
 
       
       // Legacy routes (redirect to citizen portal for backward compatibility)

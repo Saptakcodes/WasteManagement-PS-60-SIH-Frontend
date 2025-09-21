@@ -29,7 +29,8 @@ import {
   BarChart3,
   RefreshCw,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Navigation // Added for live tracking icon
 } from 'lucide-react';
 
 const WorkerDashboard = () => {
@@ -118,6 +119,11 @@ const WorkerDashboard = () => {
     complaints: false,
     training: false
   });
+  
+  // State for live location tracking
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
+  const [locationError, setLocationError] = useState(null);
 
   // Toggle dark/light mode
   useEffect(() => {
@@ -128,6 +134,68 @@ const WorkerDashboard = () => {
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
+  // Function to request location access
+  const requestLocationAccess = () => {
+    if (navigator.geolocation) {
+      setIsTracking(true);
+      setLocationError(null);
+      
+      // Get current position once
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCurrentLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+          setIsTracking(false);
+        },
+        (error) => {
+          console.error("Error fetching location:", error);
+          setIsTracking(false);
+          setLocationError(getLocationErrorMessage(error));
+        }
+      );
+      
+      // Set up continuous tracking
+      const watchId = navigator.geolocation.watchPosition(
+        (position) => {
+          setCurrentLocation({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          });
+        },
+        (error) => {
+          console.error("Error with location tracking:", error);
+          setLocationError(getLocationErrorMessage(error));
+        },
+        { 
+          enableHighAccuracy: true, 
+          timeout: 10000, 
+          maximumAge: 0 
+        }
+      );
+      
+      // Clean up function to clear watch when component unmounts
+      return () => navigator.geolocation.clearWatch(watchId);
+    } else {
+      setLocationError("Geolocation is not supported by this browser.");
+    }
+  };
+
+  // Helper function to get user-friendly error messages
+  const getLocationErrorMessage = (error) => {
+    switch(error.code) {
+      case error.PERMISSION_DENIED:
+        return "Location access denied. Please enable location permissions in your browser settings.";
+      case error.POSITION_UNAVAILABLE:
+        return "Location information is unavailable.";
+      case error.TIMEOUT:
+        return "The request to get your location timed out.";
+      default:
+        return "An unknown error occurred while accessing your location.";
+    }
   };
 
   // Function to mark attendance
@@ -655,7 +723,7 @@ const WorkerDashboard = () => {
               exit={{ opacity: 0 }}
               className="grid grid-cols-1 gap-6"
             >
-              {/* Route Information Card */}
+              {/* Route Information Card with Live Location */}
               <motion.div
                 variants={cardVariants}
                 initial="hidden"
@@ -666,12 +734,12 @@ const WorkerDashboard = () => {
                   <MapPin className={`h-6 w-6 mr-2 ${isDarkMode ? 'text-red-400' : 'text-red-600'}`} />
                   <h2 className="text-lg font-semibold">Route Information</h2>
                 </div>
-                
+
                 <div className={`mb-4 px-3 py-2 rounded-lg ${isDarkMode ? 'bg-gray-700' : 'bg-blue-50'}`}>
                   <span className="font-medium">Assigned Route:</span>
                   <span className="ml-2">{workerData.route.name}</span>
                 </div>
-                
+
                 <div className="mb-4">
                   <div className="flex justify-between mb-2">
                     <span>Route Progress:</span>
@@ -684,7 +752,7 @@ const WorkerDashboard = () => {
                     />
                   </div>
                 </div>
-                
+
                 <div className="mb-4">
                   <h3 className="font-medium mb-2">Stops:</h3>
                   <ul className={`space-y-2 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -754,11 +822,67 @@ const WorkerDashboard = () => {
                     ))}
                   </ul>
                 </div>
-                
+
+                {/* Live Location + Map */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <h3 className="font-medium">Live Location</h3>
+                    {currentLocation && (
+                      <span className="text-sm text-green-500 flex items-center">
+                        <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse mr-1"></div>
+                        Live
+                      </span>
+                    )}
+                  </div>
+                  <div id="map-container" className="w-full h-64 rounded-lg overflow-hidden border">
+                    {currentLocation ? (
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        style={{ border: 0 }}
+                        loading="lazy"
+                        allowFullScreen
+                        referrerPolicy="no-referrer-when-downgrade"
+                        src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyBVQWV55sFWUtTNhlX32FWe88N4TFZrNT4&q=${currentLocation.lat},${currentLocation.lng}&zoom=16&maptype=roadmap`}
+                        title="Live location map"
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full text-gray-500 p-4">
+                        <Navigation className="h-12 w-12 mb-2 opacity-50" />
+                        <p className="text-center">
+                          {locationError || "Allow location access to view live map tracking"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className={`w-full py-2 ${isDarkMode ? 'bg-blue-600 hover:bg-blue-700' : 'bg-blue-500 hover:bg-blue-600'} text-white rounded-lg font-medium`}
+                  onClick={requestLocationAccess}
+                  disabled={isTracking}
+                  className={`w-full py-2 mb-2 flex items-center justify-center ${isDarkMode ? 
+                    (isTracking ? 'bg-gray-600' : 'bg-blue-600 hover:bg-blue-700') : 
+                    (isTracking ? 'bg-gray-400' : 'bg-blue-500 hover:bg-blue-600')} text-white rounded-lg font-medium`}
+                >
+                  {isTracking ? (
+                    <>
+                      <RefreshCw className="h-5 w-5 mr-2 animate-spin" />
+                      Getting Location...
+                    </>
+                  ) : (
+                    <>
+                      <Navigation className="h-5 w-5 mr-2" />
+                      {currentLocation ? 'Update Live Tracking' : 'Enable Live Tracking'}
+                    </>
+                  )}
+                </motion.button>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`w-full py-2 ${isDarkMode ? 'bg-gray-600 hover:bg-gray-700' : 'bg-gray-200 hover:bg-gray-300'} text-black rounded-lg font-medium`}
                 >
                   View Full Route Map
                 </motion.button>
@@ -803,7 +927,7 @@ const WorkerDashboard = () => {
                       {[...Array(5)].map((_, i) => (
                         <Star
                           key={i}
-                                                   className={`h-4 w-4 ${i < Math.floor(workerData.performance.feedback) ? 'fill-yellow-500 text-yellow-500' : 'text-yellow-500'}`}
+                          className={`h-4 w-4 ${i < Math.floor(workerData.performance.feedback) ? 'fill-yellow-500 text-yellow-500' : 'text-yellow-500'}`}
                         />
                       ))}
                     </div>
@@ -1281,7 +1405,7 @@ const WorkerDashboard = () => {
                       <span>{workerData.training.progress}%</span>
                     </div>
                     <div className={`w-full h-3 rounded-full ${isDarkMode ? 'bg-gray-600' : 'bg-gray-200'}`}>
-                      <div 
+                    <div 
                         className="h-full rounded-full bg-purple-500" 
                         style={{ width: `${workerData.training.progress}%` }}
                       />

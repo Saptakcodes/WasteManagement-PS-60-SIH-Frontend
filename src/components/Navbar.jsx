@@ -96,7 +96,7 @@ const Navbar = () => {
     { name: 'Dashboard', icon: Home, path: '/authority/dashboard', role: 'authority' },
     { name: 'Manage Citizens', icon: Users, path: '/authority/citizens', role: 'authority' },
     { name: 'Manage Workers', icon: Settings, path: '/authority/workers', role: 'authority' },
-    { name: 'Reports', icon: AlertCircle, path: '/authority/reports', role: 'authority' },
+    { name: 'Smart Operating Center', icon: AlertCircle, path: '/authority/smartops', role: 'authority' },
   ];
 
   // Get the appropriate nav items based on currentRole
