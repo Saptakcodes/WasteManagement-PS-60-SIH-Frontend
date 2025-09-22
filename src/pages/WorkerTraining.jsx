@@ -72,9 +72,9 @@ const WorkerTraining = () => {
     setUserName('Rajesh Kumar');
     
     // Check system preference for dark mode
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setDarkMode(true);
-    }
+    // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+    //   setDarkMode(true);
+    // }
   }, []);
 
   // Apply dark mode class to body
