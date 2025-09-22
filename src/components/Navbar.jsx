@@ -22,6 +22,7 @@ import {
   Settings,
   Shield,
   HardHat,
+  X,
   
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -234,29 +235,71 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 10 }}
                   className="absolute right-0 mt-2 w-80 bg-white dark:bg-green-800 rounded-md shadow-lg py-1 z-50 max-h-96 overflow-y-auto border border-green-200 dark:border-green-700"
+                  style={{
+                    // Responsive positioning and width
+                    maxWidth: 'calc(100vw - 2rem)',
+                    width: 'auto',
+                    right: '0',
+                    left: 'auto',
+                    // Mobile-specific adjustments
+                    '@media (max-width: 640px)': {
+                      position: 'fixed',
+                      top: '4rem',
+                      left: '0.5rem',
+                      right: '0.5rem',
+                      width: 'auto',
+                      maxWidth: 'none',
+                      marginTop: '0'
+                    }
+                  }}
                 >
                   <div className="px-4 py-2 border-b border-green-200 dark:border-green-700 sticky top-0 bg-white dark:bg-green-800">
-                    <h3 className="text-sm font-medium text-green-800 dark:text-green-100">
-                      Notifications
-                    </h3>
+                    <div className="flex justify-between items-center">
+                      <h3 className="text-sm font-medium text-green-800 dark:text-green-100">
+                        Notifications
+                      </h3>
+                      {/* Close button for mobile */}
+                      <button 
+                        onClick={() => setNotificationsOpen(false)}
+                        className="sm:hidden text-green-600 dark:text-green-300"
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
                   </div>
                   <div className="max-h-60 overflow-y-auto">
-                    {notifications.map((notification) => (
-                      <motion.div
-                        key={notification.id}
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="px-4 py-3 hover:bg-emerald-50 dark:hover:bg-green-700 cursor-pointer border-b border-green-100 dark:border-green-600 last:border-b-0"
-                      >
-                        <p className="text-sm text-green-800 dark:text-green-100">
-                          {notification.text}
+                    {notifications.length > 0 ? (
+                      notifications.map((notification) => (
+                        <motion.div
+                          key={notification.id}
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          className="px-4 py-3 hover:bg-emerald-50 dark:hover:bg-green-700 cursor-pointer border-b border-green-100 dark:border-green-600 last:border-b-0"
+                        >
+                          <p className="text-sm text-green-800 dark:text-green-100">
+                            {notification.text}
+                          </p>
+                          <p className="text-xs text-green-600 dark:text-green-300 mt-1">
+                            {notification.time}
+                          </p>
+                        </motion.div>
+                      ))
+                    ) : (
+                      <div className="px-4 py-3 text-center">
+                        <p className="text-sm text-green-600 dark:text-green-300">
+                          No notifications
                         </p>
-                        <p className="text-xs text-green-600 dark:text-green-300 mt-1">
-                          {notification.time}
-                        </p>
-                      </motion.div>
-                    ))}
+                      </div>
+                    )}
                   </div>
+                  {/* Clear all button for larger screens */}
+                  {notifications.length > 0 && (
+                    <div className="hidden sm:block px-4 py-2 border-t border-green-200 dark:border-green-700 sticky bottom-0 bg-white dark:bg-green-800">
+                      <button className="w-full text-xs text-center text-green-600 dark:text-green-300 hover:underline">
+                        Clear all notifications
+                      </button>
+                    </div>
+                  )}
                 </motion.div>
               )}
             </AnimatePresence>
