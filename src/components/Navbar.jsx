@@ -23,25 +23,20 @@ import {
   Shield,
   HardHat,
   X,
-  
+  BookOpen,        
+  FileWarning,     
+  Headphones       
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-
-import { 
-  BookOpen,        // Training
-  FileWarning,     // Report Complaint
-
-  Headphones       // HelpDesk
-} from "lucide-react";
 
 const Navbar = () => {
   const [darkMode, setDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('darkMode');
-      return saved ? JSON.parse(saved) : false; // Default to false (light mode)
+      return saved ? JSON.parse(saved) : false;
     }
-    return false; // Server-side: always light mode
+    return false;
   });
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -60,23 +55,39 @@ const Navbar = () => {
   }, []);
 
   useEffect(() => {
-    // Save the current role to localStorage to persist across page refreshes
     localStorage.setItem('currentRole', currentRole);
   }, [currentRole]);
 
   useEffect(() => {
-    // Apply dark mode class based on state
     if (darkMode) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-    // Save preference
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
   const toggleDarkMode = () => {
     setDarkMode(prev => !prev);
+  };
+
+  const handleNotificationsClick = () => {
+    setNotificationsOpen(prev => !prev);
+    if (profileOpen) setProfileOpen(false);
+    if (mobileMenuOpen) setMobileMenuOpen(false); // Close mobile menu when notifications are opened
+  };
+
+  const handleProfileClick = () => {
+    setProfileOpen(prev => !prev);
+    if (notificationsOpen) setNotificationsOpen(false);
+    if (mobileMenuOpen) setMobileMenuOpen(false); // Close mobile menu when profile is opened
+  };
+
+  const handleMobileMenuClick = () => {
+    setMobileMenuOpen(prev => !prev);
+    // Close notifications and profile when mobile menu is opened
+    if (notificationsOpen) setNotificationsOpen(false);
+    if (profileOpen) setProfileOpen(false);
   };
 
   const notifications = [
@@ -106,7 +117,6 @@ const Navbar = () => {
     { name: 'Rewards', icon: Gift, path: '/worker/rewards', role: 'worker' },
     { name: 'Safety', icon: HardHat, path: '/worker/safety', role: 'worker' },
     { name: 'Helpdesk', icon: Headphones, path: '/worker/helpdesk', role: 'worker' },
-
   ];
 
   const authorityNavItems = [
@@ -220,7 +230,7 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              onClick={() => setNotificationsOpen(!notificationsOpen)}
+              onClick={handleNotificationsClick}
               className="p-2 rounded-full text-green-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-green-800 relative"
               aria-label="Notifications"
             >
@@ -236,12 +246,10 @@ const Navbar = () => {
                   exit={{ opacity: 0, y: 10 }}
                   className="absolute right-0 mt-2 w-80 bg-white dark:bg-green-800 rounded-md shadow-lg py-1 z-50 max-h-96 overflow-y-auto border border-green-200 dark:border-green-700"
                   style={{
-                    // Responsive positioning and width
                     maxWidth: 'calc(100vw - 2rem)',
                     width: 'auto',
                     right: '0',
                     left: 'auto',
-                    // Mobile-specific adjustments
                     '@media (max-width: 640px)': {
                       position: 'fixed',
                       top: '4rem',
@@ -310,7 +318,7 @@ const Navbar = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => setProfileOpen(!profileOpen)}
+              onClick={handleProfileClick}
               className="flex items-center space-x-2 p-2 rounded-full hover:bg-emerald-100 dark:hover:bg-green-800"
               aria-label="User profile"
             >
@@ -406,7 +414,7 @@ const Navbar = () => {
           <motion.button
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            onClick={handleMobileMenuClick}
             className="p-2 rounded-full text-green-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-green-800 md:hidden"
             aria-label="Mobile menu"
           >
@@ -464,6 +472,7 @@ const Navbar = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.05 }}
                   className="flex items-center px-3 py-2 rounded-md text-base font-medium text-green-800 dark:text-green-100 hover:bg-emerald-100 dark:hover:bg-green-800"
+                  onClick={() => setMobileMenuOpen(false)} // Close menu when an item is clicked
                 >
                   <item.icon size={18} className="mr-3" />
                   {item.name}
