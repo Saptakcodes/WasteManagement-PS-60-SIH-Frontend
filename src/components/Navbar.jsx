@@ -35,7 +35,13 @@ import {
 } from "lucide-react";
 
 const Navbar = () => {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('darkMode');
+      return saved ? JSON.parse(saved) : false; // Default to false (light mode)
+    }
+    return false; // Server-side: always light mode
+  });
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -57,9 +63,19 @@ const Navbar = () => {
     localStorage.setItem('currentRole', currentRole);
   }, [currentRole]);
 
+  useEffect(() => {
+    // Apply dark mode class based on state
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    // Save preference
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle('dark');
+    setDarkMode(prev => !prev);
   };
 
   const notifications = [
