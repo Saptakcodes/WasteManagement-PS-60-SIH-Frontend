@@ -38,7 +38,8 @@ import {
   Send,
   Bot,
   Users,
-  Bell
+  Bell,
+  Zap
 } from 'lucide-react';
 
 const WorkerHelpdesk = () => {
@@ -226,18 +227,18 @@ const WorkerHelpdesk = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+    <div className="min-h-screen bg-gray-50 p-4 md:p-6 text-gray-800">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-bold">Worker Helpdesk</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Worker Helpdesk</h1>
           <div className="flex items-center space-x-4">
-            <div className="flex items-center bg-white p-2 rounded-lg shadow-sm">
-              <Languages className="h-5 w-5 text-gray-500 mr-2" />
+            <div className="flex items-center bg-white p-2 rounded-lg shadow-sm border border-gray-200">
+              <Languages className="h-5 w-5 text-gray-600 mr-2" />
               <select 
                 value={language} 
                 onChange={(e) => setLanguage(e.target.value)}
-                className="bg-transparent outline-none"
+                className="bg-transparent outline-none text-gray-800"
               >
                 <option value="en">English</option>
                 <option value="hi">Hindi</option>
@@ -246,7 +247,7 @@ const WorkerHelpdesk = () => {
                 <option value="bn">Bengali</option>
               </select>
             </div>
-            <Bell className="h-6 w-6 cursor-pointer" />
+            <Bell className="h-6 w-6 cursor-pointer text-gray-700" />
             <User className="h-8 w-8 rounded-full bg-blue-500 p-1 text-white cursor-pointer" />
           </div>
         </div>
@@ -276,7 +277,7 @@ const WorkerHelpdesk = () => {
         </motion.div>
 
         {/* Navigation Tabs */}
-        <div className="flex mb-6 rounded-lg p-1 bg-white shadow-md overflow-x-auto">
+        <div className="flex mb-6 rounded-lg p-1 bg-white shadow-md border border-gray-200 overflow-x-auto">
           {['dashboard', 'raise-ticket', 'role-change', 'complaints', 'support', 'knowledge', 'forum'].map((tab) => (
             <button
               key={tab}
@@ -284,7 +285,7 @@ const WorkerHelpdesk = () => {
               className={`flex-none py-2 px-4 rounded-md text-center font-medium capitalize transition-colors whitespace-nowrap ${
                 activeTab === tab 
                   ? 'bg-blue-600 text-white' 
-                  : 'text-gray-600 hover:bg-gray-100'
+                  : 'text-gray-700 hover:bg-gray-100'
               }`}
             >
               {tab.replace('-', ' ')}
@@ -307,11 +308,11 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <Zap className="h-6 w-6 mr-2 text-blue-600" />
-                  <h2 className="text-lg font-semibold">Quick Actions</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Quick Actions</h2>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-3">
@@ -322,10 +323,10 @@ const WorkerHelpdesk = () => {
                         key={action.id}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className={`p-3 rounded-lg flex flex-col items-center justify-center ${
-                          action.color === 'blue' ? 'bg-blue-100 text-blue-700' :
-                          action.color === 'red' ? 'bg-red-100 text-red-700' :
-                          'bg-green-100 text-green-700'
+                        className={`p-3 rounded-lg flex flex-col items-center justify-center border ${
+                          action.color === 'blue' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                          action.color === 'red' ? 'bg-red-100 text-red-700 border-red-200' :
+                          'bg-green-100 text-green-700 border-green-200'
                         }`}
                       >
                         <Icon className="h-6 w-6 mb-1" />
@@ -342,25 +343,25 @@ const WorkerHelpdesk = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.1 }}
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <FileText className="h-6 w-6 mr-2 text-purple-600" />
-                  <h2 className="text-lg font-semibold">Ticket Overview</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Ticket Overview</h2>
                 </div>
                 
                 <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div className="bg-blue-50 p-3 rounded-lg text-center">
+                  <div className="bg-blue-50 p-3 rounded-lg text-center border border-blue-200">
                     <div className="text-2xl font-bold text-blue-700">{helpdeskData.tickets.pending}</div>
-                    <div className="text-sm">Pending</div>
+                    <div className="text-sm text-gray-700">Pending</div>
                   </div>
-                  <div className="bg-green-50 p-3 rounded-lg text-center">
+                  <div className="bg-green-50 p-3 rounded-lg text-center border border-green-200">
                     <div className="text-2xl font-bold text-green-700">{helpdeskData.tickets.resolved}</div>
-                    <div className="text-sm">Resolved</div>
+                    <div className="text-sm text-gray-700">Resolved</div>
                   </div>
-                  <div className="bg-red-50 p-3 rounded-lg text-center">
+                  <div className="bg-red-50 p-3 rounded-lg text-center border border-red-200">
                     <div className="text-2xl font-bold text-red-700">{helpdeskData.tickets.escalated}</div>
-                    <div className="text-sm">Escalated</div>
+                    <div className="text-sm text-gray-700">Escalated</div>
                   </div>
                 </div>
                 
@@ -370,7 +371,7 @@ const WorkerHelpdesk = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setActiveTab('raise-ticket')}
-                    className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm"
+                    className="py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium border border-blue-700"
                   >
                     Raise New Ticket
                   </motion.button>
@@ -383,12 +384,12 @@ const WorkerHelpdesk = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.2 }}
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <Clock className="h-6 w-6 mr-2 text-orange-600" />
-                    <h2 className="text-lg font-semibold">Recent Tickets</h2>
+                    <h2 className="text-lg font-semibold text-gray-800">Recent Tickets</h2>
                   </div>
                   <button 
                     onClick={() => toggleSection('tickets')}
@@ -409,11 +410,11 @@ const WorkerHelpdesk = () => {
                       className="p-3 rounded-md bg-gray-50 border border-gray-200"
                     >
                       <div className="flex justify-between items-start mb-1">
-                        <span className="font-medium">{ticket.title}</span>
+                        <span className="font-medium text-gray-800">{ticket.title}</span>
                         <span className={`px-2 py-1 rounded text-xs ${
-                          ticket.status === 'Resolved' ? 'bg-green-100 text-green-800' :
-                          ticket.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-blue-100 text-blue-800'
+                          ticket.status === 'Resolved' ? 'bg-green-100 text-green-800 border border-green-200' :
+                          ticket.status === 'In Progress' ? 'bg-yellow-100 text-yellow-800 border border-yellow-200' :
+                          'bg-blue-100 text-blue-800 border border-blue-200'
                         }`}>
                           {ticket.status}
                         </span>
@@ -433,19 +434,19 @@ const WorkerHelpdesk = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.3 }}
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <BarChart3 className="h-6 w-6 mr-2 text-green-600" />
-                  <h2 className="text-lg font-semibold">Weekly Resolution Summary</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Weekly Resolution Summary</h2>
                 </div>
                 
                 <div className="mb-4">
-                  <div className="flex justify-between mb-2">
+                  <div className="flex justify-between mb-2 text-gray-700">
                     <span>Issues Resolved:</span>
                     <span className="font-semibold">15/18</span>
                   </div>
-                  <div className="w-full h-3 rounded-full bg-gray-200">
+                  <div className="w-full h-3 rounded-full bg-gray-200 border border-gray-300">
                     <div 
                       className="h-full rounded-full bg-green-500" 
                       style={{ width: '83%' }}
@@ -454,11 +455,11 @@ const WorkerHelpdesk = () => {
                 </div>
                 
                 <div className="mb-4">
-                  <div className="flex justify-between mb-2">
+                  <div className="flex justify-between mb-2 text-gray-700">
                     <span>Average Response Time:</span>
                     <span className="font-semibold">22 hours</span>
                   </div>
-                  <div className="w-full h-3 rounded-full bg-gray-200">
+                  <div className="w-full h-3 rounded-full bg-gray-200 border border-gray-300">
                     <div 
                       className="h-full rounded-full bg-blue-500" 
                       style={{ width: '92%' }}
@@ -485,34 +486,34 @@ const WorkerHelpdesk = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.4 }}
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <Award className="h-6 w-6 mr-2 text-yellow-600" />
-                  <h2 className="text-lg font-semibold">Rewards & Recognition</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Rewards & Recognition</h2>
                 </div>
                 
                 <div className="flex items-center justify-center mb-4">
                   <div className="text-3xl font-bold text-yellow-600">
                     3
                   </div>
-                  <div className="ml-2">Safety Points Earned</div>
+                  <div className="ml-2 text-gray-700">Safety Points Earned</div>
                 </div>
                 
                 <div className="mb-4">
-                  <h3 className="font-medium mb-2">Your Badges:</h3>
+                  <h3 className="font-medium mb-2 text-gray-800">Your Badges:</h3>
                   <div className="grid grid-cols-3 gap-2">
-                    <div className="p-2 bg-blue-50 rounded-lg text-center">
+                    <div className="p-2 bg-blue-50 rounded-lg text-center border border-blue-200">
                       <Shield className="h-6 w-6 mx-auto text-blue-600 mb-1" />
-                      <span className="text-xs">Safety First</span>
+                      <span className="text-xs text-gray-700">Safety First</span>
                     </div>
-                    <div className="p-2 bg-green-50 rounded-lg text-center">
+                    <div className="p-2 bg-green-50 rounded-lg text-center border border-green-200">
                       <TrendingUp className="h-6 w-6 mx-auto text-green-600 mb-1" />
-                      <span className="text-xs">Efficiency Star</span>
+                      <span className="text-xs text-gray-700">Efficiency Star</span>
                     </div>
-                    <div className="p-2 bg-purple-50 rounded-lg text-center">
+                    <div className="p-2 bg-purple-50 rounded-lg text-center border border-purple-200">
                       <Users className="h-6 w-6 mx-auto text-purple-600 mb-1" />
-                      <span className="text-xs">Team Player</span>
+                      <span className="text-xs text-gray-700">Team Player</span>
                     </div>
                   </div>
                 </div>
@@ -520,7 +521,7 @@ const WorkerHelpdesk = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium"
+                  className="w-full py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg font-medium border border-yellow-600"
                 >
                   View All Rewards
                 </motion.button>
@@ -532,11 +533,11 @@ const WorkerHelpdesk = () => {
                 initial="hidden"
                 animate="visible"
                 transition={{ delay: 0.5 }}
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <Users className="h-6 w-6 mr-2 text-indigo-600" />
-                  <h2 className="text-lg font-semibold">Peer Support Forum</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Peer Support Forum</h2>
                 </div>
                 
                 <div className="space-y-3 mb-4">
@@ -550,7 +551,7 @@ const WorkerHelpdesk = () => {
                     >
                       <div className="flex items-start mb-1">
                         {topic.anonymous && <EyeOff className="h-4 w-4 mr-1 text-gray-500" />}
-                        <span className="font-medium">{topic.title}</span>
+                        <span className="font-medium text-gray-800">{topic.title}</span>
                       </div>
                       <div className="flex justify-between text-sm text-gray-600">
                         <span>{topic.replies} replies</span>
@@ -564,7 +565,7 @@ const WorkerHelpdesk = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setActiveTab('forum')}
-                  className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium"
+                  className="w-full py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-lg font-medium border border-indigo-600"
                 >
                   Join Discussion
                 </motion.button>
@@ -585,16 +586,16 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <FileText className="h-6 w-6 mr-2 text-blue-600" />
-                  <h2 className="text-lg font-semibold">Raise a New Ticket</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Raise a New Ticket</h2>
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium mb-2">Category</label>
+                    <label className="block text-sm font-medium mb-2 text-gray-700">Category</label>
                     <select 
                       value={selectedCategory}
                       onChange={(e) => {
@@ -602,7 +603,7 @@ const WorkerHelpdesk = () => {
                         setTicketDetails({...ticketDetails, category: e.target.value});
                         setShowAnonymousOption(e.target.value === 'Harassment');
                       }}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     >
                       <option value="">Select a category</option>
                       {helpdeskData.categories.map((category) => (
@@ -612,11 +613,11 @@ const WorkerHelpdesk = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium mb-2">Priority</label>
+                    <label className="block text-sm font-medium mb-2 text-gray-700">Priority</label>
                     <select 
                       value={ticketDetails.priority}
                       onChange={(e) => setTicketDetails({...ticketDetails, priority: e.target.value})}
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     >
                       <option value="low">Low</option>
                       <option value="medium">Medium</option>
@@ -625,30 +626,30 @@ const WorkerHelpdesk = () => {
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Title</label>
+                    <label className="block text-sm font-medium mb-2 text-gray-700">Title</label>
                     <input 
                       type="text" 
                       value={ticketDetails.title}
                       onChange={(e) => setTicketDetails({...ticketDetails, title: e.target.value})}
                       placeholder="Brief description of your issue"
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     />
                   </div>
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Description</label>
+                    <label className="block text-sm font-medium mb-2 text-gray-700">Description</label>
                     <textarea 
                       value={ticketDetails.description}
                       onChange={(e) => setTicketDetails({...ticketDetails, description: e.target.value})}
                       rows={4}
                       placeholder="Please provide detailed information about your issue or request..."
-                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     />
                   </div>
                   
                   {showAnonymousOption && (
                     <div className="md:col-span-2">
-                      <label className="flex items-center">
+                      <label className="flex items-center text-gray-700">
                         <input 
                           type="checkbox" 
                           checked={isAnonymous}
@@ -662,20 +663,20 @@ const WorkerHelpdesk = () => {
                   )}
                   
                   <div className="md:col-span-2">
-                    <label className="block text-sm font-medium mb-2">Evidence (Optional)</label>
+                    <label className="block text-sm font-medium mb-2 text-gray-700">Evidence (Optional)</label>
                     <div className="flex space-x-2">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => setShowEvidenceOptions(!showEvidenceOptions)}
-                        className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg"
+                        className="flex items-center px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg border border-gray-300 text-gray-700"
                       >
                         <Upload className="h-5 w-5 mr-2" />
                         Add Evidence
                       </motion.button>
                       
                       {ticketDetails.evidenceType && (
-                        <div className="flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg">
+                        <div className="flex items-center px-4 py-2 bg-blue-100 text-blue-700 rounded-lg border border-blue-200">
                           {ticketDetails.evidenceType === 'photo' && <Image className="h-5 w-5 mr-2" />}
                           {ticketDetails.evidenceType === 'video' && <Video className="h-5 w-5 mr-2" />}
                           {ticketDetails.evidenceType === 'audio' && <Mic className="h-5 w-5 mr-2" />}
@@ -690,14 +691,14 @@ const WorkerHelpdesk = () => {
                           initial={{ opacity: 0, height: 0 }}
                           animate={{ opacity: 1, height: 'auto' }}
                           exit={{ opacity: 0, height: 0 }}
-                          className="mt-2 p-3 bg-gray-50 rounded-lg"
+                          className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200"
                         >
                           <div className="flex space-x-2">
                             <motion.button
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => handleEvidenceUpload('photo')}
-                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg"
+                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700"
                             >
                               <Image className="h-5 w-5 mr-2" />
                               Photo
@@ -706,7 +707,7 @@ const WorkerHelpdesk = () => {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => handleEvidenceUpload('video')}
-                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg"
+                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700"
                             >
                               <Video className="h-5 w-5 mr-2" />
                               Video
@@ -715,7 +716,7 @@ const WorkerHelpdesk = () => {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => handleEvidenceUpload('audio')}
-                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg"
+                              className="flex items-center px-3 py-2 bg-white border border-gray-300 rounded-lg text-gray-700"
                             >
                               <Mic className="h-5 w-5 mr-2" />
                               Audio
@@ -732,7 +733,7 @@ const WorkerHelpdesk = () => {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={handleSubmitTicket}
-                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium"
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium border border-blue-700"
                   >
                     Submit Ticket
                   </motion.button>
@@ -754,11 +755,11 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <TrendingUp className="h-6 w-6 mr-2 text-green-600" />
-                  <h2 className="text-lg font-semibold">Role Change & Requests</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Role Change & Requests</h2>
                 </div>
                 
                 <p className="text-gray-600 mb-6">Request changes to your role, working conditions, or apply for promotions and training opportunities.</p>
@@ -770,11 +771,11 @@ const WorkerHelpdesk = () => {
                       <motion.div
                         key={option.id}
                         whileHover={{ y: -5 }}
-                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer"
+                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer bg-white"
                       >
                         <div className="flex items-center mb-3">
                           <Icon className="h-6 w-6 mr-2 text-blue-600" />
-                          <h3 className="font-medium">{option.title}</h3>
+                          <h3 className="font-medium text-gray-800">{option.title}</h3>
                         </div>
                         <ul className="text-sm text-gray-600">
                           {option.options.map((opt, idx) => (
@@ -805,14 +806,14 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <MessageSquare className="h-6 w-6 mr-2 text-green-600" />
-                  <h2 className="text-lg font-semibold">Chat Support</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Chat Support</h2>
                 </div>
                 
-                <div className="bg-gray-100 rounded-lg p-4 h-80 overflow-y-auto mb-4">
+                <div className="bg-gray-100 rounded-lg p-4 h-80 overflow-y-auto mb-4 border border-gray-300">
                   {chatMessages.map((msg) => (
                     <div
                       key={msg.id}
@@ -821,7 +822,7 @@ const WorkerHelpdesk = () => {
                       <div className={`max-w-xs md:max-w-md p-3 rounded-lg ${
                         msg.sender === 'user' 
                           ? 'bg-blue-500 text-white' 
-                          : 'bg-white border border-gray-200'
+                          : 'bg-white border border-gray-200 text-gray-800'
                       }`}>
                         <div className="flex items-center mb-1">
                           {msg.sender === 'bot' && <Bot className="h-4 w-4 mr-2 text-green-600" />}
@@ -842,23 +843,23 @@ const WorkerHelpdesk = () => {
                     onChange={(e) => setChatMessage(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
                     placeholder="Type your message here..."
-                    className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="flex-1 p-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                   />
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={sendChatMessage}
-                    className="px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-r-lg"
+                    className="px-4 bg-blue-600 hover:bg-blue-700 text-white rounded-r-lg border border-blue-700"
                   >
                     <Send className="h-5 w-5" />
-                                          </motion.button>
+                  </motion.button>
                 </div>
                 
                 <div className="mt-4 flex flex-wrap gap-2">
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm"
+                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 border border-gray-300"
                   >
                     <Volume2 className="h-4 w-4 mr-1" />
                     Voice Message
@@ -866,7 +867,7 @@ const WorkerHelpdesk = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm"
+                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 border border-gray-300"
                   >
                     <Video className="h-4 w-4 mr-1" />
                     Video Call
@@ -874,7 +875,7 @@ const WorkerHelpdesk = () => {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm"
+                    className="flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm text-gray-700 border border-gray-300"
                   >
                     <Phone className="h-4 w-4 mr-1" />
                     Call Support
@@ -897,11 +898,11 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center mb-4">
                   <BookOpen className="h-6 w-6 mr-2 text-purple-600" />
-                  <h2 className="text-lg font-semibold">Knowledge Base</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Knowledge Base</h2>
                 </div>
                 
                 <div className="flex mb-6">
@@ -910,25 +911,25 @@ const WorkerHelpdesk = () => {
                     <input
                       type="text"
                       placeholder="Search articles, guides, and FAQs..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     />
                   </div>
-                  <button className="ml-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center">
+                  <button className="ml-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center text-gray-700 border border-gray-300">
                     <Filter className="h-4 w-4 mr-1" />
                     Filter
                   </button>
                 </div>
                 
                 <div className="mb-6">
-                  <h3 className="font-medium mb-3">Categories</h3>
+                  <h3 className="font-medium mb-3 text-gray-800">Categories</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {helpdeskData.knowledgeBase.categories.map((category) => (
                       <motion.div
                         key={category.id}
                         whileHover={{ y: -5 }}
-                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer"
+                        className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer bg-white"
                       >
-                        <h4 className="font-medium mb-2">{category.title}</h4>
+                        <h4 className="font-medium mb-2 text-gray-800">{category.title}</h4>
                         <ul className="text-sm text-gray-600">
                           {category.articles.slice(0, 3).map((article) => (
                             <li key={article.id} className="mb-1 flex items-center">
@@ -947,7 +948,7 @@ const WorkerHelpdesk = () => {
                 
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-medium">Video Tutorials</h3>
+                    <h3 className="font-medium text-gray-800">Video Tutorials</h3>
                     <button className="text-sm text-blue-600 font-medium">
                       View all →
                     </button>
@@ -957,7 +958,7 @@ const WorkerHelpdesk = () => {
                       <motion.div
                         key={video.id}
                         whileHover={{ y: -5 }}
-                        className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md"
+                        className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md bg-white"
                       >
                         <div className="h-32 bg-gray-200 relative">
                           <div className="absolute inset-0 flex items-center justify-center">
@@ -970,7 +971,7 @@ const WorkerHelpdesk = () => {
                           </div>
                         </div>
                         <div className="p-3">
-                          <h4 className="font-medium text-sm mb-1">{video.title}</h4>
+                          <h4 className="font-medium text-sm mb-1 text-gray-800">{video.title}</h4>
                           <div className="flex justify-between text-xs text-gray-600">
                             <span>{video.views} views</span>
                             <button className="text-blue-600">Watch</button>
@@ -997,17 +998,17 @@ const WorkerHelpdesk = () => {
                 variants={cardVariants}
                 initial="hidden"
                 animate="visible"
-                className="rounded-xl p-5 shadow-lg bg-white"
+                className="rounded-xl p-5 shadow-lg bg-white border border-gray-200"
               >
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center">
                     <Users className="h-6 w-6 mr-2 text-indigo-600" />
-                    <h2 className="text-lg font-semibold">Peer Support Forum</h2>
+                    <h2 className="text-lg font-semibold text-gray-800">Peer Support Forum</h2>
                   </div>
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm"
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-sm border border-indigo-700"
                   >
                     New Topic
                   </motion.button>
@@ -1019,7 +1020,7 @@ const WorkerHelpdesk = () => {
                     <input
                       type="text"
                       placeholder="Search forum topics..."
-                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-800"
                     />
                   </div>
                 </div>
@@ -1029,7 +1030,7 @@ const WorkerHelpdesk = () => {
                     <motion.div
                       key={topic.id}
                       whileHover={{ y: -2 }}
-                      className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer"
+                      className="p-4 border border-gray-200 rounded-lg hover:shadow-md cursor-pointer bg-white"
                     >
                       <div className="flex items-start">
                         {topic.anonymous && (
@@ -1038,7 +1039,7 @@ const WorkerHelpdesk = () => {
                           </div>
                         )}
                         <div className="flex-1">
-                          <h3 className="font-medium mb-1">{topic.title}</h3>
+                          <h3 className="font-medium mb-1 text-gray-800">{topic.title}</h3>
                           <div className="flex items-center text-sm text-gray-600">
                             <span className="mr-3">{topic.replies} replies</span>
                             <span>{topic.views} views</span>
@@ -1055,7 +1056,7 @@ const WorkerHelpdesk = () => {
                 </div>
                 
                 <div className="mt-6 flex justify-center">
-                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 text-sm">
+                  <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-100 text-sm text-gray-700">
                     Load More Topics
                   </button>
                 </div>
@@ -1067,12 +1068,5 @@ const WorkerHelpdesk = () => {
     </div>
   );
 };
-
-// Add the missing Zap icon component
-const Zap = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-  </svg>
-);
 
 export default WorkerHelpdesk;

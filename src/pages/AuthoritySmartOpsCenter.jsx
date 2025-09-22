@@ -789,90 +789,92 @@ const SmartOpsCenter = () => {
         {/* Dashboard Overview */}
         {activeTab === 'dashboard' && (
           <div className="space-y-6">
-            {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
-              >
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-blue-100 mr-4">
-                    <Users className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">125,430</h2>
-                    <p className="text-sm text-gray-600">Total Citizens</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center text-sm">
-                  <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
-                  <span className="text-green-500">+2.3% from last month</span>
-                </div>
-              </motion.div>
-                            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
-              >
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-green-100 mr-4">
-                    <CheckCircle className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">78%</h2>
-                    <p className="text-sm text-gray-600">Compliance Rate</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center text-sm">
-                  <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
-                  <span className="text-green-500">+5.2% from last month</span>
-                </div>
-              </motion.div>
+{/* KPI Cards */}
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
+  >
+    <div className="flex items-center">
+      <div className="rounded-full p-3 bg-blue-100 mr-4">
+        <Users className="h-6 w-6 text-blue-600" />
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">125,430</h2>
+        <p className="text-sm text-gray-600">Total Citizens</p>
+      </div>
+    </div>
+    <div className="mt-3 flex items-center text-sm">
+      <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+      <span className="text-green-500">+2.3% from last month</span>
+    </div>
+  </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
-              >
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-red-100 mr-4">
-                    <AlertCircle className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">42</h2>
-                    <p className="text-sm text-gray-600">Active Complaints</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center text-sm">
-                  <TrendingUp className="h-4 w-4 text-red-500 mr-1" />
-                  <span className="text-red-500">+8 from yesterday</span>
-                </div>
-              </motion.div>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.1 }}
+    className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
+  >
+    <div className="flex items-center">
+      <div className="rounded-full p-3 bg-green-100 mr-4">
+        <CheckCircle className="h-6 w-6 text-green-600" />
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">78%</h2>
+        <p className="text-sm text-gray-600">Compliance Rate</p>
+      </div>
+    </div>
+    <div className="mt-3 flex items-center text-sm">
+      <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+      <span className="text-green-500">+5.2% from last month</span>
+    </div>
+  </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
-              >
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-purple-100 mr-4">
-                    <Zap className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">92%</h2>
-                    <p className="text-sm text-gray-600">SLA Adherence</p>
-                  </div>
-                </div>
-                <div className="mt-3 flex items-center text-sm">
-                  <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
-                  <span className="text-green-500">+3.1% from last week</span>
-                </div>
-              </motion.div>
-            </div>
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.2 }}
+    className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
+  >
+    <div className="flex items-center">
+      <div className="rounded-full p-3 bg-red-100 mr-4">
+        <AlertCircle className="h-6 w-6 text-red-600" />
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">42</h2>
+        <p className="text-sm text-gray-600">Active Complaints</p>
+      </div>
+    </div>
+    <div className="mt-3 flex items-center text-sm">
+      <TrendingUp className="h-4 w-4 text-red-500 mr-1" />
+      <span className="text-red-500">+8 from yesterday</span>
+    </div>
+  </motion.div>
+
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ delay: 0.3 }}
+    className="bg-white rounded-xl p-5 shadow-sm border border-gray-200"
+  >
+    <div className="flex items-center">
+      <div className="rounded-full p-3 bg-purple-100 mr-4">
+        <Zap className="h-6 w-6 text-purple-600" />
+      </div>
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">92%</h2>
+        <p className="text-sm text-gray-600">SLA Adherence</p>
+      </div>
+    </div>
+    <div className="mt-3 flex items-center text-sm">
+      <TrendingUp className="h-4 w-4 text-green-500 mr-1" />
+      <span className="text-green-500">+3.1% from last week</span>
+    </div>
+  </motion.div>
+</div>
+
 
             {/* Charts Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -1262,52 +1264,63 @@ const SmartOpsCenter = () => {
             </div>
 
             {/* Complaint Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-gray-100 mr-4">
-                    <MessageSquare className="h-6 w-6 text-gray-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{complaintsData.complaints.length}</h2>
-                    <p className="text-sm text-gray-600">Total Complaints</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-yellow-100 mr-4">
-                    <Clock className="h-6 w-6 text-yellow-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{complaintsData.complaints.filter(c => c.status === 'Pending').length}</h2>
-                    <p className="text-sm text-gray-600">Pending</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-blue-100 mr-4">
-                    <RefreshCw className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{complaintsData.complaints.filter(c => c.status === 'In Progress').length}</h2>
-                    <p className="text-sm text-gray-600">In Progress</p>
-                  </div>
-                </div>
-              </div>
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-green-100 mr-4">
-                    <CheckCircle className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{complaintsData.complaints.filter(c => c.status === 'Resolved').length}</h2>
-                    <p className="text-sm text-gray-600">Resolved</p>
-                  </div>
-                </div>
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+          <div className="flex items-center">
+            <div className="rounded-full p-3 bg-gray-100 mr-4">
+              <MessageSquare className="h-6 w-6 text-gray-600" />
             </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {complaintsData.complaints.length}
+              </h2>
+              <p className="text-sm text-gray-600">Total Complaints</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+          <div className="flex items-center">
+            <div className="rounded-full p-3 bg-yellow-100 mr-4">
+              <Clock className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {complaintsData.complaints.filter(c => c.status === 'Pending').length}
+              </h2>
+              <p className="text-sm text-gray-600">Pending</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+          <div className="flex items-center">
+            <div className="rounded-full p-3 bg-blue-100 mr-4">
+              <RefreshCw className="h-6 w-6 text-blue-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {complaintsData.complaints.filter(c => c.status === 'In Progress').length}
+              </h2>
+              <p className="text-sm text-gray-600">In Progress</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+          <div className="flex items-center">
+            <div className="rounded-full p-3 bg-green-100 mr-4">
+              <CheckCircle className="h-6 w-6 text-green-600" />
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {complaintsData.complaints.filter(c => c.status === 'Resolved').length}
+              </h2>
+              <p className="text-sm text-gray-600">Resolved</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
             {/* Complaints List */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -1835,64 +1848,71 @@ const SmartOpsCenter = () => {
               </div>
             </div>
 
-            {/* Resource Summary Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-blue-100 mr-4">
-                    <QrCode className="h-6 w-6 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{resourceData.bins.length}</h2>
-                    <p className="text-sm text-gray-600">Total Bins</p>
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <span className="text-xs font-medium text-gray-500">
-                    {resourceData.bins.filter(bin => bin.status === 'Functional').length} Functional, 
-                    {' '}{resourceData.bins.filter(bin => bin.status === 'Damaged').length} Damaged,
-                    {' '}{resourceData.bins.filter(bin => bin.status === 'Missing').length} Missing
-                  </span>
-                </div>
+                    {/* Resource Summary Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-blue-100 mr-4">
+                <QrCode className="h-6 w-6 text-blue-600" />
               </div>
-
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-green-100 mr-4">
-                    <Truck className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{resourceData.vehicles.length}</h2>
-                    <p className="text-sm text-gray-600">Total Vehicles</p>
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <span className="text-xs font-medium text-gray-500">
-                    {resourceData.vehicles.filter(vehicle => vehicle.status === 'Available').length} Available, 
-                    {' '}{resourceData.vehicles.filter(vehicle => vehicle.status === 'In Use').length} In Use,
-                    {' '}{resourceData.vehicles.filter(vehicle => vehicle.status === 'Under Maintenance').length} Maintenance
-                  </span>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-purple-100 mr-4">
-                    <Shield className="h-6 w-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{resourceData.safetyGear.length}</h2>
-                    <p className="text-sm text-gray-600">Safety Gear Types</p>
-                  </div>
-                </div>
-                <div className="mt-3">
-                  <span className="text-xs font-medium text-gray-500">
-                    {resourceData.safetyGear.filter(gear => gear.status === 'Low').length} Low Stock,
-                    {' '}{resourceData.safetyGear.filter(gear => gear.status === 'Adequate').length} Adequate
-                  </span>
-                </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {resourceData.bins.length}
+                </h2>
+                <p className="text-sm text-gray-600">Total Bins</p>
               </div>
             </div>
+            <div className="mt-3">
+              <span className="text-xs font-medium text-gray-500">
+                {resourceData.bins.filter(bin => bin.status === 'Functional').length} Functional, 
+                {' '}{resourceData.bins.filter(bin => bin.status === 'Damaged').length} Damaged,
+                {' '}{resourceData.bins.filter(bin => bin.status === 'Missing').length} Missing
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-green-100 mr-4">
+                <Truck className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {resourceData.vehicles.length}
+                </h2>
+                <p className="text-sm text-gray-600">Total Vehicles</p>
+              </div>
+            </div>
+            <div className="mt-3">
+              <span className="text-xs font-medium text-gray-500">
+                {resourceData.vehicles.filter(vehicle => vehicle.status === 'Available').length} Available, 
+                {' '}{resourceData.vehicles.filter(vehicle => vehicle.status === 'In Use').length} In Use,
+                {' '}{resourceData.vehicles.filter(vehicle => vehicle.status === 'Under Maintenance').length} Maintenance
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-purple-100 mr-4">
+                <Shield className="h-6 w-6 text-purple-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {resourceData.safetyGear.length}
+                </h2>
+                <p className="text-sm text-gray-600">Safety Gear Types</p>
+              </div>
+            </div>
+            <div className="mt-3">
+              <span className="text-xs font-medium text-gray-500">
+                {resourceData.safetyGear.filter(gear => gear.status === 'Low').length} Low Stock,
+                {' '}{resourceData.safetyGear.filter(gear => gear.status === 'Adequate').length} Adequate
+              </span>
+            </div>
+          </div>
+        </div>
+
 
             {/* Bins Management */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -2172,44 +2192,46 @@ const SmartOpsCenter = () => {
               </div>
             </div>
 
-            {/* AI Predictions Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-red-100 mr-4">
-                    <AlertTriangle className="h-6 w-6 text-red-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">{aiData.overflowPredictions.filter(p => p.risk === 'High').length}</h2>
-                    <p className="text-sm text-gray-600">High Risk Bins</p>
-                  </div>
-                </div>
+        {/* AI Predictions Overview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-red-100 mr-4">
+                <AlertTriangle className="h-6 w-6 text-red-600" />
               </div>
-
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-yellow-100 mr-4">
-                    <TrendingUp className="h-6 w-6 text-yellow-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">+9.2%</h2>
-                    <p className="text-sm text-gray-600">Avg. Waste Growth</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
-                <div className="flex items-center">
-                  <div className="rounded-full p-3 bg-green-100 mr-4">
-                    <Zap className="h-6 w-6 text-green-600" />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold">15%</h2>
-                    <p className="text-sm text-gray-600">Potential Fuel Saving</p>
-                  </div>
-                </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {aiData.overflowPredictions.filter(p => p.risk === 'High').length}
+                </h2>
+                <p className="text-sm text-gray-600">High Risk Bins</p>
               </div>
             </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-yellow-100 mr-4">
+                <TrendingUp className="h-6 w-6 text-yellow-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">+9.2%</h2>
+                <p className="text-sm text-gray-600">Avg. Waste Growth</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-5 shadow-sm border border-gray-200">
+            <div className="flex items-center">
+              <div className="rounded-full p-3 bg-green-100 mr-4">
+                <Zap className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">15%</h2>
+                <p className="text-sm text-gray-600">Potential Fuel Saving</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
             {/* Bin Overflow Predictions */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">

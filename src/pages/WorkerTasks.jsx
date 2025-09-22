@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 
 const WorkerTasks = () => {
-  // State management
+  // State management (unchanged)
   const [userRole, setUserRole] = useState('Dry Waste Collector');
   const [tasks, setTasks] = useState([]);
   const [filteredTasks, setFilteredTasks] = useState([]);
@@ -24,7 +24,7 @@ const WorkerTasks = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
 
-  // Mock data for tasks based on role
+  // Mock data (unchanged)
   const taskData = {
     'Dry Waste Collector': [
       { id: 1, type: 'Dry Waste', location: 'Sector 15 Market', priority: 'High', estimatedTime: '45 mins', status: 'Pending', notes: 'Cardboard boxes accumulation', coordinates: { lat: 28.6129, lng: 77.2295 } },
@@ -44,7 +44,7 @@ const WorkerTasks = () => {
     ]
   };
 
-  // Mock route data
+  // Mock route data (unchanged)
   const routeData = [
     { id: 1, location: 'Sector 15 Market', status: 'pending', order: 1 },
     { id: 2, location: 'Central Park Area', status: 'pending', order: 2 },
@@ -53,41 +53,37 @@ const WorkerTasks = () => {
     { id: 5, location: 'Hospital Road', status: 'pending', order: 5 }
   ];
 
-  // Mock complaints data
+  // Mock complaints data (unchanged)
   const complaintsData = [
     { id: 1, location: 'Sector 15 Market', description: 'Bin overflowing with cardboard', status: 'open', taskId: 1 },
     { id: 2, location: 'Central Park Area', description: 'Plastic bottles littered around bin', status: 'open', taskId: 2 }
   ];
 
-  // Initialize data
+  // Initialize data (unchanged)
   useEffect(() => {
-    // Simulate fetching tasks based on role
     setTasks(taskData[userRole] || []);
     setFilteredTasks(taskData[userRole] || []);
     
-    // Initialize attendance
     setAttendance({
       today: { status: 'Not Marked', hours: 0 },
       weekly: { percentage: 0, daysPresent: 0 },
       monthly: { percentage: 0, daysPresent: 0 }
     });
     
-    // Initialize rewards
     setRewards({
       points: 1250,
       badges: ['First Day', 'Safety First', '5 Day Streak', 'Efficiency Expert'],
       todayPoints: 0
     });
     
-    // Simulate online status check
     const interval = setInterval(() => {
-      setIsOnline(Math.random() > 0.1); // 90% chance of being online
+      setIsOnline(Math.random() > 0.1);
     }, 5000);
     
     return () => clearInterval(interval);
   }, [userRole]);
 
-  // Filter tasks based on selected tab
+  // Filter tasks based on selected tab (unchanged)
   useEffect(() => {
     if (selectedTab === 'All') {
       setFilteredTasks(tasks);
@@ -96,7 +92,7 @@ const WorkerTasks = () => {
     }
   }, [selectedTab, tasks]);
 
-  // Handle check-in
+  // Handle check-in (unchanged)
   const handleCheckIn = () => {
     const now = new Date();
     setCheckInTime(now);
@@ -106,12 +102,11 @@ const WorkerTasks = () => {
     }));
   };
 
-  // Handle check-out
+  // Handle check-out (unchanged)
   const handleCheckOut = () => {
     const now = new Date();
     setCheckOutTime(now);
     
-    // Calculate hours worked
     const hoursWorked = checkInTime 
       ? ((now - checkInTime) / (1000 * 60 * 60)).toFixed(1)
       : 0;
@@ -126,11 +121,10 @@ const WorkerTasks = () => {
       }
     }));
     
-    // Show shift summary
     setShowShiftSummary(true);
   };
 
-  // Update task status
+  // Update task status (unchanged)
   const updateTaskStatus = (taskId, status) => {
     const updatedTasks = tasks.map(task => 
       task.id === taskId ? { ...task, status } : task
@@ -138,7 +132,6 @@ const WorkerTasks = () => {
     
     setTasks(updatedTasks);
     
-    // Add rewards for completed tasks
     if (status === 'Completed') {
       setRewards(prev => ({
         ...prev,
@@ -148,29 +141,27 @@ const WorkerTasks = () => {
     }
   };
 
-  // Mark route stop as completed
+  // Mark route stop as completed (unchanged)
   const completeRouteStop = (stopId) => {
-    // In a real app, this would update the route progress
     console.log(`Stop ${stopId} completed`);
   };
 
-  // Resolve complaint
+  // Resolve complaint (unchanged)
   const resolveComplaint = (complaintId) => {
-    // In a real app, this would update the complaint status
     console.log(`Complaint ${complaintId} resolved`);
   };
 
-  // Toggle language
+  // Toggle language (unchanged)
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'hi' : 'en');
   };
 
-  // Toggle dropdown
+  // Toggle dropdown (unchanged)
   const toggleDropdown = (dropdown) => {
     setActiveDropdown(activeDropdown === dropdown ? null : dropdown);
   };
 
-  // Get safety tip based on role
+  // Get safety tip based on role (unchanged)
   const getSafetyTip = () => {
     switch(userRole) {
       case 'Wet Waste Collector':
@@ -182,12 +173,12 @@ const WorkerTasks = () => {
     }
   };
 
-  // Render priority badge
+  // Render priority badge - UPDATED FOR BETTER VISIBILITY
   const renderPriorityBadge = (priority) => {
     const priorityClasses = {
-      'Normal': 'bg-blue-100 text-blue-800',
-      'High': 'bg-yellow-100 text-yellow-800',
-      'Urgent': 'bg-red-100 text-red-800'
+      'Normal': 'bg-blue-100 text-blue-800 border border-blue-300',
+      'High': 'bg-yellow-100 text-yellow-800 border border-yellow-300',
+      'Urgent': 'bg-red-100 text-red-800 border border-red-300'
     };
     
     return (
@@ -197,12 +188,12 @@ const WorkerTasks = () => {
     );
   };
 
-  // Render status badge
+  // Render status badge - UPDATED FOR BETTER VISIBILITY
   const renderStatusBadge = (status) => {
     const statusClasses = {
-      'Pending': 'bg-gray-100 text-gray-800',
-      'In Progress': 'bg-blue-100 text-blue-800',
-      'Completed': 'bg-green-100 text-green-800'
+      'Pending': 'bg-gray-100 text-gray-800 border border-gray-300',
+      'In Progress': 'bg-blue-100 text-blue-800 border border-blue-300',
+      'Completed': 'bg-green-100 text-green-800 border border-green-300'
     };
     
     return (
@@ -212,14 +203,14 @@ const WorkerTasks = () => {
     );
   };
 
-  // Format time
+  // Format time (unchanged)
   const formatTime = (date) => {
     if (!date) return '--:--';
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 text-gray-800"> {/* Added text color */}
       {/* Mobile Header */}
       <header className="bg-green-600 text-white p-4 shadow-md lg:hidden">
         <div className="flex justify-between items-center">
@@ -345,7 +336,7 @@ const WorkerTasks = () => {
               </p>
             </div>
             
-            <div className="mt-4 md:mt-0 bg-green-50 p-3 rounded-lg">
+            <div className="mt-4 md:mt-0 bg-green-50 p-3 rounded-lg border border-green-200"> {/* Added border */}
               <p className="text-green-800 font-medium">Today's Motivation</p>
               <p className="text-green-600">"Your work makes our city healthier. Thank you!"</p>
             </div>
@@ -365,9 +356,9 @@ const WorkerTasks = () => {
               <div className="lg:hidden">
                 <button 
                   onClick={() => toggleDropdown('role')}
-                  className="w-full flex justify-between items-center bg-gray-100 p-3 rounded-md"
+                  className="w-full flex justify-between items-center bg-gray-100 p-3 rounded-md border border-gray-300" // Added border
                 >
-                  <span>Select Role: {userRole.replace(' Collector', '')}</span>
+                  <span className="text-gray-800">Select Role: {userRole.replace(' Collector', '')}</span> {/* Added text color */}
                   {activeDropdown === 'role' ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                 </button>
                 
@@ -377,7 +368,7 @@ const WorkerTasks = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: 'auto' }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="mt-2 bg-gray-50 rounded-md overflow-hidden"
+                      className="mt-2 bg-gray-50 rounded-md overflow-hidden border border-gray-300" // Added border
                     >
                       {['Dry Waste', 'Wet Waste', 'Hazardous Waste', 'General'].map(role => (
                         <button
@@ -386,7 +377,7 @@ const WorkerTasks = () => {
                             setUserRole(`${role} Collector`);
                             setActiveDropdown(null);
                           }}
-                          className="block w-full text-left p-3 hover:bg-gray-200"
+                          className="block w-full text-left p-3 hover:bg-gray-200 text-gray-800" // Added text color
                         >
                           {role}
                         </button>
@@ -403,8 +394,8 @@ const WorkerTasks = () => {
                     onClick={() => setUserRole(`${role} Collector`)}
                     className={`px-4 py-2 rounded-full text-sm font-medium ${
                       userRole === `${role} Collector` 
-                        ? 'bg-green-500 text-white' 
-                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                        ? 'bg-green-500 text-white border border-green-600' // Added border
+                        : 'bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300' // Added border
                     }`}
                   >
                     {role}
@@ -426,15 +417,15 @@ const WorkerTasks = () => {
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200"> {/* Added border */}
                   <p className="text-gray-600">Today's Status</p>
-                  <p className="text-lg font-medium mt-1">{attendance.today?.status}</p>
+                  <p className="text-lg font-medium mt-1 text-gray-800">{attendance.today?.status}</p> {/* Added text color */}
                   
                   <div className="mt-4 flex space-x-2">
                     {!checkInTime ? (
                       <button 
                         onClick={handleCheckIn}
-                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center text-sm"
+                        className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center text-sm border border-green-600" // Added border
                       >
                         <CheckCircle className="mr-1" size={16} />
                         Check In
@@ -442,7 +433,7 @@ const WorkerTasks = () => {
                     ) : !checkOutTime ? (
                       <button 
                         onClick={handleCheckOut}
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center text-sm"
+                        className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center text-sm border border-blue-600" // Added border
                       >
                         Check Out
                       </button>
@@ -462,7 +453,7 @@ const WorkerTasks = () => {
                   )}
                 </div>
                 
-                <div className="bg-gray-50 p-4 rounded-lg">
+                <div className="bg-gray-50 p-4 rounded-lg border border-gray-200"> {/* Added border */}
                   <p className="text-gray-600">Hours Worked Today</p>
                   <p className="text-2xl font-bold text-green-600 mt-1">
                     {attendance.today?.hours || 0} hrs
@@ -471,11 +462,11 @@ const WorkerTasks = () => {
                   <div className="mt-4 grid grid-cols-2 gap-2">
                     <div>
                       <p className="text-xs text-gray-500">Weekly Attendance</p>
-                      <p className="text-sm font-medium">{attendance.weekly?.percentage || 0}%</p>
+                      <p className="text-sm font-medium text-gray-800">{attendance.weekly?.percentage || 0}%</p> {/* Added text color */}
                     </div>
                     <div>
                       <p className="text-xs text-gray-500">Monthly Attendance</p>
-                      <p className="text-sm font-medium">{attendance.monthly?.percentage || 0}%</p>
+                      <p className="text-sm font-medium text-gray-800">{attendance.monthly?.percentage || 0}%</p> {/* Added text color */}
                     </div>
                   </div>
                 </div>
@@ -496,10 +487,10 @@ const WorkerTasks = () => {
                     <button
                       key={tab}
                       onClick={() => setSelectedTab(tab)}
-                      className={`px-3 py-1 rounded-full text-xs ${
+                      className={`px-3 py-1 rounded-full text-xs border ${
                         selectedTab === tab
-                          ? 'bg-green-500 text-white'
-                          : 'bg-gray-100 text-gray-700'
+                          ? 'bg-green-500 text-white border-green-600' // Added border
+                          : 'bg-gray-100 text-gray-700 border-gray-300' // Added border
                       }`}
                     >
                       {tab}
@@ -517,12 +508,12 @@ const WorkerTasks = () => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="border rounded-lg p-4 hover:shadow-md transition-shadow"
+                      className="border rounded-lg p-4 hover:shadow-md transition-shadow bg-white" // Added bg color
                     >
                       <div className="flex flex-col md:flex-row justify-between items-start md:items-start">
                         <div className="flex-1">
                           <div className="flex flex-wrap items-center gap-2 mb-2">
-                            <span className="font-medium">Task #{task.id}</span>
+                            <span className="font-medium text-gray-800">Task #{task.id}</span> {/* Added text color */}
                             <span className="hidden md:inline text-gray-400">•</span>
                             {renderPriorityBadge(task.priority)}
                             <span className="hidden md:inline text-gray-400">•</span>
@@ -560,7 +551,7 @@ const WorkerTasks = () => {
                           {task.status === 'Pending' && (
                             <button
                               onClick={() => updateTaskStatus(task.id, 'In Progress')}
-                              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs whitespace-nowrap"
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs whitespace-nowrap border border-blue-600" // Added border
                             >
                               Start Task
                             </button>
@@ -569,13 +560,13 @@ const WorkerTasks = () => {
                           {task.status === 'In Progress' && (
                             <button
                               onClick={() => updateTaskStatus(task.id, 'Completed')}
-                              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs whitespace-nowrap"
+                              className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs whitespace-nowrap border border-green-600" // Added border
                             >
                               Mark Completed
                             </button>
                           )}
                           
-                          <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-xs whitespace-nowrap">
+                          <button className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded text-xs whitespace-nowrap border border-gray-300"> {/* Added border */}
                             Report Issue
                           </button>
                         </div>
@@ -606,20 +597,20 @@ const WorkerTasks = () => {
               
               <div className="space-y-4">
                 {complaintsData.map(complaint => (
-                  <div key={complaint.id} className="border rounded-lg p-4">
+                  <div key={complaint.id} className="border rounded-lg p-4 bg-white"> {/* Added bg color */}
                     <div className="flex flex-col md:flex-row justify-between">
                       <div className="flex-1">
-                        <div className="font-medium">Complaint #{complaint.id}</div>
+                        <div className="font-medium text-gray-800">Complaint #{complaint.id}</div> {/* Added text color */}
                         <div className="mt-1 text-sm text-gray-600 flex items-center">
                           <MapPin size={14} className="mr-1" />
                           {complaint.location}
                         </div>
-                        <p className="mt-2 text-sm">{complaint.description}</p>
+                        <p className="mt-2 text-sm text-gray-700">{complaint.description}</p> {/* Added text color */}
                       </div>
                       
                       <button 
                         onClick={() => resolveComplaint(complaint.id)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs h-fit mt-4 md:mt-0 md:ml-4"
+                        className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs h-fit mt-4 md:mt-0 md:ml-4 border border-green-600" // Added border
                       >
                         Mark Resolved
                       </button>
@@ -650,25 +641,25 @@ const WorkerTasks = () => {
                 Today's Route
               </h3>
               
-              <div className="bg-gray-50 p-4 rounded-lg">
-                <div className="mb-4 h-40 bg-gray-200 rounded flex items-center justify-center">
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200"> {/* Added border */}
+                <div className="mb-4 h-40 bg-gray-200 rounded flex items-center justify-center border border-gray-300"> {/* Added border */}
                   <span className="text-gray-500">Map Preview</span>
                 </div>
                 
                 <div className="space-y-3">
                   {routeData.map(stop => (
                     <div key={stop.id} className="flex items-center">
-                      <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-3 ${
-                        stop.status === 'completed' ? 'bg-green-500' : 'bg-gray-300'
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center mr-3 border ${
+                        stop.status === 'completed' ? 'bg-green-500 border-green-600' : 'bg-gray-300 border-gray-400' // Added border
                       }`}>
                         <span className="text-white text-xs">{stop.order}</span>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm">{stop.location}</p>
+                        <p className="text-sm text-gray-800">{stop.location}</p> {/* Added text color */}
                       </div>
                       <button 
                         onClick={() => completeRouteStop(stop.id)}
-                        className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs"
+                        className="bg-green-500 hover:bg-green-600 text-white px-2 py-1 rounded text-xs border border-green-600" // Added border
                       >
                         Complete
                       </button>
@@ -690,11 +681,11 @@ const WorkerTasks = () => {
                 Performance Insights
               </h3>
               
-              <div className="bg-gray-50 p-4 rounded-lg">
+              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200"> {/* Added border */}
                 <div className="mb-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Today's Progress</span>
-                    <span className="font-medium">3/8 tasks</span>
+                    <span className="font-medium text-gray-800">3/8 tasks</span> {/* Added text color */}
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
                     <div 
@@ -707,7 +698,7 @@ const WorkerTasks = () => {
                 <div className="mb-4">
                   <div className="flex justify-between items-center">
                     <span className="text-gray-600">Weekly Target</span>
-                    <span className="font-medium">65%</span>
+                    <span className="font-medium text-gray-800">65%</span> {/* Added text color */}
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2.5 mt-1">
                     <div 
@@ -720,7 +711,7 @@ const WorkerTasks = () => {
                 <div className="mt-6">
                   <p className="text-gray-600 mb-2">Punctuality Score</p>
                   <div className="flex items-center">
-                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mr-3">
+                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mr-3 border border-green-200"> {/* Added border */}
                       <span className="text-green-600 font-bold text-xl">92%</span>
                     </div>
                     <p className="text-sm text-gray-600">You're on time 92% of shifts this month</p>
@@ -741,7 +732,7 @@ const WorkerTasks = () => {
                 Rewards & Recognition
               </h3>
               
-              <div className="bg-yellow-50 p-4 rounded-lg">
+              <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200"> {/* Added border */}
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <p className="text-gray-600">Today's Points</p>
@@ -759,7 +750,7 @@ const WorkerTasks = () => {
                     {rewards.badges.map(badge => (
                       <div key={badge} className="bg-white border border-yellow-300 rounded-full px-3 py-1 flex items-center">
                         <Award size={14} className="text-yellow-500 mr-1" />
-                        <span className="text-sm">{badge}</span>
+                        <span className="text-sm text-gray-800">{badge}</span> {/* Added text color */}
                       </div>
                     ))}
                   </div>
@@ -785,7 +776,7 @@ const WorkerTasks = () => {
                 Health & Safety
               </h3>
               
-              <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="bg-blue-50 p-4 rounded-lg border border-blue-200"> {/* Added border */}
                 <div className="mb-4">
                   <p className="font-medium text-blue-800">Safety Tip</p>
                   <p className="text-blue-600 mt-1">{getSafetyTip()}</p>
@@ -797,7 +788,7 @@ const WorkerTasks = () => {
                     <Phone size={16} className="text-blue-600 mr-2" />
                     <span className="text-blue-600">+91 1800-123-HELP</span>
                   </div>
-                  <button className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm w-full">
+                  <button className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm w-full border border-blue-700"> {/* Added border */}
                     Request Safety Support
                   </button>
                 </div>
@@ -805,33 +796,6 @@ const WorkerTasks = () => {
             </motion.section>
           </div>
         </div>
-
-        {/* Quick Action Buttons */}
-        {/* <motion.section 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="bg-white rounded-lg shadow-md p-4 mt-6 sticky bottom-4 z-10"
-        >
-          <div className="flex flex-wrap justify-center gap-3">
-            <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full flex items-center text-sm">
-              <Calendar className="mr-1" size={16} />
-              Mark Attendance
-            </button>
-            <button className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full flex items-center text-sm">
-              <AlertCircle className="mr-1" size={16} />
-              Report Complaint
-            </button>
-            <button className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full flex items-center text-sm">
-              <Trophy className="mr-1" size={16} />
-              View Rewards
-            </button>
-            <button className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-full flex items-center text-sm">
-              <Phone className="mr-1" size={16} />
-              Helpdesk
-            </button>
-          </div>
-        </motion.section> */}
       </div>
 
       {/* Shift Summary Modal */}
@@ -855,18 +819,18 @@ const WorkerTasks = () => {
               
               <div className="space-y-4">
                 <div className="flex justify-between">
-                  <span>Tasks Completed:</span>
-                  <span className="font-medium">3/8</span>
+                  <span className="text-gray-700">Tasks Completed:</span> {/* Added text color */}
+                  <span className="font-medium text-gray-800">3/8</span> {/* Added text color */}
                 </div>
                 
                 <div className="flex justify-between">
-                  <span>Points Earned:</span>
+                  <span className="text-gray-700">Points Earned:</span> {/* Added text color */}
                   <span className="font-medium text-yellow-600">150</span>
                 </div>
                 
                 <div className="flex justify-between">
-                  <span>Hours Worked:</span>
-                  <span className="font-medium">{attendance.today?.hours || 0} hrs</span>
+                  <span className="text-gray-700">Hours Worked:</span> {/* Added text color */}
+                  <span className="font-medium text-gray-800">{attendance.today?.hours || 0} hrs</span> {/* Added text color */}
                 </div>
                 
                 <div className="pt-4 border-t mt-4">
@@ -877,7 +841,7 @@ const WorkerTasks = () => {
                 
                 <button 
                   onClick={() => setShowShiftSummary(false)}
-                  className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md mt-4"
+                  className="w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-md mt-4 border border-green-600" // Added border
                 >
                   Done
                 </button>

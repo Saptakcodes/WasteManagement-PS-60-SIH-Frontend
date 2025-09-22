@@ -217,37 +217,59 @@ const CitizenQRPage = () => {
           initial="hidden"
           animate="visible"
           variants={fadeIn}
-          className="flex bg-white rounded-2xl shadow-lg mb-6 overflow-hidden"
+          className="flex bg-white rounded-2xl shadow-lg mb-6 overflow-x-auto sm:overflow-visible scrollbar-hide"
         >
-          <button 
-            onClick={() => setActiveTab('scan')}
-            className={`flex-1 py-4 px-6 text-center font-medium transition-all ${activeTab === 'scan' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-50'}`}
-          >
-            <QrCode className="inline-block mr-2" size={18} />
-            Scan & Dispose
-          </button>
-          <button 
-            onClick={() => setActiveTab('history')}
-            className={`flex-1 py-4 px-6 text-center font-medium transition-all ${activeTab === 'history' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-50'}`}
-          >
-            <Clock className="inline-block mr-2" size={18} />
-            History
-          </button>
-          <button 
-            onClick={() => setActiveTab('rewards')}
-            className={`flex-1 py-4 px-6 text-center font-medium transition-all ${activeTab === 'rewards' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-50'}`}
-          >
-            <Award className="inline-block mr-2" size={18} />
-            Rewards
-          </button>
-          <button 
-            onClick={() => setActiveTab('profile')}
-            className={`flex-1 py-4 px-6 text-center font-medium transition-all ${activeTab === 'profile' ? 'bg-green-600 text-white' : 'text-green-700 hover:bg-green-50'}`}
-          >
-            <User className="inline-block mr-2" size={18} />
-            Profile
-          </button>
+          <div className="flex min-w-max sm:min-w-0 w-full">
+            <button 
+              onClick={() => setActiveTab('scan')}
+              className={`flex-1 py-3 px-6 text-center font-medium transition-all whitespace-nowrap ${
+                activeTab === 'scan' 
+                  ? 'bg-green-600 text-white' 
+                  : 'text-green-700 hover:bg-green-50'
+              }`}
+            >
+              <QrCode className="inline-block mr-2" size={18} />
+              Scan & Dispose
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('history')}
+              className={`flex-1 py-3 px-6 text-center font-medium transition-all whitespace-nowrap ${
+                activeTab === 'history' 
+                  ? 'bg-green-600 text-white' 
+                  : 'text-green-700 hover:bg-green-50'
+              }`}
+            >
+              <Clock className="inline-block mr-2" size={18} />
+              History
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('rewards')}
+              className={`flex-1 py-3 px-6 text-center font-medium transition-all whitespace-nowrap ${
+                activeTab === 'rewards' 
+                  ? 'bg-green-600 text-white' 
+                  : 'text-green-700 hover:bg-green-50'
+              }`}
+            >
+              <Award className="inline-block mr-2" size={18} />
+              Rewards
+            </button>
+
+            <button 
+              onClick={() => setActiveTab('profile')}
+              className={`flex-1 py-3 px-6 text-center font-medium transition-all whitespace-nowrap ${
+                activeTab === 'profile' 
+                  ? 'bg-green-600 text-white' 
+                  : 'text-green-700 hover:bg-green-50'
+              }`}
+            >
+              <User className="inline-block mr-2" size={18} />
+              Profile
+            </button>
+          </div>
         </motion.div>
+
 
         {/* Main Content Area */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

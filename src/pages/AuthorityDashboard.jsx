@@ -391,7 +391,7 @@ const AuthorityDashboard = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-10"
+                      className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg overflow-hidden z-10 border border-gray-200"
                     >
                       <div className="p-4 border-b border-gray-200 flex justify-between items-center">
                         <h3 className="text-lg font-medium text-gray-900">Notifications</h3>
@@ -449,7 +449,7 @@ const AuthorityDashboard = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={refreshData}
-                className="flex items-center px-4 py-2 bg-white rounded-lg shadow text-sm font-medium text-gray-700 hover:bg-gray-50"
+                className="flex items-center px-4 py-2 bg-white rounded-lg shadow text-sm font-medium text-gray-700 hover:bg-gray-50 border border-gray-300"
               >
                 <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
                 Refresh Data
@@ -471,7 +471,7 @@ const AuthorityDashboard = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10"
+                      className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 border border-gray-200"
                     >
                       <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                         <User className="inline h-4 w-4 mr-2" />
@@ -498,63 +498,70 @@ const AuthorityDashboard = () => {
           </div>
           
           {/* Navigation Tabs */}
-          <div className="flex border-b border-gray-200">
-            <button
-              className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center ${
-                activeTab === 'overview'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-              onClick={() => setActiveTab('overview')}
-            >
-              <Home className="h-4 w-4 mr-2" />
-              Overview
-            </button>
-            <button
-              className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center ${
-                activeTab === 'workers'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-              onClick={() => setActiveTab('workers')}
-            >
-              <UserCog className="h-4 w-4 mr-2" />
-              Workers
-            </button>
-            <button
-              className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center ${
-                activeTab === 'bins'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-              onClick={() => setActiveTab('bins')}
-            >
-              <Trash className="h-4 w-4 mr-2" />
-              Bins & Collection
-            </button>
-            <button
-              className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center ${
-                activeTab === 'complaints'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-              onClick={() => setActiveTab('complaints')}
-            >
-              <MessageSquare className="h-4 w-4 mr-2" />
-              Complaints
-            </button>
-            <button
-              className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center ${
-                activeTab === 'analytics'
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              }`}
-              onClick={() => setActiveTab('analytics')}
-            >
-              <PieChartIcon className="h-4 w-4 mr-2" />
-              Analytics
-            </button>
+          <div className="flex overflow-x-auto sm:overflow-visible border-b border-gray-200 scrollbar-hide">
+            <div className="flex min-w-max sm:min-w-0">
+              <button
+                className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center whitespace-nowrap ${
+                  activeTab === 'overview'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                }`}
+                onClick={() => setActiveTab('overview')}
+              >
+                <Home className="h-4 w-4 mr-2" />
+                Overview
+              </button>
+
+              <button
+                className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center whitespace-nowrap ${
+                  activeTab === 'workers'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                }`}
+                onClick={() => setActiveTab('workers')}
+              >
+                <UserCog className="h-4 w-4 mr-2" />
+                Workers
+              </button>
+
+              <button
+                className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center whitespace-nowrap ${
+                  activeTab === 'bins'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                }`}
+                onClick={() => setActiveTab('bins')}
+              >
+                <Trash className="h-4 w-4 mr-2" />
+                Bins & Collection
+              </button>
+
+              <button
+                className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center whitespace-nowrap ${
+                  activeTab === 'complaints'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                }`}
+                onClick={() => setActiveTab('complaints')}
+              >
+                <MessageSquare className="h-4 w-4 mr-2" />
+                Complaints
+              </button>
+
+              <button
+                className={`py-4 px-6 text-sm font-medium border-b-2 flex items-center whitespace-nowrap ${
+                  activeTab === 'analytics'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300'
+                }`}
+                onClick={() => setActiveTab('analytics')}
+              >
+                <PieChartIcon className="h-4 w-4 mr-2" />
+                Analytics
+              </button>
+            </div>
           </div>
+
         </div>
       </header>
 
@@ -636,7 +643,7 @@ const AuthorityDashboard = () => {
                     <Users className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold">{dashboardData.kpis.totalCitizens.toLocaleString()}</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{dashboardData.kpis.totalCitizens.toLocaleString()}</h2>
                     <p className="text-sm text-gray-600">Total Citizens</p>
                   </div>
                 </div>
@@ -658,7 +665,7 @@ const AuthorityDashboard = () => {
                     <UserCheck className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold">{dashboardData.kpis.totalWorkers}</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{dashboardData.kpis.totalWorkers}</h2>
                     <p className="text-sm text-gray-600">Total Workers</p>
                   </div>
                 </div>
@@ -679,7 +686,7 @@ const AuthorityDashboard = () => {
                     <AlertCircle className="h-6 w-6 text-red-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold">{dashboardData.kpis.complaintsRegistered}</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{dashboardData.kpis.complaintsRegistered}</h2>
                     <p className="text-sm text-gray-600">Complaints Registered</p>
                   </div>
                 </div>
@@ -700,7 +707,7 @@ const AuthorityDashboard = () => {
                     <Trash2 className="h-6 w-6 text-yellow-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold">{dashboardData.kpis.activeBins.total}</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{dashboardData.kpis.activeBins.total}</h2>
                     <p className="text-sm text-gray-600">Active Bins</p>
                   </div>
                 </div>
@@ -722,7 +729,7 @@ const AuthorityDashboard = () => {
                     <BarChart3 className="h-6 w-6 text-purple-600" />
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold">{dashboardData.kpis.wasteCollected.today} tons</h2>
+                    <h2 className="text-2xl font-bold text-gray-800">{dashboardData.kpis.wasteCollected.today} tons</h2>
                     <p className="text-sm text-gray-600">Waste Collected Today</p>
                   </div>
                 </div>
@@ -743,7 +750,7 @@ const AuthorityDashboard = () => {
                   className="bg-white rounded-xl shadow-sm border border-gray-200 h-full"
                 >
                   <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">Bin Status Overview</h2>
+                    <h2 className="text-lg font-semibold text-gray-800">Bin Status Overview</h2>
                     <div className="flex items-center space-x-2">
                       <button className="p-2 hover:bg-gray-100 rounded-lg">
                         <Download className="h-4 w-4 text-gray-600" />
@@ -785,15 +792,15 @@ const AuthorityDashboard = () => {
                     </div>
                     
                     <div className="bg-gray-50 p-4 rounded-lg">
-                      <h3 className="font-medium mb-3">Collection Priority Areas</h3>
+                      <h3 className="font-medium mb-3 text-gray-800">Collection Priority Areas</h3>
                       <div className="space-y-3">
                         {dashboardData.binLocations
                           .filter(bin => bin.status === 'overflowing')
                           .slice(0, 5)
                           .map((bin, index) => (
-                          <div key={bin.id} className="flex items-center justify-between p-3 bg-white rounded border">
+                          <div key={bin.id} className="flex items-center justify-between p-3 bg-white rounded border border-gray-200">
                             <div>
-                              <div className="font-medium">{bin.id}</div>
+                              <div className="font-medium text-gray-800">{bin.id}</div>
                               <div className="text-sm text-gray-500">{bin.area} • {bin.type}</div>
                             </div>
                             <div className="text-right">
@@ -821,7 +828,7 @@ const AuthorityDashboard = () => {
                   className="bg-white rounded-xl shadow-sm border border-gray-200 h-full"
                 >
                   <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-                    <h2 className="text-lg font-semibold">Worker Performance</h2>
+                    <h2 className="text-lg font-semibold text-gray-800">Worker Performance</h2>
                     <button 
                       onClick={() => toggleCardExpansion('workers')}
                       className="text-blue-600 text-sm flex items-center"
@@ -835,9 +842,9 @@ const AuthorityDashboard = () => {
                     <div className="h-64">
                       <ResponsiveContainer width="100%" height="100%">
                         <RadarChart cx="50%" cy="50%" outerRadius="80%" data={dashboardData.workerPerformance.slice(0, 3)}>
-                          <PolarGrid />
-                          <PolarAngleAxis dataKey="name" />
-                          <PolarRadiusAxis angle={30} domain={[0, 100]} />
+                          <PolarGrid stroke="#ddd" />
+                          <PolarAngleAxis dataKey="name" stroke="#555" />
+                          <PolarRadiusAxis angle={30} domain={[0, 100]} stroke="#555" />
                           <Radar name="Attendance" dataKey="attendance" stroke="#3B82F6" fill="#3B82F6" fillOpacity={0.6} />
                           <Radar name="Tasks Completed" dataKey="tasks" stroke="#10B981" fill="#10B981" fillOpacity={0.6} />
                           <Radar name="Complaints Resolved" dataKey="resolved" stroke="#F59E0B" fill="#F59E0B" fillOpacity={0.6} />
@@ -848,7 +855,7 @@ const AuthorityDashboard = () => {
                     </div>
                     
                     <div className="mt-4">
-                      <h3 className="font-medium mb-2">Top Performers</h3>
+                      <h3 className="font-medium mb-2 text-gray-800">Top Performers</h3>
                       <div className="space-y-3">
                         {(expandedCards.workers ? dashboardData.workerPerformance : dashboardData.workerPerformance.slice(0, 3))
                           .map((worker, index) => (
@@ -861,7 +868,7 @@ const AuthorityDashboard = () => {
                                 {index + 1}
                               </div>
                               <div>
-                                <div className="font-medium">{worker.name}</div>
+                                <div className="font-medium text-gray-800">{worker.name}</div>
                                 <div className="text-xs text-gray-500 flex items-center">
                                   <StarRating rating={worker.rating} />
                                   <span className="ml-1">{worker.rating}</span>
@@ -869,7 +876,7 @@ const AuthorityDashboard = () => {
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="font-medium">{worker.attendance}%</div>
+                              <div className="font-medium text-gray-800">{worker.attendance}%</div>
                               <div className="text-xs text-gray-500">Attendance</div>
                             </div>
                           </div>
@@ -891,7 +898,7 @@ const AuthorityDashboard = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200"
               >
                 <div className="p-5 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold">Waste Composition</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Waste Composition</h2>
                 </div>
                 
                 <div className="p-0">
@@ -928,11 +935,11 @@ const AuthorityDashboard = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200"
               >
                 <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">Collection Metrics</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Collection Metrics</h2>
                   <select 
                     value={timeRange}
                     onChange={(e) => setTimeRange(e.target.value)}
-                    className="pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                   >
                     <option value="day">Daily</option>
                     <option value="week">Weekly</option>
@@ -949,10 +956,10 @@ const AuthorityDashboard = () => {
                               dashboardData.collectionMetrics.monthly}
                         margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey={timeRange === 'day' ? 'time' : timeRange === 'week' ? 'day' : 'week'} />
-                        <YAxis yAxisId="left" />
-                        <YAxis yAxisId="right" orientation="right" />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                        <XAxis dataKey={timeRange === 'day' ? 'time' : timeRange === 'week' ? 'day' : 'week'} stroke="#555" />
+                        <YAxis yAxisId="left" stroke="#555" />
+                        <YAxis yAxisId="right" orientation="right" stroke="#555" />
                         <Tooltip />
                         <Legend />
                         <Bar yAxisId="left" dataKey={timeRange === 'month' ? 'recycling' : 'collection'} fill="#8884d8" />
@@ -971,7 +978,7 @@ const AuthorityDashboard = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200"
               >
                 <div className="p-5 border-b border-gray-200">
-                  <h2 className="text-lg font-semibold">Citizen Engagement</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Citizen Engagement</h2>
                 </div>
                 
                 <div className="p-5">
@@ -981,9 +988,9 @@ const AuthorityDashboard = () => {
                         data={dashboardData.citizenEngagement.complaintsTrend}
                         margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                       >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="day" />
-                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                        <XAxis dataKey="day" stroke="#555" />
+                        <YAxis stroke="#555" />
                         <Tooltip />
                         <Area type="monotone" dataKey="complaints" stackId="1" stroke="#EF4444" fill="#FECACA" />
                         <Area type="monotone" dataKey="resolved" stackId="1" stroke="#10B981" fill="#BBF7D0" />
@@ -1002,7 +1009,7 @@ const AuthorityDashboard = () => {
                       <select 
                         value={exportFormat}
                         onChange={(e) => setExportFormat(e.target.value)}
-                        className="mr-2 pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="mr-2 pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                       >
                         <option value="pdf">PDF</option>
                         <option value="csv">CSV</option>
@@ -1029,7 +1036,7 @@ const AuthorityDashboard = () => {
               className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6"
             >
               <div className="p-5 border-b border-gray-200">
-                <h2 className="text-lg font-semibold">Quick Actions</h2>
+                <h2 className="text-lg font-semibold text-gray-800">Quick Actions</h2>
               </div>
               
               <div className="p-5">
@@ -1083,11 +1090,11 @@ const AuthorityDashboard = () => {
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <div className="flex justify-between items-center mb-3">
-                      <h3 className="font-medium">System Status</h3>
+                      <h3 className="font-medium text-gray-800">System Status</h3>
                       <select 
                         value={systemStatusFilter}
                         onChange={(e) => setSystemStatusFilter(e.target.value)}
-                        className="pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="pl-3 pr-8 py-1 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                       >
                         <option value="all">All</option>
                         <option value="operational">Operational</option>
@@ -1098,7 +1105,7 @@ const AuthorityDashboard = () => {
                     <div className="space-y-2">
                       {filteredSystemStatus.map((item, index) => (
                         <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                          <span className="text-sm">{item.name}</span>
+                          <span className="text-sm text-gray-800">{item.name}</span>
                           <span className={`w-3 h-3 rounded-full ${
                             item.status === 'operational' ? 'bg-green-500' :
                             item.status === 'degraded' ? 'bg-yellow-500' :
@@ -1110,12 +1117,12 @@ const AuthorityDashboard = () => {
                   </div>
                   
                   <div>
-                    <h3 className="font-medium mb-3">AI Optimization Tips</h3>
+                    <h3 className="font-medium mb-3 text-gray-800">AI Optimization Tips</h3>
                     <div className="space-y-3">
                       {dashboardData.aiPredictions.optimizationSuggestions.map((suggestion, index) => (
                         <div key={index} className="p-3 bg-blue-50 rounded-lg border border-blue-100">
-                          <div className="flex justify-between items-start">
-                            <span className="text-sm font-medium">{suggestion.type}</span>
+                          <div className="flex justify-between items-start mb-2">
+                            <span className="text-sm font-medium text-gray-800">{suggestion.type}</span>
                             <span className={`text-xs px-2 py-1 rounded-full ${
                               suggestion.impact === 'High' ? 'bg-red-100 text-red-800' :
                               suggestion.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -1124,8 +1131,8 @@ const AuthorityDashboard = () => {
                               {suggestion.impact}
                             </span>
                           </div>
-                          <p className="text-xs text-gray-600 mt-1">{suggestion.description}</p>
-                          <p className="text-xs text-blue-600 mt-1">Potential saving: {suggestion.saving}</p>
+                          <p className="text-xs text-gray-600 mb-2">{suggestion.description}</p>
+                          <p className="text-xs text-blue-600">Potential saving: {suggestion.saving}</p>
                         </div>
                       ))}
                     </div>
@@ -1144,11 +1151,11 @@ const AuthorityDashboard = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200"
               >
                 <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">Recent Complaints</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Recent Complaints</h2>
                   <button 
                     onClick={() => toggleCardExpansion('complaints')}
                     className="text-blue-600 text-sm flex items-center"
-                  >
+                    >
                     {expandedCards.complaints ? 'Show Less' : 'View All'}
                     {expandedCards.complaints ? <ChevronUp className="h-4 w-4 ml-1" /> : <ChevronDown className="h-4 w-4 ml-1" />}
                   </button>
@@ -1160,7 +1167,7 @@ const AuthorityDashboard = () => {
                       .map((complaint, index) => (
                       <div key={complaint.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div>
-                          <div className="font-medium">{complaint.type}</div>
+                          <div className="font-medium text-gray-800">{complaint.type}</div>
                           <div className="text-sm text-gray-500">{complaint.location}</div>
                           <div className="text-xs text-gray-400 mt-1">Assigned to: {complaint.assignedTo}</div>
                         </div>
@@ -1224,7 +1231,7 @@ const AuthorityDashboard = () => {
                 className="bg-white rounded-xl shadow-sm border border-gray-200"
               >
                 <div className="p-5 border-b border-gray-200 flex justify-between items-center">
-                  <h2 className="text-lg font-semibold">Pending Requests</h2>
+                  <h2 className="text-lg font-semibold text-gray-800">Pending Requests</h2>
                   <button 
                     onClick={() => toggleCardExpansion('requests')}
                     className="text-blue-600 text-sm flex items-center"
@@ -1240,7 +1247,7 @@ const AuthorityDashboard = () => {
                       .map((request, index) => (
                       <div key={request.id} className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
                         <div>
-                          <div className="font-medium">{request.type}</div>
+                          <div className="font-medium text-gray-800">{request.type}</div>
                           <div className="text-sm text-gray-500">{request.applicant}</div>
                           <div className={`text-xs mt-1 ${
                             request.status === 'Pending' ? 'text-yellow-600' : 'text-blue-600'
@@ -1286,7 +1293,7 @@ const AuthorityDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h2 className="text-xl font-semibold mb-6">Worker Management</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800">Worker Management</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
                 <div className="flex items-center">
@@ -1326,7 +1333,7 @@ const AuthorityDashboard = () => {
                     <p className="text-2xl font-bold text-gray-600">{dashboardData.workerPerformance.filter(w => w.status === 'off').length}</p>
                   </div>
                 </div>
-              </div>
+                </div>
             </div>
             
             <div className="overflow-x-auto">
@@ -1390,7 +1397,7 @@ const AuthorityDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h2 className="text-xl font-semibold mb-6">Bins & Collection Management</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800">Bins & Collection Management</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-green-50 p-4 rounded-lg border border-green-200">
                 <div className="flex items-center">
@@ -1416,7 +1423,7 @@ const AuthorityDashboard = () => {
                 <div className="flex items-center">
                   <Trash2 className="h-6 w-6 text-yellow-600 mr-3" />
                   <div>
-                    <h3 className="font-medium                     text-yellow-800">Mixed Waste Bins</h3>
+                    <h3 className="font-medium text-yellow-800">Mixed Waste Bins</h3>
                     <p className="text-2xl font-bold text-yellow-600">{dashboardData.kpis.activeBins.mixed}</p>
                   </div>
                 </div>
@@ -1435,7 +1442,7 @@ const AuthorityDashboard = () => {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Bin Status Distribution</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Bin Status Distribution</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -1468,16 +1475,16 @@ const AuthorityDashboard = () => {
               </div>
               
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Collection Progress</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Collection Progress</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={dashboardData.collectionMetrics.daily}
                       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="time" />
-                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                      <XAxis dataKey="time" stroke="#555" />
+                      <YAxis stroke="#555" />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="collection" fill="#3B82F6" name="Waste Collected (kg)" />
@@ -1489,7 +1496,7 @@ const AuthorityDashboard = () => {
             </div>
             
             <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
-              <h3 className="font-medium mb-4">Bin Locations & Status</h3>
+              <h3 className="font-medium mb-4 text-gray-800">Bin Locations & Status</h3>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
@@ -1551,7 +1558,7 @@ const AuthorityDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h2 className="text-xl font-semibold mb-6">Complaint Management</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800">Complaint Management</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-red-50 p-4 rounded-lg border border-red-200">
                 <div className="flex items-center">
@@ -1602,7 +1609,7 @@ const AuthorityDashboard = () => {
             
             <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="font-medium">Recent Complaints</h3>
+                <h3 className="font-medium text-gray-800">Recent Complaints</h3>
                 <div className="flex space-x-2">
                   <button className="px-3 py-1 bg-blue-100 text-blue-800 rounded text-sm">All</button>
                   <button className="px-3 py-1 bg-gray-100 text-gray-800 rounded text-sm">Pending</button>
@@ -1666,21 +1673,21 @@ const AuthorityDashboard = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Complaint Trends</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Complaint Trends</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart
                       data={dashboardData.citizenEngagement.complaintsTrend}
                       margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="day" />
-                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                      <XAxis dataKey="day" stroke="#555" />
+                      <YAxis stroke="#555" />
                       <Tooltip />
                       <Area type="monotone" dataKey="complaints" stackId="1" stroke="#EF4444" fill="#FECACA" name="Complaints" />
                       <Area type="monotone" dataKey="resolved" stackId="1" stroke="#10B981" fill="#BBF7D0" name="Resolved" />
@@ -1690,7 +1697,7 @@ const AuthorityDashboard = () => {
               </div>
               
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Complaint Types Distribution</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Complaint Types Distribution</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
@@ -1736,7 +1743,7 @@ const AuthorityDashboard = () => {
             animate={{ opacity: 1, y: 0 }}
             className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
           >
-            <h2 className="text-xl font-semibold mb-6">Analytics & Reports</h2>
+            <h2 className="text-xl font-semibold mb-6 text-gray-800">Analytics & Reports</h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
@@ -1782,16 +1789,16 @@ const AuthorityDashboard = () => {
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Monthly Waste Collection Trends</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Monthly Waste Collection Trends</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                       data={dashboardData.collectionMetrics.monthly}
                       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="week" />
-                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                      <XAxis dataKey="week" stroke="#555" />
+                      <YAxis stroke="#555" />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="collection" fill="#3B82F6" name="Total Waste (tons)" />
@@ -1802,7 +1809,7 @@ const AuthorityDashboard = () => {
               </div>
               
               <div className="bg-white p-4 rounded-lg border border-gray-200">
-                <h3 className="font-medium mb-4">Top Performing Areas</h3>
+                <h3 className="font-medium mb-4 text-gray-800">Top Performing Areas</h3>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart
@@ -1810,9 +1817,9 @@ const AuthorityDashboard = () => {
                       layout="vertical"
                       margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                     >
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis type="number" />
-                      <YAxis type="category" dataKey="name" width={80} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="#ddd" />
+                      <XAxis type="number" stroke="#555" />
+                      <YAxis type="category" dataKey="name" width={80} stroke="#555" />
                       <Tooltip />
                       <Legend />
                       <Bar dataKey="compliance" fill="#3B82F6" name="Compliance %" />
@@ -1824,25 +1831,25 @@ const AuthorityDashboard = () => {
             </div>
             
             <div className="bg-white p-4 rounded-lg border border-gray-200 mb-6">
-              <h3 className="font-medium mb-4">Export Reports</h3>
+              <h3 className="font-medium mb-4 text-gray-800">Export Reports</h3>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="border border-gray-200 rounded-lg p-4">
                   <FileText className="h-8 w-8 text-blue-600 mb-2" />
-                  <h4 className="font-medium mb-2">Monthly Performance Report</h4>
+                  <h4 className="font-medium mb-2 text-gray-800">Monthly Performance Report</h4>
                   <p className="text-sm text-gray-600 mb-3">Detailed analysis of waste management performance</p>
                   <button className="w-full bg-blue-100 text-blue-800 py-2 rounded text-sm">Download PDF</button>
                 </div>
                 
                 <div className="border border-gray-200 rounded-lg p-4">
                   <PieChartIcon className="h-8 w-8 text-green-600 mb-2" />
-                  <h4 className="font-medium mb-2">Citizen Engagement Report</h4>
+                  <h4 className="font-medium mb-2 text-gray-800">Citizen Engagement Report</h4>
                   <p className="text-sm text-gray-600 mb-3">Participation and compliance metrics</p>
                   <button className="w-full bg-green-100 text-green-800 py-2 rounded text-sm">Download CSV</button>
                 </div>
                 
                 <div className="border border-gray-200 rounded-lg p-4">
                   <BarChart3 className="h-8 w-8 text-purple-600 mb-2" />
-                  <h4 className="font-medium mb-2">Worker Performance Report</h4>
+                  <h4 className="font-medium mb-2 text-gray-800">Worker Performance Report</h4>
                   <p className="text-sm text-gray-600 mb-3">Attendance, efficiency, and task completion</p>
                   <button className="w-full bg-purple-100 text-purple-800 py-2 rounded text-sm">Download Excel</button>
                 </div>
@@ -1850,7 +1857,7 @@ const AuthorityDashboard = () => {
             </div>
             
             <div className="bg-white p-4 rounded-lg border border-gray-200">
-              <h3 className="font-medium mb-4">AI-Powered Insights</h3>
+              <h3 className="font-medium mb-4 text-gray-800">AI-Powered Insights</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h4 className="font-medium text-blue-800 mb-3">Optimization Opportunities</h4>
@@ -1858,7 +1865,7 @@ const AuthorityDashboard = () => {
                     {dashboardData.aiPredictions.optimizationSuggestions.map((suggestion, index) => (
                       <div key={index} className="bg-white p-3 rounded border border-blue-100">
                         <div className="flex justify-between items-start mb-2">
-                          <span className="font-medium">{suggestion.type}</span>
+                          <span className="font-medium text-gray-800">{suggestion.type}</span>
                           <span className={`text-xs px-2 py-1 rounded-full ${
                             suggestion.impact === 'High' ? 'bg-red-100 text-red-800' :
                             suggestion.impact === 'Medium' ? 'bg-yellow-100 text-yellow-800' :
@@ -1878,7 +1885,7 @@ const AuthorityDashboard = () => {
                   <h4 className="font-medium text-green-800 mb-3">Performance Forecast</h4>
                   <div className="space-y-4">
                     <div className="bg-white p-3 rounded border border-green-100">
-                      <h5 className="font-medium mb-2">Next Month Projection</h5>
+                      <h5 className="font-medium mb-2 text-gray-800">Next Month Projection</h5>
                       <p className="text-sm text-gray-600">Expected 8% increase in segregation compliance</p>
                       <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
                         <div className="bg-green-500 h-2 rounded-full" style={{ width: '72%' }}></div>
@@ -1890,7 +1897,7 @@ const AuthorityDashboard = () => {
                     </div>
                     
                     <div className="bg-white p-3 rounded border border-green-100">
-                      <h5 className="font-medium mb-2">Resource Allocation</h5>
+                      <h5 className="font-medium mb-2 text-gray-800">Resource Allocation</h5>
                       <p className="text-sm text-gray-600">Recommended worker redistribution based on zone demand</p>
                       <ul className="text-xs text-gray-600 mt-2 space-y-1">
                         <li>• Increase Zone A by 2 workers</li>

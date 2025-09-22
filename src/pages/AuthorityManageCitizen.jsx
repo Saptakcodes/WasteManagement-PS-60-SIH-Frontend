@@ -957,9 +957,21 @@ const AuthorityManageCitizen = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-        Manage Citizens
-      </Typography>
+<Box sx={{ flexGrow: 1, p: 3 }}>
+  <Typography
+    variant="h4"
+    gutterBottom
+    sx={{
+      mb: 3,
+      fontSize: '1.875rem', // ~text-3xl
+      fontWeight: 'bold',
+      color: 'text.primary', // ensures visibility in light/dark mode
+    }}
+  >
+    Manage Citizens
+  </Typography>
+</Box>
+
       
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleTabChange} aria-label="manage citizens tabs">

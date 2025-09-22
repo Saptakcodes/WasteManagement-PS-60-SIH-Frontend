@@ -645,9 +645,19 @@ const AuthorityManageWorker = () => {
 
   return (
     <Box sx={{ flexGrow: 1, p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-        Worker Management Dashboard
-      </Typography>
+<Typography
+  variant="h4"
+  gutterBottom
+  sx={{
+    mb: 3,
+    fontSize: '1.875rem', // ~text-3xl
+    fontWeight: 'bold',
+    color: 'text.primary', // ensures proper contrast in light/dark mode
+  }}
+>
+  Worker Management Dashboard
+</Typography>
+
       
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={activeTab} onChange={handleTabChange} aria-label="manage workers tabs">

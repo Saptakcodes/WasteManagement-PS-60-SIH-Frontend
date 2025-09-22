@@ -157,49 +157,48 @@ const WorkerReportComplaint = () => {
   };
 
   // Handle voice input
-// Voice Recognition Setup (Web Speech API)
-const startVoiceInput = () => {
-  if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
-    alert("Sorry, your browser does not support Speech Recognition.");
-    return;
-  }
-
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = new SpeechRecognition();
-
-  recognition.lang = 'en-US'; // Set language
-  recognition.interimResults = false; // Get only final result
-  recognition.maxAlternatives = 1;
-
-  setIsRecording(true);
-
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const transcript = event.results[0][0].transcript;
-
-    // Example: auto-fill fields from voice
-    setDescription(transcript);
-
-    // Try mapping category automatically if keywords match
-    if (transcript.toLowerCase().includes("overflowing")) {
-      setSelectedCategory(complaintCategories[1]); // Overflowing bin
-      setPriority("high");
+  // Voice Recognition Setup (Web Speech API)
+  const startVoiceInput = () => {
+    if (!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)) {
+      alert("Sorry, your browser does not support Speech Recognition.");
+      return;
     }
 
-    setIsRecording(false);
-  };
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
 
-  recognition.onerror = (event) => {
-    console.error("Speech recognition error:", event.error);
-    setIsRecording(false);
-  };
+    recognition.lang = 'en-US'; // Set language
+    recognition.interimResults = false; // Get only final result
+    recognition.maxAlternatives = 1;
 
-  recognition.onend = () => {
-    setIsRecording(false);
-  };
-};
+    setIsRecording(true);
 
+    recognition.start();
+
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+
+      // Example: auto-fill fields from voice
+      setDescription(transcript);
+
+      // Try mapping category automatically if keywords match
+      if (transcript.toLowerCase().includes("overflowing")) {
+        setSelectedCategory(complaintCategories[1]); // Overflowing bin
+        setPriority("high");
+      }
+
+      setIsRecording(false);
+    };
+
+    recognition.onerror = (event) => {
+      console.error("Speech recognition error:", event.error);
+      setIsRecording(false);
+    };
+
+    recognition.onend = () => {
+      setIsRecording(false);
+    };
+  };
 
   // Submit complaint
   const handleSubmit = (e) => {
@@ -226,7 +225,7 @@ const startVoiceInput = () => {
   const totalPoints = complaintHistory.reduce((sum, complaint) => sum + complaint.points, 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 text-gray-800"> {/* Added text color */}
       {/* Header Section */}
       <header className="bg-green-600 text-white p-4 shadow-md">
         <div className="container mx-auto">
@@ -249,13 +248,13 @@ const startVoiceInput = () => {
               {content[language].tagline}
             </p>
             <div className="flex items-center space-x-2">
-              <div className="bg-green-700 px-2 py-1 rounded-full text-xs flex items-center">
+              <div className="bg-green-700 px-2 py-1 rounded-full text-xs flex items-center border border-green-800"> {/* Added border */}
                 <Star className="h-3 w-3 mr-1" fill="currentColor" />
                 {totalPoints} pts
               </div>
               <button 
                 onClick={() => setShowHistory(!showHistory)}
-                className="bg-green-700 px-2 py-1 rounded-full text-xs flex items-center"
+                className="bg-green-700 px-2 py-1 rounded-full text-xs flex items-center border border-green-800" // Added border
               >
                 <History className="h-3 w-3 mr-1" />
                 {showHistory ? 'Hide' : 'Show'} History
@@ -266,13 +265,13 @@ const startVoiceInput = () => {
       </header>
 
       {/* Language Selector */}
-      <div className="bg-white p-3 shadow-sm flex justify-center">
+      <div className="bg-white p-3 shadow-sm flex justify-center border-b border-gray-200"> {/* Added border */}
         <div className="flex space-x-2">
           {['en', 'hi', 'ta'].map(lang => (
             <button
               key={lang}
               onClick={() => setLanguage(lang)}
-              className={`px-3 py-1 rounded-full text-sm flex items-center ${language === lang ? 'bg-green-100 text-green-700 font-medium' : 'bg-gray-100 text-gray-700'}`}
+              className={`px-3 py-1 rounded-full text-sm flex items-center border ${language === lang ? 'bg-green-100 text-green-700 font-medium border-green-300' : 'bg-gray-100 text-gray-700 border-gray-300'}`} // Added border
             >
               <Globe className="h-3 w-3 mr-1" />
               {lang.toUpperCase()}
@@ -280,7 +279,7 @@ const startVoiceInput = () => {
           ))}
           <button
             onClick={() => {/* Implement text-to-speech */}}
-            className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center"
+            className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-700 flex items-center border border-blue-300" // Added border
           >
             <Volume2 className="h-3 w-3 mr-1" />
             Read
@@ -295,30 +294,30 @@ const startVoiceInput = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="bg-white shadow-md overflow-hidden"
+            className="bg-white shadow-md overflow-hidden border-b border-gray-200" // Added border
           >
             <div className="container mx-auto p-4">
-              <h2 className="font-bold text-lg mb-3 flex items-center">
+              <h2 className="font-bold text-lg mb-3 flex items-center text-gray-800"> {/* Added text color */}
                 <History className="h-5 w-5 mr-2" />
                 {content[language].history}
               </h2>
               <div className="space-y-3">
                 {complaintHistory.map(complaint => (
-                  <div key={complaint.id} className="border rounded-lg p-3">
+                  <div key={complaint.id} className="border border-gray-200 rounded-lg p-3 bg-white"> {/* Added border and bg color */}
                     <div className="flex justify-between items-center">
-                      <span className="font-mono text-sm">{complaint.id}</span>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        complaint.status === 'Resolved' ? 'bg-green-100 text-green-700' :
-                        complaint.status === 'In Review' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-gray-100 text-gray-700'
+                      <span className="font-mono text-sm text-gray-800">{complaint.id}</span> {/* Added text color */}
+                      <span className={`px-2 py-1 rounded-full text-xs border ${
+                        complaint.status === 'Resolved' ? 'bg-green-100 text-green-800 border-green-300' :
+                        complaint.status === 'In Review' ? 'bg-yellow-100 text-yellow-800 border-yellow-300' :
+                        'bg-gray-100 text-gray-800 border-gray-300'
                       }`}>
                         {complaint.status}
                       </span>
                     </div>
-                    <p className="text-sm mt-1">{complaint.category}</p>
+                    <p className="text-sm mt-1 text-gray-700">{complaint.category}</p> {/* Added text color */}
                     <div className="flex justify-between items-center mt-2">
                       <span className="text-xs text-gray-500">{complaint.date}</span>
-                      <span className="text-xs bg-amber-100 text-amber-700 px-2 py-1 rounded-full flex items-center">
+                      <span className="text-xs bg-amber-100 text-amber-800 px-2 py-1 rounded-full flex items-center border border-amber-200"> {/* Added border */}
                         <Star className="h-3 w-3 mr-1" fill="currentColor" />
                         +{complaint.points}
                       </span>
@@ -334,13 +333,13 @@ const startVoiceInput = () => {
       {/* Main Content */}
       <div className="container mx-auto p-4">
         {/* Location Information */}
-        <div className="bg-white rounded-lg shadow p-4 mb-6">
+        <div className="bg-white rounded-lg shadow p-4 mb-6 border border-gray-200"> {/* Added border */}
           <div className="flex items-center justify-between mb-2">
-            <h2 className="font-medium flex items-center">
+            <h2 className="font-medium flex items-center text-gray-800"> {/* Added text color */}
               <MapPin className="h-5 w-5 mr-2 text-green-600" />
               {content[language].location}
             </h2>
-            <button className="text-blue-600 text-sm flex items-center">
+            <button className="text-blue-600 text-sm flex items-center border border-blue-200 bg-blue-50 px-2 py-1 rounded-md"> {/* Added border and bg */}
               <Navigation className="h-4 w-4 mr-1" />
               Refresh
             </button>
@@ -353,8 +352,8 @@ const startVoiceInput = () => {
         </div>
 
         {/* Complaint Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4 mb-6">
-          <h2 className="font-bold text-lg mb-4 flex items-center">
+        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow p-4 mb-6 border border-gray-200"> {/* Added border */}
+          <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800"> {/* Added text color */}
             <AlertTriangle className="h-5 w-5 mr-2 text-amber-500" />
             {content[language].selectCategory}
           </h2>
@@ -367,10 +366,10 @@ const startVoiceInput = () => {
                 type="button"
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setSelectedCategory(category)}
-                className={`p-3 rounded-lg flex flex-col items-center justify-center ${selectedCategory?.id === category.id ? 'ring-2 ring-green-500 ' + category.color : 'bg-gray-50'}`}
+                className={`p-3 rounded-lg flex flex-col items-center justify-center border ${selectedCategory?.id === category.id ? 'ring-2 ring-green-500 border-green-300 ' + category.color : 'bg-gray-50 border-gray-200'}`} // Added border
               >
                 <span className="text-2xl mb-1">{category.icon}</span>
-                <span className="text-xs font-medium mt-1 text-center">
+                <span className="text-xs font-medium mt-1 text-center text-gray-800"> {/* Added text color */}
                   {category.name[language]}
                 </span>
               </motion.button>
@@ -391,7 +390,7 @@ const startVoiceInput = () => {
                 type="text"
                 value={customComplaint}
                 onChange={(e) => setCustomComplaint(e.target.value)}
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 placeholder="Describe your complaint..."
               />
             </motion.div>
@@ -407,13 +406,13 @@ const startVoiceInput = () => {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
-                className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 pr-10"
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 pr-10"
                 placeholder="Provide details about the issue..."
               />
                 <button
                 type="button"
                 onClick={startVoiceInput}
-                className={`absolute right-2 bottom-2 p-1 rounded-full ${isRecording ? 'bg-red-100 text-red-600 animate-pulse' : 'bg-gray-100 text-gray-600'}`}
+                className={`absolute right-2 bottom-2 p-1 rounded-full border ${isRecording ? 'bg-red-100 text-red-600 border-red-300 animate-pulse' : 'bg-gray-100 text-gray-600 border-gray-300'}`} // Added border
                 >
                 <Mic className="h-4 w-4" />
                 </button>
@@ -442,12 +441,12 @@ const startVoiceInput = () => {
                   key={level}
                   type="button"
                   onClick={() => setPriority(level)}
-                  className={`p-2 rounded-lg text-sm font-medium flex items-center justify-center ${
+                  className={`p-2 rounded-lg text-sm font-medium flex items-center justify-center border ${
                     priority === level ? 
-                    (level === 'low' ? 'bg-green-100 text-green-700 ring-2 ring-green-500' :
-                     level === 'medium' ? 'bg-yellow-100 text-yellow-700 ring-2 ring-yellow-500' :
-                     'bg-red-100 text-red-700 ring-2 ring-red-500') : 
-                    'bg-gray-100 text-gray-700'
+                    (level === 'low' ? 'bg-green-100 text-green-700 ring-2 ring-green-500 border-green-300' :
+                     level === 'medium' ? 'bg-yellow-100 text-yellow-700 ring-2 ring-yellow-500 border-yellow-300' :
+                     'bg-red-100 text-red-700 ring-2 ring-red-500 border-red-300') : 
+                    'bg-gray-100 text-gray-700 border-gray-300'
                   }`}
                 >
                   {level === 'urgent' && <Zap className="h-4 w-4 mr-1" />}
@@ -463,14 +462,14 @@ const startVoiceInput = () => {
               {content[language].evidence}
             </label>
             <div className="flex items-center justify-center w-full">
-              <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer ${evidence ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400'}`}>
+              <label className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer ${evidence ? 'border-green-500 bg-green-50' : 'border-gray-300 hover:border-gray-400 bg-white'}`}>
                 {evidence ? (
                   <div className="relative w-full h-full">
                     <img src={evidence} alt="Evidence" className="w-full h-full object-cover rounded-lg" />
                     <button 
                       type="button"
                       onClick={() => setEvidence(null)}
-                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                      className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 border border-red-600" // Added border
                     >
                       <XCircle className="h-5 w-5" />
                     </button>
@@ -497,7 +496,7 @@ const startVoiceInput = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={!selectedCategory}
-            className={`w-full py-3 px-4 rounded-lg text-white font-medium flex items-center justify-center ${!selectedCategory ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700'}`}
+            className={`w-full py-3 px-4 rounded-lg text-white font-medium flex items-center justify-center border ${!selectedCategory ? 'bg-gray-400 border-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 border-green-700'}`} // Added border
           >
             <Send className="h-5 w-5 mr-2" />
             {content[language].submit}
@@ -505,17 +504,17 @@ const startVoiceInput = () => {
         </form>
 
         {/* Motivational Section */}
-        <div className="bg-gradient-to-r from-green-400 to-blue-400 rounded-lg shadow p-4 text-white">
+        <div className="bg-gradient-to-r from-green-400 to-blue-400 rounded-lg shadow p-4 text-white border border-green-500"> {/* Added border */}
           <h3 className="font-bold text-lg mb-2">Great Work!</h3>
           <p className="text-sm">
             You've reported {complaintHistory.length} issues this month. 
             Your efforts help keep our city clean and safe!
           </p>
           <div className="flex items-center mt-3">
-            <div className="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs font-medium">
+            <div className="bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs font-medium border border-white border-opacity-30"> {/* Added border */}
               🏆 Top Reporter in your zone
             </div>
-            <div className="ml-auto bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs font-medium flex items-center">
+            <div className="ml-auto bg-white bg-opacity-20 rounded-full px-3 py-1 text-xs font-medium flex items-center border border-white border-opacity-30"> {/* Added border */}
               <Star className="h-3 w-3 mr-1" fill="currentColor" />
               {totalPoints} Points
             </div>
@@ -537,17 +536,17 @@ const startVoiceInput = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full"
+              className="bg-white rounded-lg shadow-xl p-6 max-w-sm w-full border border-gray-300" // Added border
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex justify-center mb-4">
                 <CheckCircle className="h-12 w-12 text-green-500" />
               </div>
-              <h3 className="text-lg font-bold text-center mb-2">{content[language].submitted}</h3>
+              <h3 className="text-lg font-bold text-center mb-2 text-gray-800">{content[language].submitted}</h3> {/* Added text color */}
               <p className="text-sm text-gray-600 text-center mb-4">
-                {content[language].track} <span className="font-mono font-bold">{complaintId}</span>
+                {content[language].track} <span className="font-mono font-bold text-gray-800">{complaintId}</span> {/* Added text color */}
               </p>
-              <div className="bg-green-50 p-3 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-green-50 p-3 rounded-lg flex items-center justify-center mb-4 border border-green-200"> {/* Added border */}
                 <Award className="h-5 w-5 text-green-600 mr-2" />
                 <span className="text-sm font-medium text-green-700">
                   +10 {content[language].pointsEarned}
@@ -555,7 +554,7 @@ const startVoiceInput = () => {
               </div>
               <button
                 onClick={() => setShowConfirmation(false)}
-                className="w-full py-2 bg-green-600 text-white rounded-lg font-medium"
+                className="w-full py-2 bg-green-600 text-white rounded-lg font-medium border border-green-700" // Added border
               >
                 Continue Reporting
               </button>
@@ -571,7 +570,7 @@ const startVoiceInput = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 50 }}
-            className="fixed bottom-20 left-0 right-0 bg-blue-600 text-white p-4 shadow-lg"
+            className="fixed bottom-20 left-0 right-0 bg-blue-600 text-white p-4 shadow-lg border-t border-blue-500" // Added border
           >
             <div className="container mx-auto">
               <h3 className="font-bold mb-2 flex items-center">
@@ -581,13 +580,13 @@ const startVoiceInput = () => {
               <p className="text-sm mb-3">Say something like: "Overflowing bin at Market Road"</p>
               <div className="flex justify-between">
                 <button 
-                  className="bg-white text-blue-600 px-4 py-2 rounded-full text-sm font-medium"
+                  className="bg-white text-blue-600 px-4 py-2 rounded-full text-sm font-medium border border-blue-200" // Added border
                   onClick={() => setUseVoice(false)}
                 >
                   Cancel
                 </button>
                 <button 
-                className="bg-red-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center"
+                className="bg-red-500 text-white px-4 py-2 rounded-full text-sm font-medium flex items-center border border-red-600" // Added border
                 onClick={startVoiceInput}
                 >
                 <Mic className="h-4 w-4 mr-1" />

@@ -247,18 +247,18 @@ const WorkerRewards = () => {
   // Level colors
   const getLevelColor = (level) => {
     switch (level) {
-      case 'Bronze': return 'text-amber-800 bg-amber-100';
-      case 'Silver': return 'text-gray-600 bg-gray-100';
-      case 'Gold': return 'text-yellow-600 bg-yellow-100';
-      case 'Platinum': return 'text-blue-600 bg-blue-100';
-      case 'Green Champion': return 'text-green-600 bg-green-100';
-      default: return 'text-gray-600 bg-gray-100';
+      case 'Bronze': return 'text-amber-800 bg-amber-100 border border-amber-200';
+      case 'Silver': return 'text-gray-700 bg-gray-100 border border-gray-200';
+      case 'Gold': return 'text-yellow-700 bg-yellow-100 border border-yellow-200';
+      case 'Platinum': return 'text-blue-700 bg-blue-100 border border-blue-200';
+      case 'Green Champion': return 'text-green-700 bg-green-100 border border-green-200';
+      default: return 'text-gray-700 bg-gray-100 border border-gray-200';
     }
   };
 
   // Render progress bar
   const ProgressBar = ({ progress }) => (
-    <div className="w-full bg-gray-200 rounded-full h-2.5">
+    <div className="w-full bg-gray-200 rounded-full h-2.5 border border-gray-300">
       <motion.div 
         className="bg-green-600 h-2.5 rounded-full" 
         initial={{ width: 0 }}
@@ -271,7 +271,7 @@ const WorkerRewards = () => {
   // Render reward card
   const RewardCard = ({ reward, category, canClaim }) => (
     <motion.div 
-      className={`bg-white rounded-xl shadow-md p-4 ${reward.claimed ? 'opacity-80' : ''} ${
+      className={`bg-white rounded-xl shadow-md p-4 border border-gray-200 ${reward.claimed ? 'opacity-80' : ''} ${
         reward.highlight ? 'ring-2 ring-amber-400 shadow-lg' : ''
       }`}
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
@@ -297,8 +297,8 @@ const WorkerRewards = () => {
         <motion.button
           onClick={() => handleClaimReward(category, reward.id)}
           disabled={!canClaim}
-          className={`w-full mt-2 py-2 rounded-lg text-sm font-medium flex items-center justify-center ${
-            canClaim ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white' : 'bg-gray-200 text-gray-500'
+          className={`w-full mt-2 py-2 rounded-lg text-sm font-medium flex items-center justify-center border ${
+            canClaim ? 'bg-gradient-to-r from-green-500 to-teal-500 text-white border-green-600' : 'bg-gray-200 text-gray-500 border-gray-300'
           }`}
           whileHover={canClaim ? { scale: 1.03 } : {}}
           whileTap={canClaim ? { scale: 0.98 } : {}}
@@ -319,7 +319,7 @@ const WorkerRewards = () => {
   // Render mission card
   const MissionCard = ({ mission }) => (
     <motion.div 
-      className="bg-white rounded-xl shadow-md p-4"
+      className="bg-white rounded-xl shadow-md p-4 border border-gray-200"
       whileHover={{ y: -3, transition: { duration: 0.2 } }}
     >
       <div className="flex justify-between items-start mb-2">
@@ -331,14 +331,14 @@ const WorkerRewards = () => {
       </div>
       
       <div className="mb-2">
-        <div className="flex justify-between text-xs text-gray-500 mb-1">
+        <div className="flex justify-between text-xs text-gray-600 mb-1">
           <span>{content[language].progress}: {mission.progress}/{mission.target}</span>
           <span>{mission.type === 'daily' ? `${mission.hoursLeft} ${content[language].hoursLeft}` : `${mission.daysLeft} ${content[language].daysLeft}`}</span>
         </div>
         <ProgressBar progress={(mission.progress / mission.target) * 100} />
       </div>
       
-      <button className="w-full py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium flex items-center justify-center">
+      <button className="w-full py-2 bg-blue-100 text-blue-700 rounded-lg text-sm font-medium flex items-center justify-center border border-blue-200">
         {content[language].viewDetails}
         <ChevronRight className="h-4 w-4 ml-1" />
       </button>
@@ -383,14 +383,14 @@ const WorkerRewards = () => {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0 }}
-            className="bg-white p-6 rounded-lg shadow-xl text-center z-10"
+            className="bg-white p-6 rounded-lg shadow-xl text-center z-10 border border-gray-300"
           >
             <Trophy className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-            <h3 className="font-bold text-lg mb-2">{content[language].congratulations}</h3>
+            <h3 className="font-bold text-lg mb-2 text-gray-800">{content[language].congratulations}</h3>
             <p className="text-gray-600 mb-4">{content[language].rewardUnlocked}</p>
             <button 
               onClick={() => setShowConfetti(false)}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg"
+              className="px-4 py-2 bg-green-600 text-white rounded-lg border border-green-700"
             >
               {content[language].continue}
             </button>
@@ -401,9 +401,9 @@ const WorkerRewards = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 pb-20 text-gray-800">
       {/* Header Section */}
-      <header className="bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 shadow-md">
+      <header className="bg-gradient-to-r from-green-500 to-teal-600 text-white p-4 shadow-md border-b border-teal-700">
         <div className="container mx-auto">
           <div className="flex justify-between items-center mb-4">
             <div>
@@ -420,7 +420,7 @@ const WorkerRewards = () => {
           </div>
 
           {/* Level and Progress */}
-          <div className="bg-white bg-opacity-20 rounded-lg p-3 mb-3">
+          <div className="bg-white bg-opacity-20 rounded-lg p-3 mb-3 border border-white border-opacity-30">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm">{content[language].level}</span>
               <span className="text-sm">{content[language].nextLevel}</span>
@@ -452,7 +452,7 @@ const WorkerRewards = () => {
       </header>
 
       {/* Navigation Tabs */}
-      <div className="bg-white shadow-sm sticky top-0 z-10">
+      <div className="bg-white shadow-sm sticky top-0 z-10 border-b border-gray-200">
         <div className="container mx-auto flex overflow-x-auto">
           {[
             { id: 'dashboard', icon: TrendingUp, label: content[language].dashboard },
@@ -465,10 +465,10 @@ const WorkerRewards = () => {
             <motion.button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`flex-shrink-0 px-4 py-3 flex flex-col items-center text-xs font-medium ${
+              className={`flex-shrink-0 px-4 py-3 flex flex-col items-center text-xs font-medium border-b-2 ${
                 activeTab === tab.id 
-                  ? 'text-green-600 border-b-2 border-green-600' 
-                  : 'text-gray-500'
+                  ? 'text-green-600 border-green-600' 
+                  : 'text-gray-500 border-transparent'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -488,7 +488,7 @@ const WorkerRewards = () => {
             {/* Leaderboard */}
             <section className="lg:col-span-2">
               <div className="flex justify-between items-center mb-3">
-                <h2 className="font-bold text-lg flex items-center">
+                <h2 className="font-bold text-lg flex items-center text-gray-800">
                   <Trophy className="h-5 w-5 mr-2 text-amber-500" />
                   {content[language].leaderboard}
                 </h2>
@@ -498,11 +498,11 @@ const WorkerRewards = () => {
                 </button>
               </div>
               
-              <div className="bg-white rounded-xl shadow overflow-hidden">
+              <div className="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
                 {leaderboard.map((person, index) => (
                   <motion.div 
                     key={index} 
-                    className={`flex items-center justify-between p-3 ${
+                    className={`flex items-center justify-between p-3 border-b border-gray-100 ${
                       person.highlight ? 'bg-green-50 font-medium' : 
                       index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                     }`}
@@ -511,13 +511,13 @@ const WorkerRewards = () => {
                     transition={{ delay: index * 0.05 }}
                   >
                     <div className="flex items-center">
-                      <span className="w-6 text-center font-medium">{person.rank}</span>
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mx-2 ${
-                        person.rank <= 3 ? 'bg-amber-100 text-amber-600' : 'bg-gray-200 text-gray-600'
+                      <span className="w-6 text-center font-medium text-gray-700">{person.rank}</span>
+                      <div className={`w-8 h-8 rounded-full flex items-center justify-center mx-2 border ${
+                        person.rank <= 3 ? 'bg-amber-100 text-amber-600 border-amber-200' : 'bg-gray-200 text-gray-600 border-gray-300'
                       }`}>
                         {person.rank <= 3 ? <Medal className="h-5 w-5" /> : <User className="h-5 w-5" />}
                       </div>
-                      <span className={person.highlight ? 'text-green-700' : ''}>
+                      <span className={person.highlight ? 'text-green-700' : 'text-gray-700'}>
                         {person.name}
                       </span>
                     </div>
@@ -535,15 +535,15 @@ const WorkerRewards = () => {
             {/* Missions */}
             <section className="lg:col-span-2">
               <div className="flex justify-between items-center mb-3">
-                <h2 className="font-bold text-lg flex items-center">
+                <h2 className="font-bold text-lg flex items-center text-gray-800">
                   <Target className="h-5 w-5 mr-2 text-blue-500" />
                   {content[language].missions}
                 </h2>
                 <div className="flex space-x-2">
-                  <button className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs">
+                  <button className="px-2 py-1 bg-blue-100 text-blue-700 rounded-full text-xs border border-blue-200">
                     {content[language].dailyMissions}
                   </button>
-                  <button className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs">
+                  <button className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-xs border border-gray-200">
                     {content[language].weeklyMissions}
                   </button>
                 </div>
@@ -558,16 +558,16 @@ const WorkerRewards = () => {
 
             {/* Recent Rewards */}
             <section>
-              <h2 className="font-bold text-lg mb-3 flex items-center">
+              <h2 className="font-bold text-lg mb-3 flex items-center text-gray-800">
                 <GiftIcon className="h-5 w-5 mr-2 text-green-500" />
                 Recently Unlocked
               </h2>
               
-              <div className="bg-white rounded-xl shadow overflow-hidden">
+              <div className="bg-white rounded-xl shadow overflow-hidden border border-gray-200">
                 {unlockedRewards.map((reward, index) => (
                   <motion.div 
                     key={reward.id} 
-                    className={`flex items-center justify-between p-3 ${
+                    className={`flex items-center justify-between p-3 border-b border-gray-100 ${
                       index % 2 === 0 ? 'bg-gray-50' : 'bg-white'
                     }`}
                     initial={{ opacity: 0, x: -20 }}
@@ -575,10 +575,10 @@ const WorkerRewards = () => {
                     transition={{ delay: index * 0.1 }}
                   >
                     <div className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                      <div className="w-8 h-8 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3 border border-green-200">
                         <Gift className="h-4 w-4" />
                       </div>
-                      <span className="text-sm">{reward.title}</span>
+                      <span className="text-sm text-gray-700">{reward.title}</span>
                     </div>
                     <span className="text-xs text-gray-500">{reward.date}</span>
                   </motion.div>
@@ -589,7 +589,7 @@ const WorkerRewards = () => {
             {/* Community Pool & Recycling Bonus */}
             <section className="space-y-4">
               {/* Community Pool */}
-              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow p-4 text-white">
+              <div className="bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl shadow p-4 text-white border border-purple-600">
                 <h3 className="font-bold text-lg mb-2 flex items-center">
                   <Users className="h-5 w-5 mr-2" />
                   {content[language].communityPool}
@@ -608,13 +608,13 @@ const WorkerRewards = () => {
                   </div>
                 </div>
                 <ProgressBar progress={42.5} />
-                <button className="w-full mt-3 py-2 bg-white text-purple-600 rounded-lg font-medium">
+                <button className="w-full mt-3 py-2 bg-white text-purple-600 rounded-lg font-medium border border-white">
                   Contribute Points
                 </button>
               </div>
 
               {/* Recycling Bonus */}
-              <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow p-4 text-white">
+              <div className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl shadow p-4 text-white border border-amber-600">
                 <h3 className="font-bold text-lg mb-2 flex items-center">
                   <Zap className="h-5 w-5 mr-2" />
                   {content[language].recyclingBonus}
@@ -627,7 +627,7 @@ const WorkerRewards = () => {
                     <div className="text-xs">Available Balance</div>
                     <div className="font-bold">₹1,245</div>
                   </div>
-                  <button className="px-4 py-2 bg-white text-amber-600 rounded-lg font-medium">
+                  <button className="px-4 py-2 bg-white text-amber-600 rounded-lg font-medium border border-white">
                     {content[language].redeem}
                   </button>
                 </div>
@@ -639,7 +639,7 @@ const WorkerRewards = () => {
         {/* Monetary Rewards Tab */}
         {activeTab === 'monetary' && (
           <section>
-            <h2 className="font-bold text-lg mb-4 flex items-center">
+            <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800">
               <Wallet className="h-5 w-5 mr-2 text-green-500" />
               {content[language].monetary} {content[language].rewards}
             </h2>
@@ -659,7 +659,7 @@ const WorkerRewards = () => {
         {/* Health & Safety Rewards Tab */}
         {activeTab === 'health' && (
           <section>
-            <h2 className="font-bold text-lg mb-4 flex items-center">
+            <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800">
               <HeartPulse className="h-5 w-5 mr-2 text-red-500" />
               {content[language].health} {content[language].rewards}
             </h2>
@@ -679,7 +679,7 @@ const WorkerRewards = () => {
         {/* Equipment Rewards Tab */}
         {activeTab === 'equipment' && (
           <section>
-            <h2 className="font-bold text-lg mb-4 flex items-center">
+            <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800">
               <Bike className="h-5 w-5 mr-2 text-blue-500" />
               {content[language].equipment} {content[language].rewards}
             </h2>
@@ -699,7 +699,7 @@ const WorkerRewards = () => {
         {/* Social Welfare Rewards Tab */}
         {activeTab === 'social' && (
           <section>
-            <h2 className="font-bold text-lg mb-4 flex items-center">
+            <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800">
               <Home className="h-5 w-5 mr-2 text-purple-500" />
               {content[language].social} {content[language].rewards}
             </h2>
@@ -715,7 +715,7 @@ const WorkerRewards = () => {
             </div>
 
             {/* Family Benefits */}
-            <div className="mt-6 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow p-4 text-white">
+            <div className="mt-6 bg-gradient-to-r from-cyan-500 to-blue-500 rounded-xl shadow p-4 text-white border border-cyan-600">
               <h3 className="font-bold text-lg mb-2 flex items-center">
                 <Users className="h-5 w-5 mr-2" />
                 {content[language].familyBenefits}
@@ -723,7 +723,7 @@ const WorkerRewards = () => {
               <p className="text-sm mb-3">
                 Your family can access education and health benefits through your rewards!
               </p>
-              <button className="w-full py-2 bg-white text-blue-600 rounded-lg font-medium">
+              <button className="w-full py-2 bg-white text-blue-600 rounded-lg font-medium border border-white">
                 View Family Benefits
               </button>
             </div>
@@ -733,7 +733,7 @@ const WorkerRewards = () => {
         {/* Instant Rewards Tab */}
         {activeTab === 'instant' && (
           <section>
-            <h2 className="font-bold text-lg mb-4 flex items-center">
+            <h2 className="font-bold text-lg mb-4 flex items-center text-gray-800">
               <Gift className="h-5 w-5 mr-2 text-amber-500" />
               {content[language].instant} {content[language].rewards}
             </h2>
@@ -741,15 +741,15 @@ const WorkerRewards = () => {
               {rewards.instant.map(reward => (
                 <motion.div 
                   key={reward.id} 
-                  className={`bg-white rounded-xl shadow-md p-4 text-center ${
+                  className={`bg-white rounded-xl shadow-md p-4 text-center border border-gray-200 ${
                     reward.claimed ? 'opacity-100 ring-2 ring-amber-300 shadow-lg' : 'opacity-60'
                   } ${reward.highlight ? 'ring-2 ring-amber-400' : ''}`}
                   whileHover={{ y: -5, transition: { duration: 0.2 } }}
                 >
-                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center">
+                  <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center border border-amber-200">
                     <Medal className="h-6 w-6" />
                   </div>
-                  <h3 className="font-medium text-sm mb-2">{reward.title}</h3>
+                  <h3 className="font-medium text-sm mb-2 text-gray-800">{reward.title}</h3>
                   {reward.claimed ? (
                     <div className="flex items-center justify-center text-green-600 text-xs">
                       <BadgeCheck className="h-4 w-4 mr-1" />
@@ -770,15 +770,14 @@ const WorkerRewards = () => {
             </div>
 
             {/* Digital Badges Collection */}
-                        {/* Digital Badges Collection */}
             <div className="mt-6">
-              <h3 className="font-bold text-lg mb-3">Your Badge Collection</h3>
+              <h3 className="font-bold text-lg mb-3 text-gray-800">Your Badge Collection</h3>
               <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
                 {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
                   <motion.div 
                     key={i} 
-                    className={`aspect-square rounded-full flex items-center justify-center ${
-                      i <= 2 ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white' : 'bg-gray-200 text-gray-400'
+                    className={`aspect-square rounded-full flex items-center justify-center border ${
+                      i <= 2 ? 'bg-gradient-to-br from-amber-400 to-amber-600 text-white border-amber-500' : 'bg-gray-200 text-gray-400 border-gray-300'
                     }`}
                     whileHover={{ scale: 1.1, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
@@ -797,32 +796,32 @@ const WorkerRewards = () => {
             </div>
 
             {/* Instant Rewards Info */}
-            <div className="mt-6 bg-gradient-to-r from-green-400 to-emerald-600 rounded-xl shadow p-4 text-white">
+            <div className="mt-6 bg-gradient-to-r from-green-400 to-emerald-600 rounded-xl shadow p-4 text-white border border-green-500">
               <h3 className="font-bold text-lg mb-2 flex items-center">
                 <Zap className="h-5 w-5 mr-2" />
                 How Instant Rewards Work
               </h3>
               <ul className="text-sm space-y-2 mb-3">
                 <li className="flex items-start">
-                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0 border border-white">
                     <span className="text-xs font-bold">1</span>
                   </div>
                   <span>Complete special missions and challenges</span>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0 border border-white">
                     <span className="text-xs font-bold">2</span>
                   </div>
                   <span>Earn badges and instant rewards automatically</span>
                 </li>
                 <li className="flex items-start">
-                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0">
+                  <div className="w-5 h-5 rounded-full bg-white text-green-600 flex items-center justify-center mr-2 flex-shrink-0 border border-white">
                     <span className="text-xs font-bold">3</span>
                   </div>
                   <span>Show off your achievements to colleagues</span>
                 </li>
               </ul>
-              <button className="w-full py-2 bg-white text-green-600 rounded-lg font-medium">
+              <button className="w-full py-2 bg-white text-green-600 rounded-lg font-medium border border-white">
                 View Available Challenges
               </button>
             </div>
@@ -835,14 +834,14 @@ const WorkerRewards = () => {
 
       {/* Language Selector */}
       <motion.div 
-        className="fixed bottom-4 right-4 bg-white rounded-full shadow-lg p-2"
+        className="fixed bottom-4 right-4 bg-white rounded-full shadow-lg p-2 border border-gray-300"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
       >
         <select 
           value={language} 
           onChange={(e) => setLanguage(e.target.value)}
-          className="bg-transparent border-none text-sm focus:ring-0"
+          className="bg-transparent border-none text-sm focus:ring-0 text-gray-800"
         >
           <option value="en">English</option>
           <option value="hi">हिंदी</option>
