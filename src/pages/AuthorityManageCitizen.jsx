@@ -973,512 +973,640 @@ const AuthorityManageCitizen = () => {
 </Box>
 
       
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={activeTab} onChange={handleTabChange} aria-label="manage citizens tabs">
-          <Tab icon={<Users size={20} />} label="Citizen Database" />
-          <Tab icon={<AlertCircle size={20} />} label="Complaint Management" />
-                    <Tab icon={<BarChart3 size={20} />} label="Society Performance" />
-        </Tabs>
-      </Box>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={handleTabChange} 
+            aria-label="manage citizens tabs"
+            variant="scrollable"
+            scrollButtons="auto"
+            allowScrollButtonsMobile
+          >
+            <Tab icon={<Users size={20} />} label="Citizens" />
+            <Tab icon={<AlertCircle size={20} />} label="Complaints" />
+            <Tab icon={<BarChart3 size={20} />} label="Performance" />
+          </Tabs>
+        </Box>
 
-      {/* Citizen Database Tab */}
-      <TabPanel value={activeTab} index={0}>
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              fullWidth
-              label="Search"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              InputProps={{
-                startAdornment: <Search size={20} style={{ marginRight: 8 }} />
-              }}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              fullWidth
-              select
-              label="Ward"
-              value={wardFilter}
-              onChange={(e) => setWardFilter(e.target.value)}
-            >
-              {wardOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              fullWidth
-              select
-              label="Society"
-              value={societyFilter}
-              onChange={(e) => setSocietyFilter(e.target.value)}
-            >
-              {societyOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <TextField
-              fullWidth
-              select
-              label="Compliance"
-              value={complianceFilter}
-              onChange={(e) => setComplianceFilter(e.target.value)}
-            >
-              {complianceStatusOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Box display="flex" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Filter size={18} />}
-                onClick={() => setActiveComplaintsFilter(!activeComplaintsFilter)}
-                color={activeComplaintsFilter ? "primary" : "inherit"}
+        {/* Citizen Database Tab */}
+        <TabPanel value={activeTab} index={0}>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            {/* Search Field */}
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
                 fullWidth
-              >
-                Active Complaints
-              </Button>
-              <Button
-                variant="outlined"
-                startIcon={<Bell size={18} />}
-                onClick={handleSendNotification}
+                size="small"
+                label="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                InputProps={{
+                  startAdornment: <Search size={20} style={{ marginRight: 8 }} />
+                }}
+              />
+            </Grid>
+            
+            {/* Filter Fields - Stack vertically on mobile */}
+            <Grid item xs={6} sm={6} md={2}>
+              <TextField
                 fullWidth
+                size="small"
+                select
+                label="Ward"
+                value={wardFilter}
+                onChange={(e) => setWardFilter(e.target.value)}
               >
-                Notify
-              </Button>
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="contained"
-              startIcon={<Plus size={18} />}
-              onClick={() => handleOpenRewardDialog("individual")}
-              fullWidth
-              color="success"
-            >
-              Add Reward
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="contained"
-              startIcon={<Minus size={18} />}
-              onClick={() => setPenaltyDialogOpen(true)}
-              fullWidth
-              color="error"
-            >
-              Add Penalty
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="outlined"
-              startIcon={<Download size={18} />}
-              onClick={handleGenerateReport}
-              fullWidth
-            >
-              Export Data
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="outlined"
-              startIcon={<BarChart3 size={18} />}
-              onClick={() => setActiveTab(2)}
-              fullWidth
-            >
-              View Societies
-            </Button>
-          </Grid>
-        </Grid>
-
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="citizen table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Citizen</TableCell>
-                <TableCell>ID</TableCell>
-                <TableCell>Ward</TableCell>
-                <TableCell>Society</TableCell>
-                <TableCell>Compliance</TableCell>
-                <TableCell>Complaints</TableCell>
-                <TableCell>Rewards</TableCell>
-                <TableCell>Penalties</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredCitizens.map((citizen) => (
-                <TableRow
-                  key={citizen.id}
-                  hover
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => handleCitizenClick(citizen)}
+                {wardOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={2}>
+              <TextField
+                fullWidth
+                size="small"
+                select
+                label="Society"
+                value={societyFilter}
+                onChange={(e) => setSocietyFilter(e.target.value)}
+              >
+                {societyOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={2}>
+              <TextField
+                fullWidth
+                size="small"
+                select
+                label="Compliance"
+                value={complianceFilter}
+                onChange={(e) => setComplianceFilter(e.target.value)}
+              >
+                {complianceStatusOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            {/* Action Buttons */}
+            <Grid item xs={6} sm={6} md={3}>
+              <Box display="flex" gap={0.5} flexDirection={{ xs: 'column', sm: 'row' }}>
+                <Button
+                  variant="outlined"
+                  startIcon={<Filter size={18} />}
+                  onClick={() => setActiveComplaintsFilter(!activeComplaintsFilter)}
+                  color={activeComplaintsFilter ? "primary" : "inherit"}
+                  size="small"
+                  sx={{ minWidth: 'auto', flex: 1 }}
                 >
-                  <TableCell>
-                    <Box display="flex" alignItems="center">
-                      <Avatar sx={{ width: 32, height: 32, mr: 1 }}>
-                        {citizen.name.charAt(0)}
-                      </Avatar>
-                      {citizen.name}
-                    </Box>
-                  </TableCell>
-                  <TableCell>{citizen.citizenId}</TableCell>
-                  <TableCell>{citizen.ward}</TableCell>
-                  <TableCell>{citizen.society}</TableCell>
-                  <TableCell>
-                    <Box display="flex" alignItems="center">
-                      <Box sx={{ width: '100%', mr: 1 }}>
-                        <LinearProgress
-                          variant="determinate"
-                          value={citizen.complianceScore}
-                          color={
-                            citizen.complianceScore >= 80 ? "success" :
-                            citizen.complianceScore >= 60 ? "warning" : "error"
-                          }
-                          sx={{ height: 8, borderRadius: 5 }}
-                        />
+                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                    Active
+                  </Box>
+                  <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                    <Filter size={16} />
+                  </Box>
+                </Button>
+                <Button
+                  variant="outlined"
+                  startIcon={<Bell size={18} />}
+                  onClick={handleSendNotification}
+                  size="small"
+                  sx={{ minWidth: 'auto', flex: 1 }}
+                >
+                  <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                    Notify
+                  </Box>
+                  <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                    <Bell size={16} />
+                  </Box>
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+
+          {/* Action Buttons Row */}
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="contained"
+                startIcon={<Plus size={16} />}
+                onClick={() => handleOpenRewardDialog("individual")}
+                fullWidth
+                size="small"
+                color="success"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Add Reward
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Reward
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="contained"
+                startIcon={<Minus size={16} />}
+                onClick={() => setPenaltyDialogOpen(true)}
+                fullWidth
+                size="small"
+                color="error"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Add Penalty
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Penalty
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="outlined"
+                startIcon={<Download size={16} />}
+                onClick={handleGenerateReport}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Export Data
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Export
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="outlined"
+                startIcon={<BarChart3 size={16} />}
+                onClick={() => setActiveTab(2)}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  View Societies
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Societies
+                </Box>
+              </Button>
+            </Grid>
+          </Grid>
+
+          {/* Table - Responsive version */}
+          <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
+            <Table sx={{ minWidth: 650 }} aria-label="citizen table" size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Citizen</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>ID</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Ward</TableCell>
+                  <TableCell>Society</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Compliance</TableCell>
+                  <TableCell>Complaints</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Rewards</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Penalties</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredCitizens.map((citizen) => (
+                  <TableRow
+                    key={citizen.id}
+                    hover
+                    sx={{ cursor: 'pointer' }}
+                    onClick={() => handleCitizenClick(citizen)}
+                  >
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Box display="flex" alignItems="center">
+                        <Avatar sx={{ width: 32, height: 32, mr: 1 }}>
+                          {citizen.name.charAt(0)}
+                        </Avatar>
+                        {citizen.name}
                       </Box>
-                      <Box sx={{ minWidth: 35 }}>
-                        <Typography variant="body2" color="textSecondary">
-                          {`${citizen.complianceScore}%`}
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                      {citizen.citizenId}
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                      {citizen.ward}
+                    </TableCell>
+                    <TableCell>
+                      <Box sx={{ display: { xs: 'flex', sm: 'none' }, alignItems: 'center' }}>
+                        <Avatar sx={{ width: 24, height: 24, mr: 1 }}>
+                          {citizen.name.charAt(0)}
+                        </Avatar>
+                        <Box>
+                          <Typography variant="body2" fontWeight="bold">
+                            {citizen.name}
+                          </Typography>
+                          <Typography variant="caption" color="textSecondary">
+                            {citizen.society}
+                          </Typography>
+                        </Box>
+                      </Box>
+                      <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+                        {citizen.society}
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
+                      <Box display="flex" alignItems="center">
+                        <Box sx={{ width: '100%', mr: 1 }}>
+                          <LinearProgress
+                            variant="determinate"
+                            value={citizen.complianceScore}
+                            color={
+                              citizen.complianceScore >= 80 ? "success" :
+                              citizen.complianceScore >= 60 ? "warning" : "error"
+                            }
+                            sx={{ height: 8, borderRadius: 5 }}
+                          />
+                        </Box>
+                        <Box sx={{ minWidth: 35 }}>
+                          <Typography variant="body2" color="textSecondary">
+                            {`${citizen.complianceScore}%`}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        badgeContent={citizen.activeComplaints}
+                        color="error"
+                        invisible={citizen.activeComplaints === 0}
+                      >
+                        <AlertTriangle size={20} color={
+                          citizen.activeComplaints === 0 ? theme.palette.success.main :
+                          citizen.activeComplaints === 1 ? theme.palette.warning.main :
+                          theme.palette.error.main
+                        } />
+                      </Badge>
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Box display="flex" alignItems="center" color="success.main">
+                        <Award size={18} style={{ marginRight: 4 }} />
+                        {citizen.rewards}
+                      </Box>
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Box display="flex" alignItems="center" color="error.main">
+                        <AlertCircle size={18} style={{ marginRight: 4 }} />
+                        {citizen.penalties}
+                      </Box>
+                    </TableCell>
+                    <TableCell>
+                      <IconButton size="small">
+                        <Bell size={18} />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          {filteredCitizens.length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <AlertCircle size={48} color={theme.palette.text.secondary} />
+              <Typography variant="h6" color="textSecondary" sx={{ mt: 1 }}>
+                No citizens found matching your filters
+              </Typography>
+            </Box>
+          )}
+        </TabPanel>
+
+        {/* Complaint Management Tab - Mobile Responsive */}
+        <TabPanel value={activeTab} index={1}>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                size="small"
+                select
+                label="Filter by Ward"
+                value={complaintWardFilter}
+                onChange={(e) => setComplaintWardFilter(e.target.value)}
+              >
+                {wardOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                size="small"
+                select
+                label="Filter by Status"
+                value={complaintStatusFilter}
+                onChange={(e) => setComplaintStatusFilter(e.target.value)}
+              >
+                {complaintStatusOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="outlined"
+                startIcon={<Download size={16} />}
+                onClick={handleGenerateReport}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Export Complaints
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Export
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="contained"
+                startIcon={<Plus size={16} />}
+                onClick={() => alert("Add new complaint feature would open here")}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Add Complaint
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Add
+                </Box>
+              </Button>
+            </Grid>
+          </Grid>
+
+          <TableContainer component={Paper} sx={{ maxWidth: '100%', overflowX: 'auto' }}>
+            <Table sx={{ minWidth: 650 }} aria-label="complaints table" size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Complaint ID</TableCell>
+                  <TableCell>Type</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Citizen</TableCell>
+                  <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Ward</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredComplaints.map((complaint) => (
+                  <TableRow key={complaint.id}>
+                    <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                      #{complaint.id}
+                    </TableCell>
+                    <TableCell>
+                      <Box sx={{ display: { xs: 'flex', sm: 'block' }, flexDirection: 'column' }}>
+                        <Typography variant="body2" fontWeight="bold">
+                          {complaint.type}
+                        </Typography>
+                        <Typography variant="caption" sx={{ display: { xs: 'block', sm: 'none' } }}>
+                          #{complaint.id} • {complaint.date}
                         </Typography>
                       </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Badge
-                      badgeContent={citizen.activeComplaints}
-                      color="error"
-                      invisible={citizen.activeComplaints === 0}
-                    >
-                      <AlertTriangle size={20} color={
-                        citizen.activeComplaints === 0 ? theme.palette.success.main :
-                        citizen.activeComplaints === 1 ? theme.palette.warning.main :
-                        theme.palette.error.main
-                      } />
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Box display="flex" alignItems="center" color="success.main">
-                      <Award size={18} style={{ marginRight: 4 }} />
-                      {citizen.rewards}
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Box display="flex" alignItems="center" color="error.main">
-                      <AlertCircle size={18} style={{ marginRight: 4 }} />
-                      {citizen.penalties}
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <IconButton size="small">
-                      <Bell size={18} />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {filteredCitizens.length === 0 && (
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <AlertCircle size={48} color={theme.palette.text.secondary} />
-            <Typography variant="h6" color="textSecondary" sx={{ mt: 1 }}>
-              No citizens found matching your filters
-            </Typography>
-          </Box>
-        )}
-      </TabPanel>
-
-      {/* Complaint Management Tab */}
-      <TabPanel value={activeTab} index={1}>
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              fullWidth
-              select
-              label="Filter by Ward"
-              value={complaintWardFilter}
-              onChange={(e) => setComplaintWardFilter(e.target.value)}
-            >
-              {wardOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              fullWidth
-              select
-              label="Filter by Status"
-              value={complaintStatusFilter}
-              onChange={(e) => setComplaintStatusFilter(e.target.value)}
-            >
-              {complaintStatusOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="outlined"
-              startIcon={<Download size={18} />}
-              onClick={handleGenerateReport}
-              fullWidth
-            >
-              Export Complaints
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="contained"
-              startIcon={<Plus size={18} />}
-              onClick={() => alert("Add new complaint feature would open here")}
-              fullWidth
-            >
-              Add Complaint
-            </Button>
-          </Grid>
-        </Grid>
-
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 650 }} aria-label="complaints table">
-            <TableHead>
-              <TableRow>
-                <TableCell>Complaint ID</TableCell>
-                <TableCell>Type</TableCell>
-                <TableCell>Citizen</TableCell>
-                <TableCell>Ward</TableCell>
-                <TableCell>Society</TableCell>
-                <TableCell>Date</TableCell>
-                <TableCell>Status</TableCell>
-                <TableCell>Actions</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {filteredComplaints.map((complaint) => (
-                <TableRow key={complaint.id}>
-                  <TableCell>#{complaint.id}</TableCell>
-                  <TableCell>{complaint.type}</TableCell>
-                  <TableCell>
-                    <Box display="flex" alignItems="center">
-                      <Avatar sx={{ width: 32, height: 32, mr: 1 }}>
-                        {complaint.citizenName.charAt(0)}
-                      </Avatar>
-                      {complaint.citizenName}
-                    </Box>
-                  </TableCell>
-                  <TableCell>{complaint.ward}</TableCell>
-                  <TableCell>{complaint.society}</TableCell>
-                  <TableCell>{complaint.date}</TableCell>
-                  <TableCell>
-                    <Chip
-                      label={complaint.status}
-                      color={
-                        complaint.status === "Resolved" ? "success" :
-                        complaint.status === "In Progress" ? "primary" : "warning"
-                      }
-                      size="small"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Box display="flex">
-                      <IconButton
-                        size="small"
-                        onClick={() => alert(`View details of complaint #${complaint.id}`)}
-                      >
-                        <Search size={16} />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        onClick={() => handleComplaintStatusChange(complaint.id, "Resolved")}
-                        disabled={complaint.status === "Resolved"}
-                      >
-                        <CheckCircle2 size={16} />
-                      </IconButton>
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        {filteredComplaints.length === 0 && (
-          <Box sx={{ textAlign: 'center', py: 4 }}>
-            <CheckCircle2 size={48} color={theme.palette.success.main} />
-            <Typography variant="h6" color="textSecondary" sx={{ mt: 1 }}>
-              No complaints found matching your filters
-            </Typography>
-          </Box>
-        )}
-      </TabPanel>
-
-      {/* Society Performance Tab */}
-      <TabPanel value={activeTab} index={2}>
-        <Grid container spacing={2} sx={{ mb: 3 }}>
-          <Grid item xs={12} sm={6} md={3}>
-            <TextField
-              fullWidth
-              select
-              label="Filter by Ward"
-              value={wardFilter}
-              onChange={(e) => setWardFilter(e.target.value)}
-            >
-              {wardOptions.map((option) => (
-                <MenuItem key={option} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="contained"
-              startIcon={<Plus size={18} />}
-              onClick={() => handleOpenRewardDialog("community")}
-              fullWidth
-              color="success"
-            >
-              Add Community Reward
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="outlined"
-              startIcon={<Download size={18} />}
-              onClick={handleGenerateReport}
-              fullWidth
-            >
-              Export Report
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Button
-              variant="outlined"
-              startIcon={<Users size={18} />}
-              onClick={() => setActiveTab(0)}
-              fullWidth
-            >
-              View Citizens
-            </Button>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3}>
-          {societies
-            .filter(society => wardFilter === "All" || society.ward === wardFilter)
-            .map((society) => (
-              <Grid item xs={12} md={6} lg={4} key={society.name}>
-                <Card variant="outlined" sx={{ height: '100%' }}>
-                  <CardContent>
-                    <Typography variant="h6" gutterBottom>
-                      {society.name}
-                    </Typography>
-                    <Typography color="textSecondary" gutterBottom>
-                      {society.ward} • {society.citizens} residents
-                    </Typography>
-                    
-                    <Box display="flex" alignItems="center" sx={{ my: 2 }}>
-                      <Box width="100%" mr={1}>
-                        <LinearProgress
-                          variant="determinate"
-                          value={society.compliance}
-                          color={
-                            society.compliance >= 80 ? "success" :
-                            society.compliance >= 60 ? "warning" : "error"
-                          }
-                          sx={{ height: 10, borderRadius: 5 }}
-                        />
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                      <Box display="flex" alignItems="center">
+                        <Avatar sx={{ width: 32, height: 32, mr: 1 }}>
+                          {complaint.citizenName.charAt(0)}
+                        </Avatar>
+                        {complaint.citizenName}
                       </Box>
-                      <Typography variant="body2">
-                        {society.compliance}%
-                      </Typography>
-                    </Box>
-                    
-                    <Grid container spacing={1}>
-                      <Grid item xs={6}>
-                        <Box display="flex" alignItems="center" color="success.main">
-                          <TrendingUp size={16} style={{ marginRight: 4 }} />
-                          <Typography variant="body2">
-                            {society.rewards} pts
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Box display="flex" alignItems="center" color="error.main">
-                          <TrendingDown size={16} style={{ marginRight: 4 }} />
-                          <Typography variant="body2">
-                            {society.penalties} pts
-                          </Typography>
-                        </Box>
-                      </Grid>
-                      <Grid item xs={6}>
-                        <Box display="flex" alignItems="center">
-                          <AlertTriangle size={16} style={{ marginRight: 4 }} />
-                          <Typography variant="body2">
-                            {society.activeComplaints} complaints
-                          </Typography>
-                        </Box>
-                      </Grid>
-                    </Grid>
-                    
-                    <Box sx={{ mt: 2 }}>
-                      <Button
+                    </TableCell>
+                    <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
+                      {complaint.ward}
+                    </TableCell>
+                    <TableCell>
+                      <Chip
+                        label={complaint.status}
+                        color={
+                          complaint.status === "Resolved" ? "success" :
+                          complaint.status === "In Progress" ? "primary" : "warning"
+                        }
                         size="small"
-                        onClick={() => alert(`View details for ${society.name}`)}
-                      >
-                        View Details
-                      </Button>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-        </Grid>
-      </TabPanel>
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Box display="flex">
+                        <IconButton
+                          size="small"
+                          onClick={() => alert(`View details of complaint #${complaint.id}`)}
+                        >
+                          <Search size={16} />
+                        </IconButton>
+                        <IconButton
+                          size="small"
+                          onClick={() => handleComplaintStatusChange(complaint.id, "Resolved")}
+                          disabled={complaint.status === "Resolved"}
+                        >
+                          <CheckCircle2 size={16} />
+                        </IconButton>
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-      {/* Dialogs */}
-      <CitizenProfileDialog
-        open={profileDialogOpen}
-        onClose={() => setProfileDialogOpen(false)}
-        citizen={selectedCitizen}
-      />
-      
-      <RewardDialog
-        open={rewardDialogOpen}
-        onClose={() => setRewardDialogOpen(false)}
-        type={rewardDialogType}
-        onAddReward={handleAddReward}
-      />
-      
-      <PenaltyDialog
-        open={penaltyDialogOpen}
-        onClose={() => setPenaltyDialogOpen(false)}
-        onAddPenalty={handleAddPenalty}
-      />
+          {filteredComplaints.length === 0 && (
+            <Box sx={{ textAlign: 'center', py: 4 }}>
+              <CheckCircle2 size={48} color={theme.palette.success.main} />
+              <Typography variant="h6" color="textSecondary" sx={{ mt: 1 }}>
+                No complaints found matching your filters
+              </Typography>
+            </Box>
+          )}
+        </TabPanel>
+
+        {/* Society Performance Tab - Mobile Responsive */}
+        <TabPanel value={activeTab} index={2}>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <Grid item xs={12} sm={6} md={3}>
+              <TextField
+                fullWidth
+                size="small"
+                select
+                label="Filter by Ward"
+                value={wardFilter}
+                onChange={(e) => setWardFilter(e.target.value)}
+              >
+                {wardOptions.map((option) => (
+                  <MenuItem key={option} value={option}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="contained"
+                startIcon={<Plus size={16} />}
+                onClick={() => handleOpenRewardDialog("community")}
+                fullWidth
+                size="small"
+                color="success"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Community Reward
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Reward
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={6} sm={6} md={3}>
+              <Button
+                variant="outlined"
+                startIcon={<Download size={16} />}
+                onClick={handleGenerateReport}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  Export Report
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Export
+                </Box>
+              </Button>
+            </Grid>
+            
+            <Grid item xs={12} sm={6} md={3}>
+              <Button
+                variant="outlined"
+                startIcon={<Users size={16} />}
+                onClick={() => setActiveTab(0)}
+                fullWidth
+                size="small"
+              >
+                <Box component="span" sx={{ display: { xs: 'none', sm: 'inline' } }}>
+                  View Citizens
+                </Box>
+                <Box component="span" sx={{ display: { xs: 'inline', sm: 'none' } }}>
+                  Citizens
+                </Box>
+              </Button>
+            </Grid>
+          </Grid>
+
+          <Grid container spacing={2}>
+            {societies
+              .filter(society => wardFilter === "All" || society.ward === wardFilter)
+              .map((society) => (
+                <Grid item xs={12} sm={6} lg={4} key={society.name}>
+                  <Card variant="outlined" sx={{ height: '100%' }}>
+                    <CardContent>
+                      <Typography variant="h6" gutterBottom>
+                        {society.name}
+                      </Typography>
+                      <Typography color="textSecondary" gutterBottom>
+                        {society.ward} • {society.citizens} residents
+                      </Typography>
+                      
+                      <Box display="flex" alignItems="center" sx={{ my: 2 }}>
+                        <Box width="100%" mr={1}>
+                          <LinearProgress
+                            variant="determinate"
+                            value={society.compliance}
+                            color={
+                              society.compliance >= 80 ? "success" :
+                              society.compliance >= 60 ? "warning" : "error"
+                            }
+                            sx={{ height: 10, borderRadius: 5 }}
+                          />
+                        </Box>
+                        <Typography variant="body2">
+                          {society.compliance}%
+                        </Typography>
+                      </Box>
+                      
+                      <Grid container spacing={1}>
+                        <Grid item xs={6}>
+                          <Box display="flex" alignItems="center" color="success.main">
+                            <TrendingUp size={16} style={{ marginRight: 4 }} />
+                            <Typography variant="body2">
+                              {society.rewards} pts
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Box display="flex" alignItems="center" color="error.main">
+                            <TrendingDown size={16} style={{ marginRight: 4 }} />
+                            <Typography variant="body2">
+                              {society.penalties} pts
+                            </Typography>
+                          </Box>
+                        </Grid>
+                        <Grid item xs={6}>
+                          <Box display="flex" alignItems="center">
+                            <AlertTriangle size={16} style={{ marginRight: 4 }} />
+                            <Typography variant="body2">
+                              {society.activeComplaints} complaints
+                            </Typography>
+                          </Box>
+                        </Grid>
+                      </Grid>
+                      
+                      <Box sx={{ mt: 2 }}>
+                        <Button
+                          size="small"
+                          onClick={() => alert(`View details for ${society.name}`)}
+                        >
+                          View Details
+                        </Button>
+                      </Box>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+          </Grid>
+        </TabPanel>
+
+        {/* Dialogs (unchanged) */}
+        <CitizenProfileDialog
+          open={profileDialogOpen}
+          onClose={() => setProfileDialogOpen(false)}
+          citizen={selectedCitizen}
+        />
+
+        <RewardDialog
+          open={rewardDialogOpen}
+          onClose={() => setRewardDialogOpen(false)}
+          type={rewardDialogType}
+          onAddReward={handleAddReward}
+        />
+
+        <PenaltyDialog
+          open={penaltyDialogOpen}
+          onClose={() => setPenaltyDialogOpen(false)}
+          onAddPenalty={handleAddPenalty}
+        />
     </Box>
   );
 };

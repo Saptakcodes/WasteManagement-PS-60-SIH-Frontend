@@ -659,945 +659,989 @@ const AuthorityManageWorker = () => {
 </Typography>
 
       
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={activeTab} onChange={handleTabChange} aria-label="manage workers tabs">
-          <Tab icon={<Users size={20} />} label="Worker Directory" />
-          <Tab icon={<Map size={20} />} label="Live Tracking" />
-          <Tab icon={<Calendar size={20} />} label="Attendance & Leave" />
-          <Tab icon={<Award size={20} />} label="Performance & Rewards" />
-          <Tab icon={<Shield size={20} />} label="Safety & Training" />
-        </Tabs>
-      </Box>
-      
-      {/* Worker Directory Tab */}
-      <TabPanel value={activeTab} index={0}>
-        <AIRecommendations />
-        
-        <Card sx={{ mb: 3 }}>
-          <CardContent>
-            <Typography variant="h6" gutterBottom>
-              Filters & Search
-            </Typography>
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={12} sm={6} md={3}>
-                <TextField
-                  fullWidth
-                  label="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  InputProps={{
-                    endAdornment: <Search size={20} />
-                  }}
-                />
-              </Grid>
-              <Grid item xs={6} sm={3} md={2}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Status"
-                  value={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                >
-                  {statusOptions.map(option => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} sm={3} md={2}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Ward"
-                  value={wardFilter}
-                  onChange={(e) => setWardFilter(e.target.value)}
-                >
-                  {wardOptions.map(option => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} sm={3} md={2}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Specialization"
-                  value={specializationFilter}
-                  onChange={(e) => setSpecializationFilter(e.target.value)}
-                >
-                  {specializationOptions.map(option => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-              <Grid item xs={6} sm={3} md={2}>
-                <TextField
-                  fullWidth
-                  select
-                  label="Shift"
-                  value={shiftFilter}
-                  onChange={(e) => setShiftFilter(e.target.value)}
-                >
-                  {shiftOptions.map(option => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </TextField>
-              </Grid>
-            </Grid>
-          </CardContent>
-        </Card>
-        
-        <Grid container spacing={3}>
-          <Grid item xs={12} lg={trackingView ? 7 : 12}>
-            <Card>
-              <CardContent>
-                <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
-                  <Typography variant="h6">
-                    Worker Directory ({filteredWorkers.length} workers)
-                  </Typography>
-                  <Box>
-                    <Button 
-                      startIcon={<Download size={20} />} 
-                      sx={{ mr: 1 }} 
-                      onClick={handleGenerateReport}
-                    >
-                      Export
-                    </Button>
-                    <Button 
-                      variant="contained" 
-                      startIcon={<Bell size={20} />} 
-                      onClick={handleSendNotification}
-                    >
-                      Notify
-                    </Button>
-                  </Box>
-                </Box>
-                
-                <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
-                  <Table stickyHeader aria-label="worker directory table">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Worker</TableCell>
-                        <TableCell>ID</TableCell>
-                        <TableCell>Specialization</TableCell>
-                        <TableCell>Ward</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Performance</TableCell>
-                        <TableCell>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {filteredWorkers.map((worker) => (
-                        <TableRow 
-                          key={worker.id} 
-                          hover 
-                          sx={{ cursor: 'pointer' }}
-                        >
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            <Box display="flex" alignItems="center">
-                              <Avatar src={worker.photo} sx={{ width: 40, height: 40, mr: 2 }} />
-                              {worker.name}
-                            </Box>
-                          </TableCell>
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            {worker.workerId}
-                          </TableCell>
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            {worker.specialization}
-                          </TableCell>
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            {worker.ward}
-                          </TableCell>
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            <Chip 
-                              label={worker.status} 
-                              color={
-                                worker.status === "On Duty" ? "success" : 
-                                worker.status === "Online" ? "primary" : 
-                                worker.status === "On Leave" ? "warning" : "error"
-                              } 
-                              size="small"
-                            />
-                          </TableCell>
-                          <TableCell onClick={() => handleWorkerClick(worker)}>
-                            <Box display="flex" alignItems="center">
-                              <LinearProgress 
-                                variant="determinate" 
-                                value={worker.performance} 
-                                sx={{ 
-                                  width: 60, 
-                                  mr: 1,
-                                  backgroundColor: 
-                                    worker.performance >= 80 ? 'rgba(76, 175, 80, 0.2)' : 
-                                    worker.performance >= 60 ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)',
-                                  '& .MuiLinearProgress-bar': {
-                                    backgroundColor: 
-                                      worker.performance >= 80 ? '#4caf50' : 
-                                      worker.performance >= 60 ? '#ff9800' : '#f44336'
-                                  }
-                                }}
-                              />
-                              <Typography variant="body2">
-                                {worker.performance}%
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                          <TableCell>
-                            <Button 
-                              size="small" 
-                              onClick={() => handleWorkerClick(worker)}
-                            >
-                              View
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </Card>
-          </Grid>
-          
-          {trackingView && (
-            <Grid item xs={12} lg={5}>
-              <WorkerTrackingMap 
-                workers={filteredWorkers} 
-                selectedWorker={selectedWorker}
-                onWorkerSelect={setSelectedWorker}
-              />
-              <Box mt={2} display="flex" justifyContent="flex-end">
-                <Button 
-                  variant="outlined" 
-                  startIcon={<MapPin size={20} />}
-                  onClick={() => alert("Route optimization in progress...")}
-                >
-                  Optimize Routes
-                </Button>
-              </Box>
-            </Grid>
-          )}
-        </Grid>
-        
-        <Box mt={2} display="flex" justifyContent="center">
-          <Button 
-            variant="contained" 
-            startIcon={trackingView ? <UserX size={20} /> : <UserCheck size={20} />}
-            onClick={toggleTrackingView}
+              <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs 
+            value={activeTab} 
+            onChange={handleTabChange} 
+            aria-label="manage workers tabs"
+            variant="scrollable"
+            scrollButtons="auto"
           >
-            {trackingView ? "Hide Tracking" : "Show Live Tracking"}
-          </Button>
+            <Tab icon={<Users size={20} />} label="Worker Directory" />
+            <Tab icon={<Map size={20} />} label="Live Tracking" />
+            <Tab icon={<Calendar size={20} />} label="Attendance & Leave" />
+            <Tab icon={<Award size={20} />} label="Performance & Rewards" />
+            <Tab icon={<Shield size={20} />} label="Safety & Training" />
+          </Tabs>
         </Box>
-      </TabPanel>
-      
-      {/* Live Tracking Tab */}
-      <TabPanel value={activeTab} index={1}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <WorkerTrackingMap 
-              workers={workers} 
-              selectedWorker={selectedWorker}
-              onWorkerSelect={setSelectedWorker}
-            />
-          </Grid>
+
+        {/* Worker Directory Tab */}
+        <TabPanel value={activeTab} index={0}>
+          <AIRecommendations />
           
-          <Grid item xs={12} md={4}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Route Management
-                </Typography>
-                
-                <Box mb={2}>
-                  <Typography variant="body2" gutterBottom>
-                    Assign New Route
-                  </Typography>
-                  <Box display="flex" gap={1} mb={2}>
-                    <TextField
-                      select
-                      size="small"
-                      label="Worker"
-                      fullWidth
-                    >
-                      {workers.map(worker => (
-                        <MenuItem key={worker.id} value={worker.id}>
-                          {worker.name}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <Button variant="contained">Assign</Button>
-                  </Box>
-                </Box>
-                
-                <Divider sx={{ my: 2 }} />
-                
-                <Typography variant="body2" gutterBottom>
-                  AI Route Optimization
-                </Typography>
-                <Button 
-                  variant="outlined" 
-                  fullWidth 
-                  startIcon={<Zap size={20} />}
-                  onClick={() => alert("AI optimizing routes based on current workload...")}
-                >
-                  Optimize All Routes
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Active Alerts
-                </Typography>
-                
-                {alerts.filter(a => a.status !== "Resolved").map(alert => (
-                  <Box 
-                    key={alert.id}
-                    sx={{ 
-                      p: 2, 
-                      mb: 1, 
-                      borderRadius: 1,
-                      backgroundColor: 
-                        alert.type === "Panic" ? '#ffebee' : 
-                        alert.type === "Safety" ? '#fff8e1' : '#e8f5e9',
-                      borderLeft: `4px solid ${
-                        alert.type === "Panic" ? '#f44336' : 
-                        alert.type === "Safety" ? '#ffc107' : '#4caf50'
-                      }`
+          <Card sx={{ mb: 3 }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                Filters & Search
+              </Typography>
+              <Grid container spacing={2} alignItems="center">
+                <Grid item xs={12} sm={6} md={3}>
+                  <TextField
+                    fullWidth
+                    label="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    InputProps={{
+                      endAdornment: <Search size={20} />
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={6} sm={3} md={2}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Status"
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    SelectProps={{
+                      native: false
                     }}
                   >
-                    <Typography variant="body2" gutterBottom>
-                      <strong>{alert.workerName}</strong> • {alert.type} Alert
+                    {statusOptions.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={6} sm={3} md={2}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Ward"
+                    value={wardFilter}
+                    onChange={(e) => setWardFilter(e.target.value)}
+                    SelectProps={{
+                      native: false
+                    }}
+                  >
+                    {wardOptions.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={6} sm={3} md={2}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Specialization"
+                    value={specializationFilter}
+                    onChange={(e) => setSpecializationFilter(e.target.value)}
+                    SelectProps={{
+                      native: false
+                    }}
+                  >
+                    {specializationOptions.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+                <Grid item xs={6} sm={3} md={2}>
+                  <TextField
+                    fullWidth
+                    select
+                    label="Shift"
+                    value={shiftFilter}
+                    onChange={(e) => setShiftFilter(e.target.value)}
+                    SelectProps={{
+                      native: false
+                    }}
+                  >
+                    {shiftOptions.map(option => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+          
+          <Grid container spacing={2}>
+            <Grid item xs={12} lg={trackingView ? 7 : 12}>
+              <Card>
+                <CardContent>
+                  <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} justifyContent="space-between" alignItems={{ xs: 'flex-start', sm: 'center' }} mb={2} gap={1}>
+                    <Typography variant="h6">
+                      Worker Directory ({filteredWorkers.length} workers)
                     </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      {alert.message}
-                    </Typography>
-                    <Typography variant="caption" display="block" gutterBottom>
-                      {new Date(alert.time).toLocaleString()}
-                    </Typography>
-                    <Box mt={1} display="flex" justifyContent="space-between">
-                      <Chip 
-                        label={alert.status} 
-                        size="small" 
-                        color={
-                          alert.status === "Resolved" ? "success" : 
-                          alert.status === "In Progress" ? "primary" : "warning"
-                        } 
-                      />
+                    <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} gap={1} width={{ xs: '100%', sm: 'auto' }}>
                       <Button 
-                        size="small" 
-                        onClick={() => handleAlertStatusChange(alert.id, "In Progress")}
+                        startIcon={<Download size={20} />} 
+                        fullWidth={{ xs: true, sm: false }}
+                        sx={{ mr: { sm: 1 } }} 
+                        onClick={handleGenerateReport}
+                        size="small"
                       >
-                                               Mark In Progress
+                        Export
+                      </Button>
+                      <Button 
+                        variant="contained" 
+                        startIcon={<Bell size={20} />} 
+                        onClick={handleSendNotification}
+                        fullWidth={{ xs: true, sm: false }}
+                        size="small"
+                      >
+                        Notify
                       </Button>
                     </Box>
                   </Box>
-                ))}
-                
-                {alerts.filter(a => a.status !== "Resolved").length === 0 && (
-                  <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
-                    No active alerts
-                  </Typography>
-                )}
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </TabPanel>
-      
-      {/* Attendance & Leave Tab */}
-      <TabPanel value={activeTab} index={2}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Today's Attendance ({new Date().toLocaleDateString()})
-                </Typography>
-                
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Worker</TableCell>
-                        <TableCell>Check In</TableCell>
-                        <TableCell>Check Out</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {attendance.map((record) => {
-                        const worker = workers.find(w => w.workerId === record.workerId);
-                        return (
-                          <TableRow key={record.workerId}>
-                            <TableCell>
+                  
+                  <TableContainer component={Paper} sx={{ maxHeight: 440, overflow: 'auto' }}>
+                    <Table stickyHeader aria-label="worker directory table" size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Worker</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>ID</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Specialization</TableCell>
+                          <TableCell>Ward</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Performance</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filteredWorkers.map((worker) => (
+                          <TableRow 
+                            key={worker.id} 
+                            hover 
+                            sx={{ cursor: 'pointer' }}
+                          >
+                            <TableCell onClick={() => handleWorkerClick(worker)} sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
                               <Box display="flex" alignItems="center">
-                                <Avatar src={worker?.photo} sx={{ width: 40, height: 40, mr: 2 }} />
-                                <Box>
-                                  <Typography variant="body2">{worker?.name}</Typography>
-                                  <Typography variant="caption" color="textSecondary">
-                                    {record.workerId}
-                                  </Typography>
-                                </Box>
+                                <Avatar src={worker.photo} sx={{ width: 32, height: 32, mr: 1 }} />
+                                <Typography variant="body2" noWrap sx={{ maxWidth: { xs: 100, sm: 150 } }}>
+                                  {worker.name}
+                                </Typography>
                               </Box>
                             </TableCell>
-                            <TableCell>{record.checkIn}</TableCell>
-                            <TableCell>{record.checkOut}</TableCell>
-                            <TableCell>
+                            <TableCell onClick={() => handleWorkerClick(worker)} sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {worker.workerId}
+                              </Typography>
+                            </TableCell>
+                            <TableCell onClick={() => handleWorkerClick(worker)} sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {worker.specialization}
+                              </Typography>
+                            </TableCell>
+                            <TableCell onClick={() => handleWorkerClick(worker)}>
+                              <Typography variant="body2">
+                                {worker.ward}
+                              </Typography>
+                            </TableCell>
+                            <TableCell onClick={() => handleWorkerClick(worker)}>
                               <Chip 
-                                label={record.status} 
+                                label={worker.status} 
                                 color={
-                                  record.status === "Present" ? "success" : 
-                                  record.status === "On Leave" ? "warning" : "error"
+                                  worker.status === "On Duty" ? "success" : 
+                                  worker.status === "Online" ? "primary" : 
+                                  worker.status === "On Leave" ? "warning" : "error"
                                 } 
                                 size="small"
                               />
                             </TableCell>
-                            <TableCell>
-                              {record.status === "Absent" && (
-                                <Button size="small" color="error">
-                                  Follow Up
-                                </Button>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        );
-                      })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </Card>
-          </Grid>
-          
-          <Grid item xs={12} md={4}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Leave Requests
-                </Typography>
-                
-                {leaveRequests.map((request) => (
-                  <Box 
-                    key={request.id}
-                    sx={{ 
-                      p: 2, 
-                      mb: 2, 
-                      borderRadius: 1,
-                      border: '1px solid',
-                      borderColor: 
-                        request.status === "Approved" ? 'success.main' : 
-                        request.status === "Rejected" ? 'error.main' : 'warning.main',
-                      backgroundColor: 
-                        request.status === "Approved" ? 'rgba(76, 175, 80, 0.1)' : 
-                        request.status === "Rejected" ? 'rgba(244, 67, 54, 0.1)' : 'rgba(255, 152, 0, 0.1)'
-                    }}
-                  >
-                    <Typography variant="subtitle2" gutterBottom>
-                      {request.workerName} ({request.workerId})
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      {request.type}: {request.startDate} to {request.endDate}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary" gutterBottom>
-                      Reason: {request.reason}
-                    </Typography>
-                    
-                    <Box display="flex" justifyContent="space-between" alignItems="center" mt={1}>
-                      <Chip 
-                        label={request.status} 
-                        size="small" 
-                        color={
-                          request.status === "Approved" ? "success" : 
-                          request.status === "Rejected" ? "error" : "warning"
-                        } 
-                      />
-                      
-                      {request.status === "Pending" && (
-                        <Box>
-                          <Button 
-                            size="small" 
-                            color="success" 
-                            sx={{ mr: 1 }}
-                            onClick={() => handleLeaveAction(request.id, "Approved")}
-                          >
-                            Approve
-                          </Button>
-                          <Button 
-                            size="small" 
-                            color="error"
-                            onClick={() => handleLeaveAction(request.id, "Rejected")}
-                          >
-                            Reject
-                          </Button>
-                        </Box>
-                      )}
-                    </Box>
-                  </Box>
-                ))}
-                
-                {leaveRequests.length === 0 && (
-                  <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
-                    No pending leave requests
-                  </Typography>
-                )}
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Attendance Summary
-                </Typography>
-                
-                <Box display="flex" justifyContent="space-around" textAlign="center" mt={2}>
-                  <Box>
-                    <Typography variant="h4" color="success.main">
-                      {attendance.filter(a => a.status === "Present").length}
-                    </Typography>
-                    <Typography variant="body2">Present</Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="h4" color="warning.main">
-                      {attendance.filter(a => a.status === "On Leave").length}
-                    </Typography>
-                    <Typography variant="body2">On Leave</Typography>
-                  </Box>
-                  <Box>
-                    <Typography variant="h4" color="error.main">
-                      {attendance.filter(a => a.status === "Absent").length}
-                    </Typography>
-                    <Typography variant="body2">Absent</Typography>
-                  </Box>
-                </Box>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </TabPanel>
-      
-      {/* Performance & Rewards Tab */}
-      <TabPanel value={activeTab} index={3}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Performance Metrics
-                </Typography>
-                
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Worker</TableCell>
-                        <TableCell align="center">Performance</TableCell>
-                        <TableCell align="center">Bins Collected</TableCell>
-                        <TableCell align="center">Punctuality</TableCell>
-                        <TableCell align="center">Complaints</TableCell>
-                        <TableCell align="center">Rewards</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {workers.map((worker) => (
-                        <TableRow key={worker.id}>
-                          <TableCell>
-                            <Box display="flex" alignItems="center">
-                              <Avatar src={worker.photo} sx={{ width: 40, height: 40, mr: 2 }} />
-                              <Box>
-                                <Typography variant="body2">{worker.name}</Typography>
-                                <Typography variant="caption" color="textSecondary">
-                                  {worker.workerId}
+                            <TableCell onClick={() => handleWorkerClick(worker)} sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                              <Box display="flex" alignItems="center">
+                                <LinearProgress 
+                                  variant="determinate" 
+                                  value={worker.performance} 
+                                  sx={{ 
+                                    width: 40, 
+                                    mr: 1,
+                                    backgroundColor: 
+                                      worker.performance >= 80 ? 'rgba(76, 175, 80, 0.2)' : 
+                                      worker.performance >= 60 ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)',
+                                    '& .MuiLinearProgress-bar': {
+                                      backgroundColor: 
+                                        worker.performance >= 80 ? '#4caf50' : 
+                                        worker.performance >= 60 ? '#ff9800' : '#f44336'
+                                    }
+                                  }}
+                                />
+                                <Typography variant="body2">
+                                  {worker.performance}%
                                 </Typography>
                               </Box>
-                            </Box>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Box display="flex" alignItems="center" justifyContent="center">
-                              <LinearProgress 
-                                variant="determinate" 
-                                value={worker.performance} 
-                                sx={{ 
-                                  width: 60, 
-                                  mr: 1,
-                                  backgroundColor: 
-                                    worker.performance >= 80 ? 'rgba(76, 175, 80, 0.2)' : 
-                                    worker.performance >= 60 ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)',
-                                  '& .MuiLinearProgress-bar': {
-                                    backgroundColor: 
-                                      worker.performance >= 80 ? '#4caf50' : 
-                                      worker.performance >= 60 ? '#ff9800' : '#f44336'
-                                  }
-                                }}
-                              />
-                              <Typography variant="body2">
-                                {worker.performance}%
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Typography variant="body2">
-                              {worker.binsCollected}
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Typography variant="body2">
-                              {worker.punctuality}%
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Typography 
-                              variant="body2" 
-                              color={worker.complaints > 0 ? "error.main" : "success.main"}
-                            >
-                              {worker.complaints}
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="center">
-                            <Box display="flex" alignItems="center" justifyContent="center">
-                              <Award size={16} color="#ff9800" style={{ marginRight: 4 }} />
-                              <Typography variant="body2">
-                                {worker.rewards}
-                              </Typography>
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </Card>
+                            </TableCell>
+                            <TableCell>
+                              <Button 
+                                size="small" 
+                                onClick={() => handleWorkerClick(worker)}
+                                fullWidth
+                              >
+                                View
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            {trackingView && (
+              <Grid item xs={12} lg={5}>
+                <Box sx={{ height: { xs: 300, md: 400 } }}>
+                  <WorkerTrackingMap 
+                    workers={filteredWorkers} 
+                    selectedWorker={selectedWorker}
+                    onWorkerSelect={setSelectedWorker}
+                  />
+                </Box>
+                <Box mt={2} display="flex" justifyContent="flex-end">
+                  <Button 
+                    variant="outlined" 
+                    startIcon={<MapPin size={20} />}
+                    onClick={() => alert("Route optimization in progress...")}
+                    fullWidth={{ xs: true, sm: false }}
+                    size="small"
+                  >
+                    Optimize Routes
+                  </Button>
+                </Box>
+              </Grid>
+            )}
           </Grid>
           
-          <Grid item xs={12} md={4}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Top Performers
-                </Typography>
-                
-                {workers
-                  .sort((a, b) => b.performance - a.performance)
-                  .slice(0, 3)
-                  .map((worker, index) => (
+          <Box mt={2} display="flex" justifyContent="center">
+            <Button 
+              variant="contained" 
+              startIcon={trackingView ? <UserX size={20} /> : <UserCheck size={20} />}
+              onClick={toggleTrackingView}
+              fullWidth={{ xs: true, sm: false }}
+              size="small"
+            >
+              {trackingView ? "Hide Tracking" : "Show Live Tracking"}
+            </Button>
+          </Box>
+        </TabPanel>
+
+        {/* Live Tracking Tab */}
+        <TabPanel value={activeTab} index={1}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <Box sx={{ height: { xs: 300, md: 500 } }}>
+                <WorkerTrackingMap 
+                  workers={workers} 
+                  selectedWorker={selectedWorker}
+                  onWorkerSelect={setSelectedWorker}
+                />
+              </Box>
+            </Grid>
+            
+            <Grid item xs={12} md={4}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Route Management
+                  </Typography>
+                  
+                  <Box mb={2}>
+                    <Typography variant="body2" gutterBottom>
+                      Assign New Route
+                    </Typography>
+                    <Box display="flex" flexDirection={{ xs: 'column', sm: 'row' }} gap={1} mb={2}>
+                      <TextField
+                        select
+                        size="small"
+                        label="Worker"
+                        fullWidth
+                      >
+                        {workers.map(worker => (
+                          <MenuItem key={worker.id} value={worker.id}>
+                            {worker.name}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <Button variant="contained" size="small">Assign</Button>
+                    </Box>
+                  </Box>
+                  
+                  <Divider sx={{ my: 2 }} />
+                  
+                  <Typography variant="body2" gutterBottom>
+                    AI Route Optimization
+                  </Typography>
+                  <Button 
+                    variant="outlined" 
+                    fullWidth 
+                    startIcon={<Zap size={20} />}
+                    onClick={() => alert("AI optimizing routes based on current workload...")}
+                    size="small"
+                  >
+                    Optimize All Routes
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Active Alerts
+                  </Typography>
+                  
+                  {alerts.filter(a => a.status !== "Resolved").map(alert => (
                     <Box 
-                      key={worker.id}
+                      key={alert.id}
                       sx={{ 
-                        p: 2, 
-                        mb: 2, 
+                        p: 1, 
+                        mb: 1, 
                         borderRadius: 1,
-                        border: '1px solid',
-                        borderColor: 'divider',
-                        display: 'flex',
-                        alignItems: 'center'
+                        backgroundColor: 
+                          alert.type === "Panic" ? '#ffebee' : 
+                          alert.type === "Safety" ? '#fff8e1' : '#e8f5e9',
+                        borderLeft: `4px solid ${
+                          alert.type === "Panic" ? '#f44336' : 
+                          alert.type === "Safety" ? '#ffc107' : '#4caf50'
+                        }`
                       }}
                     >
-                      <Box sx={{ position: 'relative', mr: 2 }}>
-                        <Avatar src={worker.photo} sx={{ width: 50, height: 50 }} />
-                        {index === 0 && (
-                          <Crown 
-                            size={20} 
-                            color="#ffd700" 
-                            style={{ 
-                              position: 'absolute', 
-                              top: -5, 
-                              right: -5,
-                              filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))'
-                            }} 
-                          />
-                        )}
-                      </Box>
-                      <Box flexGrow={1}>
-                        <Typography variant="body2" fontWeight="medium">
-                          {worker.name}
-                        </Typography>
-                        <Typography variant="caption" display="block" color="textSecondary">
-                          {worker.workerId} • {worker.ward}
-                        </Typography>
-                        <Typography variant="body2" color="primary.main">
-                          Performance: {worker.performance}%
-                        </Typography>
-                      </Box>
-                      <Box textAlign="right">
-                        <Typography variant="h6" color="warning.main">
-                          #{index + 1}
-                        </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        <strong>{alert.workerName}</strong> • {alert.type} Alert
+                      </Typography>
+                      <Typography variant="body2" gutterBottom sx={{ fontSize: '0.8rem' }}>
+                        {alert.message}
+                      </Typography>
+                      <Typography variant="caption" display="block" gutterBottom>
+                        {new Date(alert.time).toLocaleString()}
+                      </Typography>
+                      <Box mt={1} display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={1}>
+                        <Chip 
+                          label={alert.status} 
+                          size="small" 
+                          color={
+                            alert.status === "Resolved" ? "success" : 
+                            alert.status === "In Progress" ? "primary" : "warning"
+                          } 
+                        />
+                        <Button 
+                          size="small" 
+                          onClick={() => handleAlertStatusChange(alert.id, "In Progress")}
+                        >
+                          Mark In Progress
+                        </Button>
                       </Box>
                     </Box>
                   ))}
-                
-                <Button fullWidth variant="outlined" startIcon={<Award size={20} />}>
-                  View All Rewards
-                </Button>
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Reward Worker
-                </Typography>
-                
-                <TextField
-                select
-                fullWidth
-                label="Select Workers"
-                multiline
-                SelectProps={{ multiple: true }}
-                sx={{ mb: 2 }}
-                value={selectedWorkers}        // <-- ensure this is always an array
-                onChange={e => setSelectedWorkers(e.target.value)}
-                >
-                {workers.map(worker => (
-                    <MenuItem key={worker.id} value={worker.id}>
-                    {worker.name} ({worker.workerId})
-                    </MenuItem>
-                ))}
-                </TextField>
-
-                
-                <TextField
-                  fullWidth
-                  label="Reward Points"
-                  type="number"
-                  sx={{ mb: 2 }}
-                />
-                
-                <TextField
-                  fullWidth
-                  label="Reason"
-                  multiline
-                  rows={3}
-                  sx={{ mb: 2 }}
-                />
-                
-                <Button fullWidth variant="contained">
-                  Award Points
-                </Button>
-              </CardContent>
-            </Card>
+                  
+                  {alerts.filter(a => a.status !== "Resolved").length === 0 && (
+                    <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
+                      No active alerts
+                    </Typography>
+                  )}
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-        </Grid>
-      </TabPanel>
-      
-      {/* Safety & Training Tab */}
-      <TabPanel value={activeTab} index={4}>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Training Modules
-                </Typography>
-                
-                <TableContainer>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell>Module Name</TableCell>
-                        <TableCell>Duration</TableCell>
-                        <TableCell>Status</TableCell>
-                        <TableCell>Completed By</TableCell>
-                        <TableCell>Actions</TableCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {trainingModules.map((module) => (
-                        <TableRow key={module.id}>
-                          <TableCell>
-                            <Typography variant="body2">
-                              {module.name}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="body2">
-                              {module.duration}
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Chip 
-                              label={module.status} 
-                              color={module.status === "Mandatory" ? "primary" : "default"} 
-                              size="small"
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Typography variant="body2">
-                              {module.completedBy} workers
-                            </Typography>
-                          </TableCell>
-                          <TableCell>
-                            <Button size="small">Assign</Button>
-                          </TableCell>
+        </TabPanel>
+
+        {/* Attendance & Leave Tab */}
+        <TabPanel value={activeTab} index={2}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Today's Attendance ({new Date().toLocaleDateString()})
+                  </Typography>
+                  
+                  <TableContainer sx={{ maxHeight: 400, overflow: 'auto' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Worker</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Check In</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Check Out</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell>Actions</TableCell>
                         </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </CardContent>
-            </Card>
+                      </TableHead>
+                      <TableBody>
+                        {attendance.map((record) => {
+                          const worker = workers.find(w => w.workerId === record.workerId);
+                          return (
+                            <TableRow key={record.workerId}>
+                              <TableCell>
+                                <Box display="flex" alignItems="center">
+                                  <Avatar src={worker?.photo} sx={{ width: 32, height: 32, mr: 1 }} />
+                                  <Box>
+                                    <Typography variant="body2" noWrap sx={{ maxWidth: 120 }}>
+                                      {worker?.name}
+                                    </Typography>
+                                    <Typography variant="caption" color="textSecondary">
+                                      {record.workerId}
+                                    </Typography>
+                                  </Box>
+                                </Box>
+                              </TableCell>
+                              <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>{record.checkIn}</TableCell>
+                              <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>{record.checkOut}</TableCell>
+                              <TableCell>
+                                <Chip 
+                                  label={record.status} 
+                                  color={
+                                    record.status === "Present" ? "success" : 
+                                    record.status === "On Leave" ? "warning" : "error"
+                                  } 
+                                  size="small"
+                                />
+                              </TableCell>
+                              <TableCell>
+                                {record.status === "Absent" && (
+                                  <Button size="small" color="error">
+                                    Follow Up
+                                  </Button>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </Card>
+            </Grid>
             
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Safety Alerts & Incidents
-                </Typography>
-                
-                {alerts.map((alert) => (
-                  <Box 
-                    key={alert.id}
-                    sx={{ 
-                      p: 2, 
-                      mb: 2, 
-                      borderRadius: 1,
-                      border: '1px solid',
-                      borderColor: 
-                        alert.type === "Panic" ? 'error.main' : 
-                        alert.type === "Safety" ? 'warning.main' : 'success.main',
-                      backgroundColor: 
-                        alert.type === "Panic" ? 'rgba(244, 67, 54, 0.1)' : 
-                        alert.type === "Safety" ? 'rgba(255, 152, 0, 0.1)' : 'rgba(76, 175, 80, 0.1)'
-                    }}
-                  >
-                    <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1}>
-                      <Typography variant="subtitle2">
-                        {alert.workerName} • {alert.type} Alert
+            <Grid item xs={12} md={4}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Leave Requests
+                  </Typography>
+                  
+                  {leaveRequests.map((request) => (
+                    <Box 
+                      key={request.id}
+                      sx={{ 
+                        p: 1, 
+                        mb: 1, 
+                        borderRadius: 1,
+                        border: '1px solid',
+                        borderColor: 
+                          request.status === "Approved" ? 'success.main' : 
+                          request.status === "Rejected" ? 'error.main' : 'warning.main',
+                        backgroundColor: 
+                          request.status === "Approved" ? 'rgba(76, 175, 80, 0.1)' : 
+                          request.status === "Rejected" ? 'rgba(244, 67, 54, 0.1)' : 'rgba(255, 152, 0, 0.1)'
+                      }}
+                    >
+                      <Typography variant="subtitle2" gutterBottom noWrap>
+                        {request.workerName} ({request.workerId})
                       </Typography>
-                      <Chip 
-                        label={alert.status} 
-                        size="small" 
-                        color={
-                          alert.status === "Resolved" ? "success" : 
-                          alert.status === "In Progress" ? "primary" : "warning"
-                        } 
-                      />
+                      <Typography variant="body2" gutterBottom sx={{ fontSize: '0.8rem' }}>
+                        {request.type}: {request.startDate} to {request.endDate}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" gutterBottom sx={{ fontSize: '0.8rem' }}>
+                        Reason: {request.reason}
+                      </Typography>
+                      
+                      <Box display="flex" justifyContent="space-between" alignItems="center" mt={1} flexWrap="wrap" gap={1}>
+                        <Chip 
+                          label={request.status} 
+                          size="small" 
+                          color={
+                            request.status === "Approved" ? "success" : 
+                            request.status === "Rejected" ? "error" : "warning"
+                          } 
+                        />
+                        
+                        {request.status === "Pending" && (
+                          <Box display="flex" gap={1}>
+                            <Button 
+                              size="small" 
+                              color="success" 
+                              onClick={() => handleLeaveAction(request.id, "Approved")}
+                            >
+                              Approve
+                            </Button>
+                            <Button 
+                              size="small" 
+                              color="error"
+                              onClick={() => handleLeaveAction(request.id, "Rejected")}
+                            >
+                              Reject
+                            </Button>
+                          </Box>
+                        )}
+                      </Box>
                     </Box>
-                    
-                    <Typography variant="body2" gutterBottom>
-                      {alert.message}
+                  ))}
+                  
+                  {leaveRequests.length === 0 && (
+                    <Typography variant="body2" color="textSecondary" sx={{ textAlign: 'center', py: 3 }}>
+                      No pending leave requests
                     </Typography>
-                    
-                    <Typography variant="caption" display="block" color="textSecondary" gutterBottom>
-                      {new Date(alert.time).toLocaleString()}
-                    </Typography>
-                    
-                    <Box mt={1} display="flex" gap={1}>
-                      <Button 
-                        size="small" 
-                        variant="outlined"
-                        onClick={() => {
-                          const worker = workers.find(w => w.workerId === alert.workerId);
-                          if (worker) {
-                            setSelectedWorker(worker);
-                            setProfileDialogOpen(true);
-                          }
+                  )}
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Attendance Summary
+                  </Typography>
+                  
+                  <Box display="flex" justifyContent="space-around" textAlign="center" mt={2} flexWrap="wrap" gap={2}>
+                    <Box>
+                      <Typography variant="h4" color="success.main">
+                        {attendance.filter(a => a.status === "Present").length}
+                      </Typography>
+                      <Typography variant="body2">Present</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="h4" color="warning.main">
+                        {attendance.filter(a => a.status === "On Leave").length}
+                      </Typography>
+                      <Typography variant="body2">On Leave</Typography>
+                    </Box>
+                    <Box>
+                      <Typography variant="h4" color="error.main">
+                        {attendance.filter(a => a.status === "Absent").length}
+                      </Typography>
+                      <Typography variant="body2">Absent</Typography>
+                    </Box>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </TabPanel>
+
+        {/* Performance & Rewards Tab */}
+        <TabPanel value={activeTab} index={3}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Performance Metrics
+                  </Typography>
+                  
+                  <TableContainer sx={{ maxHeight: 400, overflow: 'auto' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Worker</TableCell>
+                          <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Performance</TableCell>
+                          <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' } }}>Bins Collected</TableCell>
+                          <TableCell align="center" sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Punctuality</TableCell>
+                          <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' } }}>Complaints</TableCell>
+                          <TableCell align="center">Rewards</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {workers.map((worker) => (
+                          <TableRow key={worker.id}>
+                            <TableCell>
+                              <Box display="flex" alignItems="center">
+                                <Avatar src={worker.photo} sx={{ width: 32, height: 32, mr: 1 }} />
+                                <Box>
+                                  <Typography variant="body2" noWrap sx={{ maxWidth: 120 }}>
+                                    {worker.name}
+                                  </Typography>
+                                  <Typography variant="caption" color="textSecondary">
+                                    {worker.workerId}
+                                  </Typography>
+                                </Box>
+                              </Box>
+                            </TableCell>
+                            <TableCell align="center" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                              <Box display="flex" alignItems="center" justifyContent="center">
+                                <LinearProgress 
+                                  variant="determinate" 
+                                  value={worker.performance} 
+                                  sx={{ 
+                                    width: 40, 
+                                    mr: 1,
+                                    backgroundColor: 
+                                      worker.performance >= 80 ? 'rgba(76, 175, 80, 0.2)' : 
+                                      worker.performance >= 60 ? 'rgba(255, 152, 0, 0.2)' : 'rgba(244, 67, 54, 0.2)',
+                                    '& .MuiLinearProgress-bar': {
+                                      backgroundColor: 
+                                        worker.performance >= 80 ? '#4caf50' : 
+                                        worker.performance >= 60 ? '#ff9800' : '#f44336'
+                                    }
+                                  }}
+                                />
+                                <Typography variant="body2">
+                                  {worker.performance}%
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                            <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {worker.binsCollected}
+                              </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {worker.punctuality}%
+                              </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                              <Typography 
+                                variant="body2" 
+                                color={worker.complaints > 0 ? "error.main" : "success.main"}
+                              >
+                                {worker.complaints}
+                              </Typography>
+                            </TableCell>
+                            <TableCell align="center">
+                              <Box display="flex" alignItems="center" justifyContent="center">
+                                <Award size={16} color="#ff9800" style={{ marginRight: 4 }} />
+                                <Typography variant="body2">
+                                  {worker.rewards}
+                                </Typography>
+                              </Box>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid item xs={12} md={4}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Top Performers
+                  </Typography>
+                  
+                  {workers
+                    .sort((a, b) => b.performance - a.performance)
+                    .slice(0, 3)
+                    .map((worker, index) => (
+                      <Box 
+                        key={worker.id}
+                        sx={{ 
+                          p: 1, 
+                          mb: 1, 
+                          borderRadius: 1,
+                          border: '1px solid',
+                          borderColor: 'divider',
+                          display: 'flex',
+                          alignItems: 'center'
                         }}
                       >
-                        View Worker
-                      </Button>
+                        <Box sx={{ position: 'relative', mr: 1 }}>
+                          <Avatar src={worker.photo} sx={{ width: 40, height: 40 }} />
+                          {index === 0 && (
+                            <Crown 
+                              size={16} 
+                              color="#ffd700" 
+                              style={{ 
+                                position: 'absolute', 
+                                top: -3, 
+                                right: -3,
+                                filter: 'drop-shadow(0px 2px 2px rgba(0,0,0,0.3))'
+                              }} 
+                            />
+                          )}
+                        </Box>
+                        <Box flexGrow={1} minWidth={0}>
+                          <Typography variant="body2" fontWeight="medium" noWrap>
+                            {worker.name}
+                          </Typography>
+                          <Typography variant="caption" display="block" color="textSecondary" noWrap>
+                            {worker.workerId} • {worker.ward}
+                          </Typography>
+                          <Typography variant="body2" color="primary.main" sx={{ fontSize: '0.8rem' }}>
+                            Performance: {worker.performance}%
+                          </Typography>
+                        </Box>
+                        <Box textAlign="right">
+                          <Typography variant="h6" color="warning.main">
+                            #{index + 1}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    ))}
+                  
+                  <Button fullWidth variant="outlined" startIcon={<Award size={20} />} size="small">
+                    View All Rewards
+                  </Button>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Reward Worker
+                  </Typography>
+                  
+                  <TextField
+                    select
+                    fullWidth
+                    label="Select Workers"
+                    multiline
+                    SelectProps={{ multiple: true }}
+                    sx={{ mb: 1 }}
+                    value={selectedWorkers}
+                    onChange={e => setSelectedWorkers(e.target.value)}
+                    size="small"
+                  >
+                    {workers.map(worker => (
+                      <MenuItem key={worker.id} value={worker.id}>
+                        {worker.name} ({worker.workerId})
+                      </MenuItem>
+                    ))}
+                  </TextField>
+
+                  
+                  <TextField
+                    fullWidth
+                    label="Reward Points"
+                    type="number"
+                    sx={{ mb: 1 }}
+                    size="small"
+                  />
+                  
+                  <TextField
+                    fullWidth
+                    label="Reason"
+                    multiline
+                    rows={2}
+                    sx={{ mb: 1 }}
+                    size="small"
+                  />
+                  
+                  <Button fullWidth variant="contained" size="small">
+                    Award Points
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </TabPanel>
+
+        {/* Safety & Training Tab */}
+        <TabPanel value={activeTab} index={4}>
+          <Grid container spacing={2}>
+            <Grid item xs={12} md={8}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Training Modules
+                  </Typography>
+                  
+                  <TableContainer sx={{ maxHeight: 400, overflow: 'auto' }}>
+                    <Table size="small">
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Module Name</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Duration</TableCell>
+                          <TableCell>Status</TableCell>
+                          <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Completed By</TableCell>
+                          <TableCell>Actions</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {trainingModules.map((module) => (
+                          <TableRow key={module.id}>
+                            <TableCell>
+                              <Typography variant="body2" noWrap sx={{ maxWidth: 150 }}>
+                                {module.name}
+                              </Typography>
+                            </TableCell>
+                            <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {module.duration}
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Chip 
+                                label={module.status} 
+                                color={module.status === "Mandatory" ? "primary" : "default"} 
+                                size="small"
+                              />
+                            </TableCell>
+                            <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                              <Typography variant="body2">
+                                {module.completedBy} workers
+                              </Typography>
+                            </TableCell>
+                            <TableCell>
+                              <Button size="small">Assign</Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Safety Alerts & Incidents
+                  </Typography>
+                  
+                  {alerts.map((alert) => (
+                    <Box 
+                      key={alert.id}
+                      sx={{ 
+                        p: 1, 
+                        mb: 1, 
+                        borderRadius: 1,
+                        border: '1px solid',
+                        borderColor: 
+                          alert.type === "Panic" ? 'error.main' : 
+                          alert.type === "Safety" ? 'warning.main' : 'success.main',
+                        backgroundColor: 
+                          alert.type === "Panic" ? 'rgba(244, 67, 54, 0.1)' : 
+                          alert.type === "Safety" ? 'rgba(255, 152, 0, 0.1)' : 'rgba(76, 175, 80, 0.1)'
+                      }}
+                    >
+                      <Box display="flex" justifyContent="space-between" alignItems="flex-start" mb={1} flexWrap="wrap" gap={1}>
+                        <Typography variant="subtitle2" sx={{ fontSize: '0.9rem' }}>
+                          {alert.workerName} • {alert.type} Alert
+                        </Typography>
+                        <Chip 
+                          label={alert.status} 
+                          size="small" 
+                          color={
+                            alert.status === "Resolved" ? "success" : 
+                            alert.status === "In Progress" ? "primary" : "warning"
+                          } 
+                        />
+                      </Box>
                       
-                      {alert.status !== "Resolved" && (
+                      <Typography variant="body2" gutterBottom sx={{ fontSize: '0.8rem' }}>
+                        {alert.message}
+                      </Typography>
+                      
+                      <Typography variant="caption" display="block" color="textSecondary" gutterBottom>
+                        {new Date(alert.time).toLocaleString()}
+                      </Typography>
+                      
+                      <Box mt={1} display="flex" gap={1} flexWrap="wrap">
                         <Button 
                           size="small" 
-                          variant="contained"
-                          onClick={() => handleAlertStatusChange(alert.id, "Resolved")}
+                          variant="outlined"
+                          onClick={() => {
+                            const worker = workers.find(w => w.workerId === alert.workerId);
+                            if (worker) {
+                              setSelectedWorker(worker);
+                              setProfileDialogOpen(true);
+                            }
+                          }}
                         >
-                          Mark Resolved
+                          View Worker
+                        </Button>
+                        
+                        {alert.status !== "Resolved" && (
+                          <Button 
+                            size="small" 
+                            variant="contained"
+                            onClick={() => handleAlertStatusChange(alert.id, "Resolved")}
+                          >
+                            Mark Resolved
+                          </Button>
+                        )}
+                      </Box>
+                    </Box>
+                  ))}
+                </CardContent>
+              </Card>
+            </Grid>
+            
+            <Grid item xs={12} md={4}>
+              <Card sx={{ mb: 2 }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Health Status Overview
+                  </Typography>
+                  
+                  {workers.map((worker) => (
+                    <Box 
+                      key={worker.id}
+                      sx={{ 
+                        p: 1, 
+                        mb: 1, 
+                        borderRadius: 1,
+                        border: '1px solid',
+                        borderColor: 
+                          worker.healthStatus === "Excellent" ? 'success.main' : 
+                          worker.healthStatus === "Good" ? 'primary.main' : 'warning.main',
+                        backgroundColor: 
+                          worker.healthStatus === "Excellent" ? 'rgba(76, 175, 80, 0.1)' : 
+                          worker.healthStatus === "Good" ? 'rgba(33, 150, 243, 0.1)' : 'rgba(255, 152, 0, 0.1)'
+                      }}
+                    >
+                      <Box display="flex" alignItems="center" mb={1}>
+                        <Avatar src={worker.photo} sx={{ width: 32, height: 32, mr: 1 }} />
+                        <Box flexGrow={1} minWidth={0}>
+                          <Typography variant="body2" fontWeight="medium" noWrap>
+                            {worker.name}
+                          </Typography>
+                          <Typography variant="caption" display="block" color="textSecondary" noWrap>
+                            {worker.workerId}
+                          </Typography>
+                        </Box>
+                        <Chip 
+                          label={worker.healthStatus} 
+                          size="small" 
+                          color={
+                            worker.healthStatus === "Excellent" ? "success" : 
+                            worker.healthStatus === "Good" ? "primary" : "warning"
+                          } 
+                        />
+                      </Box>
+                      
+                      {worker.healthStatus !== "Excellent" && worker.healthStatus !== "Good" && (
+                        <Button size="small" fullWidth variant="outlined">
+                          Schedule Checkup
                         </Button>
                       )}
                     </Box>
-                  </Box>
-                ))}
-              </CardContent>
-            </Card>
+                  ))}
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Schedule Training
+                  </Typography>
+                  
+                  <Button fullWidth variant="contained" size="small">
+                    Schedule Training
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
-          
-          <Grid item xs={12} md={4}>
-            <Card sx={{ mb: 3 }}>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Health Status Overview
-                </Typography>
-                
-                {workers.map((worker) => (
-                  <Box 
-                    key={worker.id}
-                    sx={{ 
-                      p: 2, 
-                      mb: 2, 
-                      borderRadius: 1,
-                      border: '1px solid',
-                      borderColor: 
-                        worker.healthStatus === "Excellent" ? 'success.main' : 
-                        worker.healthStatus === "Good" ? 'primary.main' : 'warning.main',
-                      backgroundColor: 
-                        worker.healthStatus === "Excellent" ? 'rgba(76, 175, 80, 0.1)' : 
-                        worker.healthStatus === "Good" ? 'rgba(33, 150, 243, 0.1)' : 'rgba(255, 152, 0, 0.1)'
-                    }}
-                  >
-                    <Box display="flex" alignItems="center" mb={1}>
-                      <Avatar src={worker.photo} sx={{ width: 40, height: 40, mr: 2 }} />
-                      <Box flexGrow={1}>
-                        <Typography variant="body2" fontWeight="medium">
-                          {worker.name}
-                        </Typography>
-                        <Typography variant="caption" display="block" color="textSecondary">
-                          {worker.workerId}
-                        </Typography>
-                      </Box>
-                      <Chip 
-                        label={worker.healthStatus} 
-                        size="small" 
-                        color={
-                          worker.healthStatus === "Excellent" ? "success" : 
-                          worker.healthStatus === "Good" ? "primary" : "warning"
-                        } 
-                      />
-                    </Box>
-                    
-                    {worker.healthStatus !== "Excellent" && worker.healthStatus !== "Good" && (
-                      <Button size="small" fullWidth variant="outlined">
-                        Schedule Checkup
-                      </Button>
-                    )}
-                  </Box>
-                ))}
-              </CardContent>
-            </Card>
-            
-            <Card>
-              <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  Schedule Training
-                </Typography>
-                
-                
-                
-                <Button fullWidth variant="contained">
-                  Schedule Training
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </TabPanel>
-      
-      {/* Worker Profile Dialog */}
-      <WorkerProfileDialog
-        open={profileDialogOpen}
-        onClose={() => setProfileDialogOpen(false)}
-        worker={selectedWorker}
-      />
+        </TabPanel>
+
+        {/* Worker Profile Dialog */}
+        <WorkerProfileDialog
+          open={profileDialogOpen}
+          onClose={() => setProfileDialogOpen(false)}
+          worker={selectedWorker}
+        />
     </Box>
   );
 };
