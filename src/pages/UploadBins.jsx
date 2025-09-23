@@ -1,5 +1,5 @@
 // src/components/UploadBins.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { 
   MapPin, 
   Camera, 
@@ -32,6 +32,16 @@ const UploadBins = () => {
     notes: '',
     status: 'pending'
   });
+
+  // State for current location
+  const [currentLocation, setCurrentLocation] = useState({
+    lat: 12.9716, // Default to Bengaluru
+    lng: 77.5946,
+    address: 'Bengaluru, Karnataka, India'
+  });
+
+  // State for location loading
+  const [isGettingLocation, setIsGettingLocation] = useState(false);
 
   // State for uploaded bins list
   const [uploadedBins, setUploadedBins] = useState([
@@ -92,9 +102,181 @@ const UploadBins = () => {
   // State for map view
   const [mapView, setMapView] = useState(false);
   const [selectedBin, setSelectedBin] = useState(null);
+  const [mapZoom, setMapZoom] = useState(16);
 
   // Ref for file input
   const fileInputRef = useRef(null);
+
+  // Get current location
+  const getCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsGettingLocation(true);
+    
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        try {
+          // Reverse geocoding to get address from coordinates
+          // Using a more reliable geocoding service (OpenStreetMap Nominatim) as fallback
+          let address = 'Address not found';
+          
+          // Try Google Maps Geocoding API first
+          try {
+            const googleResponse = await fetch(
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyBVQWV55sFWUtTNhlX32FWe88N4TFZrNT4`
+            );
+            const googleData = await googleResponse.json();
+            
+            if (googleData.status === 'OK' && googleData.results.length > 0) {
+              address = googleData.results[0].formatted_address;
+            } else {
+              // Fallback to OpenStreetMap Nominatim
+              const osmResponse = await fetch(
+                `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`
+              );
+              const osmData = await osmResponse.json();
+              
+              if (osmData.display_name) {
+                address = osmData.display_name;
+              } else {
+                address = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+              }
+            }
+          } catch (error) {
+            console.error('Error getting address from APIs:', error);
+            // Final fallback - just use coordinates
+            address = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          }
+          
+          setCurrentLocation({
+            lat: latitude,
+            lng: longitude,
+            address: address
+          });
+
+          // Auto-fill the form with current location
+          setFormData(prev => ({
+            ...prev,
+            location: {
+              address: address,
+              lat: latitude,
+              lng: longitude
+            }
+          }));
+
+          setIsGettingLocation(false);
+        } catch (error) {
+          console.error('Error getting address:', error);
+          // Fallback to just coordinates if address fetch fails
+          const fallbackAddress = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          setCurrentLocation({
+            lat: latitude,
+            lng: longitude,
+            address: fallbackAddress
+          });
+          
+          setFormData(prev => ({
+            ...prev,
+            location: {
+              address: fallbackAddress,
+              lat: latitude,
+              lng: longitude
+            }
+          }));
+          
+          setIsGettingLocation(false);
+        }
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setIsGettingLocation(false);
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert('Location access denied. Please enable location permissions in your browser settings.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert('Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            alert('Location request timed out.');
+            break;
+          default:
+            alert('An unknown error occurred while getting your location.');
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000, // Increased timeout
+        maximumAge: 60000
+      }
+    );
+  };
+
+  // Alternative simpler approach without reverse geocoding
+  const getCurrentLocationSimple = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+
+    setIsGettingLocation(true);
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        
+        // Create a simple address using coordinates
+        const simpleAddress = `Near ${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+        
+        setCurrentLocation({
+          lat: latitude,
+          lng: longitude,
+          address: simpleAddress
+        });
+
+        // Auto-fill the form with current location
+        setFormData(prev => ({
+          ...prev,
+          location: {
+            address: simpleAddress,
+            lat: latitude,
+            lng: longitude
+          }
+        }));
+
+        setIsGettingLocation(false);
+      },
+      (error) => {
+        console.error('Error getting location:', error);
+        setIsGettingLocation(false);
+        
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            alert('Location access denied. Please enable location permissions in your browser settings.');
+            break;
+          case error.POSITION_UNAVAILABLE:
+            alert('Location information is unavailable.');
+            break;
+          case error.TIMEOUT:
+            alert('Location request timed out. Please try again.');
+            break;
+          default:
+            alert('An unknown error occurred while getting your location.');
+        }
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 10000,
+        maximumAge: 60000
+      }
+    );
+  };
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -141,6 +323,13 @@ const UploadBins = () => {
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Validate location coordinates
+    if (!formData.location.lat || !formData.location.lng) {
+      alert('Please use the "Use current location" button to capture coordinates');
+      return;
+    }
+    
     // In a real app, this would send data to the backend
     const newBin = {
       id: uploadedBins.length + 1,
@@ -187,6 +376,22 @@ const UploadBins = () => {
         return { icon: Clock, color: 'text-yellow-600', bgColor: 'bg-yellow-100' };
     }
   };
+
+  // Get map URL for current location or selected bin
+  const getMapUrl = () => {
+    if (selectedBin && selectedBin.location.lat && selectedBin.location.lng) {
+      return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBVQWV55sFWUtTNhlX32FWe88N4TFZrNT4&q=${selectedBin.location.lat},${selectedBin.location.lng}&zoom=${mapZoom}&maptype=roadmap`;
+    }
+    if (currentLocation.lat && currentLocation.lng) {
+      return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBVQWV55sFWUtTNhlX32FWe88N4TFZrNT4&q=${currentLocation.lat},${currentLocation.lng}&zoom=${mapZoom}&maptype=roadmap`;
+    }
+    // Default to Bengaluru if no location available
+    return `https://www.google.com/maps/embed/v1/place?key=AIzaSyBVQWV55sFWUtTNhlX32FWe88N4TFZrNT4&q=12.9716,77.5946&zoom=12&maptype=roadmap`;
+  };
+
+  // Zoom in/out functions
+  const zoomIn = () => setMapZoom(prev => Math.min(prev + 1, 20));
+  const zoomOut = () => setMapZoom(prev => Math.max(prev - 1, 1));
 
   // Animation variants
   const fadeIn = {
@@ -261,19 +466,42 @@ const UploadBins = () => {
                       name="address"
                       value={formData.location.address}
                       onChange={handleLocationChange}
-                      placeholder="Enter address or location"
+                      placeholder="Enter address or use current location"
                       className="w-full p-3 pr-10 border border-gray-300 dark:border-green-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-green-700 dark:text-white"
                       required
                     />
                     <MapPin className="absolute right-3 top-3.5 text-gray-400" size={18} />
                   </div>
-                  <button
-                    type="button"
-                    className="mt-2 flex items-center text-sm text-green-600 dark:text-emerald-300"
-                  >
-                    <Navigation size={16} className="mr-1" />
-                    Use current location
-                  </button>
+                  <div className="flex gap-2 mt-2">
+                    <button
+                      type="button"
+                      onClick={getCurrentLocation}
+                      disabled={isGettingLocation}
+                      className="flex-1 flex items-center justify-center text-sm text-green-600 dark:text-emerald-300 disabled:text-gray-400 bg-green-100 dark:bg-green-700 px-3 py-2 rounded-lg"
+                    >
+                      {isGettingLocation ? (
+                        <>
+                          <Clock size={16} className="mr-1 animate-spin" />
+                          Getting location...
+                        </>
+                      ) : (
+                        <>
+                          <Navigation size={16} className="mr-1" />
+                          Use current location
+                        </>
+                      )}
+                    </button>
+                  </div>
+                  {formData.location.lat && (
+                    <p className="text-xs text-green-600 dark:text-emerald-300 mt-2">
+                      ✓ Location captured: {formData.location.lat.toFixed(6)}, {formData.location.lng.toFixed(6)}
+                    </p>
+                  )}
+                  {!formData.location.lat && (
+                    <p className="text-xs text-gray-500 dark:text-green-300 mt-2">
+                      Click "Use current location" to automatically capture coordinates
+                    </p>
+                  )}
                 </div>
 
                 {/* Photo Upload */}
@@ -335,7 +563,7 @@ const UploadBins = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  disabled={!formData.binType || !formData.location.address || !formData.photo}
+                  disabled={!formData.binType || !formData.location.address || !formData.photo || !formData.location.lat}
                   className="w-full py-3 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold rounded-lg transition-colors flex items-center justify-center"
                 >
                   <Upload size={20} className="mr-2" />
@@ -441,9 +669,8 @@ const UploadBins = () => {
                 </div>
               </div>
             </motion.div>
-             {/* Statistics Panel */}
 
-
+            {/* Statistics Panel */}
             <motion.div
               initial="hidden"
               animate="visible"
@@ -574,7 +801,10 @@ const UploadBins = () => {
                           {/* Action Buttons */}
                           <div className="flex flex-col gap-2">
                             <button
-                              onClick={() => setSelectedBin(bin)}
+                              onClick={() => {
+                                setSelectedBin(bin);
+                                setMapView(true);
+                              }}
                               className="flex items-center text-green-600 dark:text-emerald-300 hover:text-green-800 dark:hover:text-emerald-100 text-sm"
                             >
                               <MapPin size={16} className="mr-1" />
@@ -600,35 +830,67 @@ const UploadBins = () => {
                 className="bg-emerald-50 dark:bg-green-800 rounded-2xl p-6 shadow-lg"
               >
                 <div className="h-96 relative rounded-xl overflow-hidden bg-gray-200 dark:bg-green-700">
-                  {/* Placeholder for actual map component */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="text-center">
-                      <MapPin className="mx-auto text-green-600 mb-4" size={48} />
-                      <p className="text-lg font-medium text-gray-600 dark:text-green-300">
-                        Map integration would go here
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-green-400 mt-2">
-                        Showing {filteredBins.length} bin locations
-                      </p>
-                    </div>
-                  </div>
+                  {/* Google Maps Embed */}
+                  <iframe
+                    src={getMapUrl()}
+                    className="absolute inset-0 w-full h-full border-0"
+                    allowFullScreen=""
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="Waste Bin Locations Map"
+                  />
                   
                   {/* Map controls */}
                   <div className="absolute top-4 right-4 flex gap-2">
-                    <button className="bg-white dark:bg-green-600 p-2 rounded-lg shadow-md">
+                    <button 
+                      onClick={zoomIn}
+                      className="bg-white dark:bg-green-600 p-2 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-green-500"
+                    >
                       <Plus size={20} />
                     </button>
-                    <button className="bg-white dark:bg-green-600 p-2 rounded-lg shadow-md">
+                    <button 
+                      onClick={zoomOut}
+                      className="bg-white dark:bg-green-600 p-2 rounded-lg shadow-md hover:bg-gray-100 dark:hover:bg-green-500"
+                    >
                       <Minus size={20} />
                     </button>
                   </div>
+
+                  {/* Location Indicator */}
+                  <div className="absolute bottom-4 left-4 bg-white dark:bg-green-600 p-3 rounded-lg shadow-md max-w-xs">
+                    <p className="text-sm font-medium">
+                      {selectedBin ? 'Selected Bin Location' : 'Current Location View'}
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-green-300 mt-1">
+                      Zoom: {mapZoom}x
+                    </p>
+                  </div>
                 </div>
                 
-                {selectedBin && (
+                {selectedBin ? (
                   <div className="mt-4 p-4 bg-white dark:bg-green-700 rounded-lg">
-                    <h4 className="font-semibold mb-2">{selectedBin.location.address}</h4>
-                    <p className="text-sm text-gray-600 dark:text-green-300 capitalize">
-                      {selectedBin.binType} waste bin • {selectedBin.status}
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-semibold mb-2">{selectedBin.location.address}</h4>
+                        <p className="text-sm text-gray-600 dark:text-green-300 capitalize">
+                          {selectedBin.binType} waste bin • {selectedBin.status}
+                        </p>
+                        {selectedBin.notes && (
+                          <p className="text-sm mt-2">{selectedBin.notes}</p>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => setSelectedBin(null)}
+                        className="text-gray-500 hover:text-gray-700 dark:text-green-300 dark:hover:text-white"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="mt-4 p-4 bg-white dark:bg-green-700 rounded-lg">
+                    <p className="text-sm text-gray-600 dark:text-green-300">
+                      💡 Click "View on map" on any bin to see its specific location
                     </p>
                   </div>
                 )}
