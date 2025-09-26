@@ -65,23 +65,53 @@ The system supports **multiple user roles** with tailored interfaces and functio
 
 ## 📸 Demo
 
-- **Login & Authentication**  
-  ![Login](./demo/login.png)  
+- **Home Page**
 
-- **Admin Dashboard**  
-  ![Admin Dashboard](./demo/admin-dashboard.png)  
+  *Landing page for Citizen*
+  
+  ![Homepage](./public/readme-images/home-img.png)
 
-- **Worker Interface**  
-  ![Vendor Dashboard](./demo/vendor-dashboard.png)  
+- **Admin Dashboard**
 
-- **Citizen Portal**  
-  ![Customer Dashboard](./demo/customer-dashboard.png)  
+  *Comprehensive overview with analytics and system controls*
+  
+  ![Admin Dashboard](./public/readme-images/authority-portal.png)  
 
-- **Complaint Management**  
-  ![Complaint System](./demo/complaint-system.png)  
+- **Worker Interface**
 
-- **Mobile Responsive Design**  
-  ![Mobile View](./demo/mobile-view.png)  
+  *Waste collection scheduling and route management*
+  
+  ![Worker Dashboard](./public/readme-images/worker-portal.png)  
+
+- **Citizen Portal**
+
+   *Waste disposal scheduling, complaint, reward system, penalization, community*
+  
+  ![Citizen Dashboard](./public/readme-images/rewards-img.png)  
+
+- **Complaint Management**
+
+  *End-to-end complaint resolution workflow*
+   
+  ![Complaint System](./public/readme-images/report-issue-img.png)  
+
+- **QR Based Tracking**
+  
+  *Tracking the wastes collected using QR*
+   
+  ![QR tracking](./public/readme-images/qr-tracking-img.png)
+
+- **Penalizing System**
+  
+  *Penalizing the citizen who violeted the guidlines*
+   
+  ![Penalizing](./public/readme-images/penalizing-system-img.png)
+
+- **Community Creation**
+  
+  *Creating community will make this competetive and will encourage more people for earning points via GreenPoints*
+   
+  ![Community](./public/readme-images/community-img.png) 
 
 ---
 
