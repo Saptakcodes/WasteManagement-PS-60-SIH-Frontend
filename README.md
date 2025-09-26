@@ -25,7 +25,8 @@ A comprehensive waste management solution built for **Smart India Hackathon (PS-
 ---
 
 ## 🌟 Overview
-The Waste Management System is a **modern web application** designed to streamline waste collection processes, facilitate complaint management, and provide analytics for **municipal corporations, vendors, and residents**.  
+The proposed solution is a QR code-based digital waste management system integrated with a gamified rewards platform. The prototype consists of a QR Code generation and scanning system, a centralized backend platform, a gamified rewards engine (GreenGuard), and a multi-role user interface (for Citizens, Collectors, and Supervisors).
+ 
 The system supports **multiple user roles** with tailored interfaces and functionalities.
 
 ---
