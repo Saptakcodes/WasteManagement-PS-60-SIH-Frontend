@@ -71,13 +71,10 @@ The system supports **multiple user roles** with tailored interfaces and functio
 - **Admin Dashboard**  
   ![Admin Dashboard](./demo/admin-dashboard.png)  
 
-- **Municipal Corporation View**  
-  ![Municipal Dashboard](./demo/municipal-dashboard.png)  
-
-- **Vendor Interface**  
+- **Worker Interface**  
   ![Vendor Dashboard](./demo/vendor-dashboard.png)  
 
-- **Customer Portal**  
+- **Citizen Portal**  
   ![Customer Dashboard](./demo/customer-dashboard.png)  
 
 - **Complaint Management**  
