@@ -215,7 +215,7 @@ const WorkerTasks = () => {
       <header className="bg-green-600 text-white p-4 shadow-md lg:hidden">
         <div className="flex justify-between items-center">
           <div>
-            <h1 className="text-xl font-bold">GreenGuard Worker</h1>
+            <h1 className="text-xl font-bold">SwachhaSebak Worker</h1>
             <p className="text-green-100 text-sm">Together, we build a cleaner tomorrow!</p>
           </div>
           <div className="flex items-center space-x-3">
@@ -284,7 +284,7 @@ const WorkerTasks = () => {
       <header className="bg-green-600 text-white p-4 shadow-md hidden lg:block">
         <div className="container mx-auto flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold">GreenGuard Worker Portal</h1>
+            <h1 className="text-2xl font-bold">SwachhaSebak Worker Portal</h1>
             <p className="text-green-100">Together, we build a cleaner tomorrow!</p>
           </div>
           <div className="flex items-center space-x-4">

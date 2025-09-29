@@ -452,6 +452,9 @@ const Navbar = () => {
         )}
       </AnimatePresence>
 
+
+      
+
       {/* Mobile menu dropdown */}
       <AnimatePresence>
         {mobileMenuOpen && (

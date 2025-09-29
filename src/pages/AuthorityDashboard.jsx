@@ -365,7 +365,7 @@ const AuthorityDashboard = () => {
                 <Shield className="h-8 w-8 text-green-600" />
               </div>
               <div className="ml-4">
-                <h1 className="text-3xl font-bold text-gray-900">GreenGuard Authority Dashboard</h1>
+                <h1 className="text-3xl font-bold text-gray-900">SwachhaSebak Authority Dashboard</h1>
                 <p className="text-sm text-gray-600">Central control hub for municipal waste management</p>
               </div>
             </div>
