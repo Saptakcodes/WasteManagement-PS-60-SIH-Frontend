@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -76,6 +77,37 @@ const Register = () => {
                 />
               </div>
             </div>
+
+            {/* Phone Field */}
+            <div>
+              <label
+                htmlFor="phone"
+                className="block text-sm font-medium text-green-800 mb-1"
+              >
+                Phone Number <span className="text-red-500">*</span>
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg
+                    className="h-5 w-5 text-green-500"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M2 3a1 1 0 011-1h2.586A1 1 0 016.293 2.293l1.414 1.414a1 1 0 010 1.414L6.414 6.414a11.042 11.042 0 005.172 5.172l1.293-1.293a1 1 0 011.414 0l1.414 1.414A1 1 0 0116 13.414V16a1 1 0 01-1 1H15A13 13 0 012 4V3z" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  id="phone"
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="pl-10 block w-full text-green-950 border border-green-300 rounded-lg py-3 px-4 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                  placeholder="Enter your phone number"
+                  required
+                />
+              </div>
+            </div>
+
 
             {/* Email Field */}
             <div>
