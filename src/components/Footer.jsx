@@ -145,12 +145,12 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-1">
             <div className="flex items-center">
               <img 
-                src="/GreenGuard-logo.png" 
+                src="/swachhasebak-logo.jpg" 
                 alt="GreenGuard Logo" 
                 className="h-10 w-10"
               />
               <span className="ml-2 text-xl font-bold">
-                GreenGuard
+                SwachhaSebak
               </span>
             </div>
             <p className="mt-4 text-sm text-white/80">
@@ -206,7 +206,7 @@ const Footer = () => {
               <div className="flex items-center">
                 <Mail size={16} className="text-white/80" />
                 <span className="ml-2 text-sm text-white/80">
-                  support@greenguard.gov.in
+                  support@swachhasebak.in
                 </span>
               </div>
               <div className="flex items-center">
@@ -236,7 +236,7 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="mt-8 pt-8 border-t border-white/20 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-white/80">
-            © 2025 GreenGuard. All rights reserved.
+            © 2025 SwachhaSebak. All rights reserved.
           </p>
           <div className="mt-4 md:mt-0 flex space-x-6">
             {["Privacy Policy", "Terms of Service", "Sitemap"].map((link) => (

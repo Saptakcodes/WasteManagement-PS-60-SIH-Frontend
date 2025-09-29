@@ -168,20 +168,20 @@ const Navbar = () => {
         {/* Left section - Logo */}
         <div className="flex items-center">
           <div className="flex items-center">
-            <motion.div 
+            {/* <motion.div 
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               className="h-10 w-10 rounded-full bg-gradient-to-r from-green-600 to-emerald-500 flex items-center justify-center shadow-lg"
             >
               <span className="text-white font-bold text-xl">G</span>
-            </motion.div>
+            </motion.div> */}
             <motion.span 
               initial={{ opacity: 0, x: -10 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.1 }}
               className="ml-2 text-xl font-bold text-green-700 dark:text-emerald-300 hidden sm:block"
             >
-              GreenGuard
+              SwachhaSebak
             </motion.span>
             <motion.span 
               initial={{ opacity: 0 }}
@@ -189,7 +189,7 @@ const Navbar = () => {
               transition={{ delay: 0.1 }}
               className="ml-2 text-xl font-bold text-green-700 dark:text-emerald-300 sm:hidden"
             >
-              GG
+              SS
             </motion.span>
           </div>
         </div>

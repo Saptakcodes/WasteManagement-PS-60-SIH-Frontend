@@ -36,7 +36,7 @@ const Register = () => {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden border border-green-200">
         <div className="bg-green-700 py-6 px-8">
           <h1 className="font-bold text-center text-3xl text-white">
-            Join <span className="text-green-300">GreenGuard</span>
+            Join <span className="text-green-300">SwachhaSebak</span>
           </h1>
           <p className="text-green-100 text-center mt-2">Create your account</p>
         </div>

@@ -36,7 +36,7 @@ const Login = () => {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg overflow-hidden border border-green-200">
         <div className="bg-green-700 py-6 px-8">
           <h1 className="font-bold text-center text-3xl text-white">
-            Welcome to <span className="text-green-300">GreenGuard</span>
+            Welcome to <span className="text-green-300">SwacchaSebak</span>
           </h1>
           <p className="text-green-100 text-center mt-2">
             Sign in to your account
@@ -186,7 +186,7 @@ const Login = () => {
               </div>
               <div className="relative flex justify-center text-sm">
                 <span className="px-2 bg-white text-green-800">
-                  New to GreenGuard?
+                  New to SwacchaSebak?
                 </span>
               </div>
             </div>

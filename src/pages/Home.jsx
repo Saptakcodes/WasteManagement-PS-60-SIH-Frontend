@@ -40,7 +40,7 @@ const Home = () => {
   const [blogPosts, setBlogPosts] = useState([
     {
       id: 1,
-      title: "GreenGuard Launches Community Composting Initiative",
+      title: "SwachhaSebak Launches Community Composting Initiative",
       date: "2023-10-15",
       excerpt: "Our new program helps neighborhoods turn organic waste into nutrient-rich compost.",
       image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
@@ -110,7 +110,7 @@ const Home = () => {
       id: 1,
       name: "Priya Sharma",
       role: "Community Leader",
-      quote: "GreenGuard has transformed how our neighborhood handles waste. We've reduced landfill contribution by 70% in just six months!",
+      quote: "SwachhaSebak has transformed how our neighborhood handles waste. We've reduced landfill contribution by 70% in just six months!",
       avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
     },
     {
@@ -124,14 +124,14 @@ const Home = () => {
       id: 3,
       name: "Anjali Mehta",
       role: "Environmental Scientist",
-      quote: "I'm impressed by GreenGuard's data-driven approach to waste management. Their impact metrics are transparent and credible.",
+      quote: "I'm impressed by SwachhaSebak's data-driven approach to waste management. Their impact metrics are transparent and credible.",
       avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
     },
     {
       id: 4,
       name: "Sanjay Kumar",
       role: "Municipal Commissioner",
-      quote: "GreenGuard's technology platform has helped our city improve waste collection efficiency by 45% and reduce operational costs.",
+      quote: "SwachhaSebak's technology platform has helped our city improve waste collection efficiency by 45% and reduce operational costs.",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
     }
   ];
@@ -270,7 +270,7 @@ const Home = () => {
             variants={fadeIn}
             className="text-xl sm:text-2xl mb-10 text-emerald-100"
           >
-            Join GreenGuard in creating a sustainable future through technology and community engagement
+            Join SwachhaSebak in creating a sustainable future through technology and community engagement
           </motion.p>
           <motion.div 
             variants={fadeIn}
@@ -281,14 +281,14 @@ const Home = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-white text-green-700 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
             >
-              Get Started
+              <a href="/login">Get started</a>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-300"
             >
-              Learn More
+              <a href="/guide">Learn More</a>
             </motion.button>
           </motion.div>
         </motion.div>
@@ -391,7 +391,7 @@ const Home = () => {
               <div>
                 <h3 className="text-2xl font-bold mb-4 text-green-700 dark:text-emerald-300">Our Solution</h3>
                 <p className="text-lg mb-6">
-                  GreenGuard addresses these challenges through a comprehensive technology platform that connects citizens, waste workers, and authorities to create an efficient, transparent waste management ecosystem.
+                  SwachhaSebak addresses these challenges through a comprehensive technology platform that connects citizens, waste workers, and authorities to create an efficient, transparent waste management ecosystem.
                 </p>
                 
                 <div className="bg-gradient-to-r from-green-600 to-emerald-500 dark:from-green-700 dark:to-emerald-600 rounded-xl p-6 text-white">
@@ -439,7 +439,7 @@ const Home = () => {
           >
             <h2 className="text-3xl sm:text-4xl font-bold mb-6">Our Mission</h2>
             <p className="text-xl max-w-3xl mx-auto">
-              GreenGuard is committed to revolutionizing waste management through innovative technology, community engagement, and sustainable practices that create a cleaner, greener India.
+              SwachhaSebak is committed to revolutionizing waste management through innovative technology, community engagement, and sustainable practices that create a cleaner, greener India.
             </p>
           </motion.div>
 
@@ -679,7 +679,7 @@ const Home = () => {
             variants={fadeIn}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Why Choose GreenGuard?</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-6">Why Choose SwachhaSebak?</h2>
             <p className="text-xl max-w-3xl mx-auto">
               We provide comprehensive solutions that benefit citizens, workers, and authorities alike.
             </p>
@@ -807,7 +807,7 @@ const Home = () => {
           variants={fadeIn}
           className="max-w-4xl mx-auto text-center"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Join the GreenGuard Revolution!</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Join the SwachhaSebak Revolution!</h2>
           <p className="text-xl mb-10 max-w-2xl mx-auto">
             Be part of the solution to India's waste management challenge. Together, we can create a cleaner, greener future.
           </p>
@@ -817,21 +817,23 @@ const Home = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-white text-green-700 font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center"
             >
+              <a href="/register" className="flex items-center">
               Sign Up <ArrowRight size={20} className="ml-2" />
+              </a>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white/10 transition-all duration-300"
             >
-              For Municipalities
+              <a href="/authority/dashboard">For Municipalities</a>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-3 bg-emerald-700 dark:bg-green-900 text-white font-semibold rounded-full hover:bg-emerald-800 dark:hover:bg-green-800 transition-all duration-300"
             >
-              Partner With Us
+              <a href="/worker/dashboard">For Workers</a>
             </motion.button>
           </div>
         </motion.div>

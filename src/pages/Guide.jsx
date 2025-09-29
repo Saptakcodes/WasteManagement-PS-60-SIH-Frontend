@@ -39,7 +39,7 @@ const Guide = () => {
   const [blogPosts] = useState([
     {
       id: 1,
-      title: "GreenGuard Launches Community Composting Initiative",
+      title: "SwachhaSebak Launches Community Composting Initiative",
       date: "2023-10-15",
       excerpt: "Our new program helps neighborhoods turn organic waste into nutrient-rich compost.",
       image: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
@@ -87,14 +87,14 @@ const Guide = () => {
       id: 3,
       name: "Anjali Mehta",
       role: "Environmental Scientist",
-      quote: "I'm impressed by GreenGuard's data-driven approach to waste management. Their impact metrics are transparent and credible.",
+      quote: "I'm impressed by SwachhaSebak's data-driven approach to waste management. Their impact metrics are transparent and credible.",
       avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
     },
     {
       id: 4,
       name: "Sanjay Kumar",
       role: "Municipal Commissioner",
-      quote: "GreenGuard's technology platform has helped our city improve waste collection efficiency by 45% and reduce operational costs.",
+      quote: "SwachhaSebak's technology platform has helped our city improve waste collection efficiency by 45% and reduce operational costs.",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80"
     }
   ];
@@ -289,7 +289,7 @@ const Guide = () => {
             variants={fadeIn}
             className="text-xl sm:text-2xl mb-10 text-emerald-100"
           >
-            Join GreenGuard in creating a sustainable future through technology and community engagement
+            Join SwachhaSebak in creating a sustainable future through technology and community engagement
           </motion.p>
           <motion.div
             variants={fadeIn}
@@ -300,14 +300,14 @@ const Guide = () => {
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-white text-green-700 font-semibold rounded-full shadow-lg hover:bg-emerald-50 transition-colors"
             >
-              Get Started
+              <a href="/login">Get started</a>
             </motion.button>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-full hover:bg-white/10 transition-colors"
             >
-              Learn More
+              <a href="/home">Learn More</a>
             </motion.button>
           </motion.div>
         </motion.div>
@@ -398,9 +398,9 @@ const Guide = () => {
             className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
           >
             <motion.div variants={slideInFromLeft}>
-              <h2 className="text-3xl sm:text-4xl font-bold mb-6">What is GreenGuard?</h2>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6">What is SwachhaSebak?</h2>
               <p className="text-lg mb-6">
-                GreenGuard is a comprehensive technology platform that connects citizens, waste management professionals,
+                SwachhaSebak is a comprehensive technology platform that connects citizens, waste management professionals,
                 and government bodies to create an efficient, transparent, and sustainable waste management ecosystem.
               </p>
               <p className="text-lg mb-8">
@@ -491,10 +491,10 @@ const Guide = () => {
             className="text-center mb-16"
           >
             <motion.h2 variants={fadeIn} className="text-3xl sm:text-4xl font-bold mb-6">
-              Why Choose GreenGuard?
+              Why Choose SwachhaSebak?
             </motion.h2>
             <motion.p variants={fadeIn} className="text-xl text-green-700 dark:text-emerald-100 max-w-3xl mx-auto">
-              Our platform offers comprehensive solutions for individuals, communities, and businesses
+              Our platform offers comprehensive solutions for citizens, communities, and the entire ecosystem
             </motion.p>
           </motion.div>
           <motion.div
@@ -538,7 +538,7 @@ const Guide = () => {
               Benefits for Citizens
             </motion.h2>
             <motion.p variants={fadeIn} className="text-xl text-green-700 dark:text-emerald-100 max-w-3xl mx-auto">
-              Discover how GreenGuard empowers you to make a difference and be rewarded for it
+              Discover how SwachhaSebak empowers you to make a difference and be rewarded for it
             </motion.p>
           </motion.div>
           <div className="mb-8 flex justify-center">
@@ -711,7 +711,7 @@ const Guide = () => {
                 onClick={() => navigate("/register")}
                 className="px-8 py-4 bg-white text-green-700 font-semibold rounded-full shadow-lg hover:bg-emerald-50 transition-colors"
               >
-                Sign Up Now
+                <a href="/register">Sign Up Now</a>
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
